@@ -1,11 +1,8 @@
 package moves.available.moves;
 
-import chessitems.BlackItem;
-import chessitems.ChessItem;
-import chessitems.WhiteItem;
-import chesstable.Table;
+
 import chesstable.cells.Cell;
-import colors.Black;
+
 import exceptions.cell.NoCell;
 import exceptions.cell.NotEmptyCell;
 import exceptions.table.OutOfTable;
@@ -18,9 +15,7 @@ import java.util.ArrayList;
  */
 public abstract class BishopMoves extends AvailableMoves {
 
-
-
-    public ArrayList<Cell> BishopMovesDiagLeftUp(Cell cell) {
+    public ArrayList<Cell> bishopMovesDiagLeftUp(Cell cell) {
         ArrayList<Cell> bishopMovesDiagLeftUp = new ArrayList<>();
         try {
 
@@ -38,7 +33,7 @@ public abstract class BishopMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> BishopMovesDiagLeftDown(Cell cell) {
+    public ArrayList<Cell> bishopMovesDiagLeftDown(Cell cell) {
         ArrayList<Cell> bishopMovesDiagLeftDown = new ArrayList<>();
         try {
 
@@ -57,7 +52,7 @@ public abstract class BishopMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> BishopMovesDiagRightUp(Cell cell) {
+    public ArrayList<Cell> bishopMovesDiagRightUp(Cell cell) {
         ArrayList<Cell> bishopMovesDiagRightUp = new ArrayList<>();
         try {
 
@@ -76,7 +71,7 @@ public abstract class BishopMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> BishopMovesDiagRightDown(Cell cell) {
+    public ArrayList<Cell> bishopMovesDiagRightDown(Cell cell) {
         ArrayList<Cell> bishopMovesDiagRightDown = new ArrayList<>();
         try {
 
@@ -93,11 +88,5 @@ public abstract class BishopMoves extends AvailableMoves {
         return bishopMovesDiagRightDown;
 
     }
-
-
-
-
-
-
 
 }

@@ -6,11 +6,14 @@ import chessitems.empty.Empty;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.cell.EmptySourceCell;
+import exceptions.cell.NoCell;
 import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.chessitem.SameChessItem;
 import moves.available.moves.AvailableMoves;
 import moves.available.white.moves.WhiteBishopMoves;
+import moves.available.white.moves.WhiteQueenMoves;
+import moves.available.white.moves.WhiteRookMoves;
 
 import java.util.Map;
 import java.util.SortedMap;
@@ -34,7 +37,7 @@ public class WhiteMove extends Move {
     }
     @Override
     public void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource {
+            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell {
         String from=this.from;
         String to=this.to;
 
@@ -101,6 +104,11 @@ public class WhiteMove extends Move {
 
                 Cell cellFrom = table.getAllCells().get(from);
                 Cell cellTo = table.getAllCells().get(to);
+
+                /*for (Cell x:new WhiteQueenMoves(cellFrom).getWhiteQueenMoves())
+                {
+                    System.out.println(x);
+                }*/
 
                 cellFrom.setChessItem(chessItemTo);
                 cellTo.setChessItem(chessItemFrom);

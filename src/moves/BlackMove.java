@@ -13,6 +13,8 @@ import exceptions.cell.InvalidSource;
 import exceptions.chessitem.SameChessItem;
 import exceptions.table.OutOfTable;
 import moves.available.black.moves.BlackBishopMoves;
+import moves.available.black.moves.BlackQueenMoves;
+import moves.available.black.moves.BlackRookMoves;
 import moves.available.moves.AvailableMoves;
 
 import java.util.Map;
@@ -124,19 +126,20 @@ public class BlackMove extends Move {
 
 
 
-                for (Cell x:new BlackBishopMoves(cellFrom).getBlackBishopMoves())
+                /*for (Cell x:new BlackQueenMoves(cellFrom).getBlackQueenMoves())
                 {
                     System.out.println(x);
-                }
-               // throw new SameChessItem();
+                }*/
 
-                /*cellFrom.setChessItem(chessItemEmpty);
+
+
+                cellFrom.setChessItem(chessItemEmpty);
                 cellTo.setChessItem(chessItemFrom);
 
                 blackPlayerItems.put(to, chessItemFrom);
                 blackPlayerItems.remove(from);
 
-                whitePlayerItems.remove(to);*/
+                whitePlayerItems.remove(to);
 
             }
             if (isBlackItem) {

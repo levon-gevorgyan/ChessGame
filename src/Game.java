@@ -46,11 +46,13 @@ public class Game implements Letters{
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //MAKING TABLE, DO NOT REMOVE---END
 
-        try {
-            new WhiteMove("a2d6").move(table, whitePlayerItems, blackPlayerItems);
+        //try {
+            new WhiteMove("a2b5").move(table, whitePlayerItems, blackPlayerItems);
+        setAllItems(table, whitePlayerItems, blackPlayerItems);
+            new BlackMove("h8f4").move(table, whitePlayerItems, blackPlayerItems);
             setAllItems(table, whitePlayerItems, blackPlayerItems);
 
-        }
+        /*}
         catch (EmptySourceCell emptySourceCell){
             System.out.println(emptySourceCell.toString());
         }
@@ -60,8 +62,8 @@ public class Game implements Letters{
             System.out.println("Source is not yours");
 
         }
-        setAllItems(table, whitePlayerItems, blackPlayerItems);
-        new BlackMove("b7a1").move(table, whitePlayerItems, blackPlayerItems);
+        setAllItems(table, whitePlayerItems, blackPlayerItems);*/
+        new WhiteMove("b5h4").move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //ArrayList<Cell> a=Table.previousRow(table.getCell(E,2));
 
@@ -77,7 +79,7 @@ public class Game implements Letters{
         }*/
 
 
-        setAllItems(table, whitePlayerItems, blackPlayerItems);
+        //setAllItems(table, whitePlayerItems, blackPlayerItems);
         //Cell C= Move.moveDiagLeftUpUntilNotEmpty(table.getCell(H,2));
 
         /*for (int i=0;i<8;i++)

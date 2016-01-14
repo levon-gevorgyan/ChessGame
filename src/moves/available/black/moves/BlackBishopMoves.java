@@ -1,12 +1,12 @@
 package moves.available.black.moves;
 
-import chessitems.BlackItem;
+
 import chessitems.WhiteItem;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.cell.NoCell;
 import exceptions.table.OutOfTable;
-import moves.available.moves.AvailableMoves;
+
 import moves.available.moves.BishopMoves;
 
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ public class BlackBishopMoves extends BishopMoves {
             ArrayList<Cell> blackBishopMoves = new ArrayList<>();
 
 
-            ArrayList<Cell> leftUp = BishopMovesDiagLeftUp(cell);
-            ArrayList<Cell> leftDown = BishopMovesDiagLeftDown(cell);
-            ArrayList<Cell> rightUp = BishopMovesDiagRightUp(cell);
-            ArrayList<Cell> rightDown = BishopMovesDiagRightDown(cell);
+            ArrayList<Cell> leftUp = bishopMovesDiagLeftUp(cell);
+            ArrayList<Cell> leftDown = bishopMovesDiagLeftDown(cell);
+            ArrayList<Cell> rightUp = bishopMovesDiagRightUp(cell);
+            ArrayList<Cell> rightDown = bishopMovesDiagRightDown(cell);
 
             Cell lastLeftUpCell = cell;
             if (leftUp.size() > 0) {
