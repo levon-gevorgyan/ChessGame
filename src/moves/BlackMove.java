@@ -12,10 +12,7 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.chessitem.SameChessItem;
 import exceptions.table.OutOfTable;
-import moves.available.black.moves.BlackBishopMoves;
-import moves.available.black.moves.BlackKnightMoves;
-import moves.available.black.moves.BlackQueenMoves;
-import moves.available.black.moves.BlackRookMoves;
+import moves.available.black.moves.*;
 import moves.available.moves.AvailableMoves;
 
 import java.util.Map;
@@ -109,7 +106,7 @@ public class BlackMove extends Move {
                 Cell cellFrom = table.getAllCells().get(from);
                 Cell cellTo = table.getAllCells().get(to);
 
-                /*for (Cell x:new BlackKnightMoves(cellFrom).getBlackKnightMoves())
+                /*for (Cell x:new BlackPawnMoves(cellFrom).getBlackPawnMoves())
                 {
                     System.out.println(x);
                 }*/

@@ -47,9 +47,9 @@ public class Game implements Letters{
         //MAKING TABLE, DO NOT REMOVE---END
 
         //try {
-            new WhiteMove("d2b5").move(table, whitePlayerItems, blackPlayerItems);
+            new WhiteMove("a2e6").move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
-            new BlackMove("d7f4").move(table, whitePlayerItems, blackPlayerItems);
+            new BlackMove("d7c3").move(table, whitePlayerItems, blackPlayerItems);
             setAllItems(table, whitePlayerItems, blackPlayerItems);
 
         /*}
@@ -63,7 +63,7 @@ public class Game implements Letters{
 
         }
         setAllItems(table, whitePlayerItems, blackPlayerItems);*/
-        new WhiteMove("b5h4").move(table, whitePlayerItems, blackPlayerItems);
+        new WhiteMove("d2d4").move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //ArrayList<Cell> a=Table.previousRow(table.getCell(E,2));
 

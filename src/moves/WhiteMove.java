@@ -11,10 +11,7 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.chessitem.SameChessItem;
 import moves.available.moves.AvailableMoves;
-import moves.available.white.moves.WhiteBishopMoves;
-import moves.available.white.moves.WhiteKnightMoves;
-import moves.available.white.moves.WhiteQueenMoves;
-import moves.available.white.moves.WhiteRookMoves;
+import moves.available.white.moves.*;
 
 import java.util.Map;
 import java.util.SortedMap;
@@ -106,10 +103,10 @@ public class WhiteMove extends Move {
                 Cell cellFrom = table.getAllCells().get(from);
                 Cell cellTo = table.getAllCells().get(to);
 
-                for (Cell x:new WhiteKnightMoves(cellFrom).getWhiteKnightMoves())
+                /*for (Cell x:new WhitePawnMoves(cellFrom).getWhitePawnMoves())
                 {
                     System.out.println(x);
-                }
+                }*/
 
                 cellFrom.setChessItem(chessItemTo);
                 cellTo.setChessItem(chessItemFrom);
