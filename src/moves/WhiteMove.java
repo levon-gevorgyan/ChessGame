@@ -103,10 +103,10 @@ public class WhiteMove extends Move {
                 Cell cellFrom = table.getAllCells().get(from);
                 Cell cellTo = table.getAllCells().get(to);
 
-                /*for (Cell x:new WhitePawnMoves(cellFrom).getWhitePawnMoves())
+                for (Cell x:new WhiteKingMoves(cellFrom).getWhiteKingMoves())
                 {
                     System.out.println(x);
-                }*/
+                }
 
                 cellFrom.setChessItem(chessItemTo);
                 cellTo.setChessItem(chessItemFrom);

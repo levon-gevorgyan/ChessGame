@@ -49,7 +49,7 @@ public class Game implements Letters{
         //try {
             new WhiteMove("a2e6").move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
-            new BlackMove("d7c3").move(table, whitePlayerItems, blackPlayerItems);
+            new BlackMove("e7c3").move(table, whitePlayerItems, blackPlayerItems);
             setAllItems(table, whitePlayerItems, blackPlayerItems);
 
         /*}
@@ -63,7 +63,7 @@ public class Game implements Letters{
 
         }
         setAllItems(table, whitePlayerItems, blackPlayerItems);*/
-        new WhiteMove("d2d4").move(table, whitePlayerItems, blackPlayerItems);
+        new WhiteMove("b2d4").move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //ArrayList<Cell> a=Table.previousRow(table.getCell(E,2));
 

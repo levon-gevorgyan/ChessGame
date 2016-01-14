@@ -106,7 +106,7 @@ public class BlackMove extends Move {
                 Cell cellFrom = table.getAllCells().get(from);
                 Cell cellTo = table.getAllCells().get(to);
 
-                /*for (Cell x:new BlackPawnMoves(cellFrom).getBlackPawnMoves())
+                /*for (Cell x:new BlackKingMoves(cellFrom).getBlackKingMoves())
                 {
                     System.out.println(x);
                 }*/
