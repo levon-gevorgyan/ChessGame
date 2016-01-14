@@ -4,6 +4,7 @@ import chessitems.BlackItem;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.cell.NoCell;
+import exceptions.moves.NoAvailableCells;
 import exceptions.table.OutOfTable;
 import moves.available.moves.BishopMoves;
 
@@ -140,9 +141,14 @@ public class WhiteBishopMoves extends BishopMoves {
         }
 
     }
-    public ArrayList<Cell> getWhiteBishopMoves()
-    {
-        return this.whiteBishopMoves;
+    public ArrayList<Cell> getWhiteBishopMoves() throws NoAvailableCells {
+        if(whiteBishopMoves.size()>0) {
+            return this.whiteBishopMoves;
+        }
+        else
+        {
+            throw new NoAvailableCells();
+        }
     }
 
 

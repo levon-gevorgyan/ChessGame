@@ -3,6 +3,7 @@ package moves.available.white.moves;
 import chessitems.BlackItem;
 import chessitems.empty.Empty;
 import chesstable.cells.Cell;
+import exceptions.moves.NoAvailableCells;
 import moves.available.moves.KnightMoves;
 
 import java.util.ArrayList;
@@ -28,8 +29,11 @@ public class WhiteKnightMoves extends KnightMoves{
         this.whiteKnightMoves=whiteKnightMoves;
     }
 
-    public ArrayList<Cell> getWhiteKnightMoves()
-    {
-        return this.whiteKnightMoves;
+    public ArrayList<Cell> getWhiteKnightMoves() throws NoAvailableCells {
+        if(whiteKnightMoves.size()>0) {
+            return this.whiteKnightMoves;
+        }
+        else
+            throw new NoAvailableCells();
     }
 }

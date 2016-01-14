@@ -4,6 +4,7 @@ import chessitems.WhiteItem;
 import chessitems.black.BlackKnight;
 import chessitems.empty.Empty;
 import chesstable.cells.Cell;
+import exceptions.moves.NoAvailableCells;
 import moves.available.moves.KnightMoves;
 
 import java.util.ArrayList;
@@ -28,8 +29,11 @@ public class BlackKnightMoves extends KnightMoves{
         this.blackKnightMoves=blackKnightMoves;
     }
 
-    public ArrayList<Cell> getBlackKnightMoves()
-    {
-        return this.blackKnightMoves;
+    public ArrayList<Cell> getBlackKnightMoves() throws NoAvailableCells {
+        if(blackKnightMoves.size()>0) {
+            return this.blackKnightMoves;
+        }
+        else
+            throw new NoAvailableCells();
     }
 }

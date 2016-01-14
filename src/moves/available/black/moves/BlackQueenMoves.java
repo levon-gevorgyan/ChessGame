@@ -5,6 +5,7 @@ import chessitems.WhiteItem;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.cell.NoCell;
+import exceptions.moves.NoAvailableCells;
 import exceptions.table.OutOfTable;
 import moves.available.moves.QueenMoves;
 
@@ -236,8 +237,12 @@ public class BlackQueenMoves extends QueenMoves {
         }
 
     }
-    public ArrayList<Cell> getBlackQueenMoves()
-    {
-        return this.blackQueenMoves;
+    public ArrayList<Cell> getBlackQueenMoves() throws NoAvailableCells {
+        if(blackQueenMoves.size()>0){
+            return this.blackQueenMoves;
+        }
+        else
+            throw new NoAvailableCells();
+
     }
 }

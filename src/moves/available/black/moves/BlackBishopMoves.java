@@ -5,6 +5,7 @@ import chessitems.WhiteItem;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.cell.NoCell;
+import exceptions.moves.NoAvailableCells;
 import exceptions.table.OutOfTable;
 
 import moves.available.moves.BishopMoves;
@@ -113,20 +114,6 @@ public class BlackBishopMoves extends BishopMoves {
             }
 
 
-           /* if (Table.diagonalLeftUpCell(lastLeftUpCell).getChessItem() instanceof WhiteItem) {
-                leftUp.add(lastLeftUpCell);
-            }
-            if (Table.diagonalLeftDownCell(lastLeftDownCell).getChessItem() instanceof WhiteItem) {
-                leftDown.add(lastLeftDownCell);
-            }
-
-            if (Table.diagonalRightUpCell(lastRightUpCell).getChessItem() instanceof WhiteItem) {
-                rightUp.add(lastRightUpCell);
-            }
-            if (Table.diagonalRightDownCell(lastRightDownCell).getChessItem() instanceof WhiteItem) {
-                rightDown.add(lastRightDownCell);
-            }*/
-
             if (leftUp.size()>0)
             {
                 blackBishopMoves.addAll(leftUp);
@@ -154,9 +141,12 @@ public class BlackBishopMoves extends BishopMoves {
         }
 
     }
-    public ArrayList<Cell> getBlackBishopMoves()
-    {
-        return this.blackBishopMoves;
+    public ArrayList<Cell> getBlackBishopMoves() throws NoAvailableCells {
+        if(blackBishopMoves.size()>0) {
+            return this.blackBishopMoves;
+        }
+        else
+            throw new NoAvailableCells();
     }
 
 

@@ -3,6 +3,7 @@ package moves.available.white.moves;
 import chessitems.BlackItem;
 import chessitems.empty.Empty;
 import chesstable.cells.Cell;
+import exceptions.moves.NoAvailableCells;
 import moves.available.moves.PawnMoves;
 
 import java.util.ArrayList;
@@ -33,9 +34,13 @@ public class WhitePawnMoves extends PawnMoves {
         }
     }
 
-    public ArrayList<Cell> getWhitePawnMoves()
+    public ArrayList<Cell> getWhitePawnMoves() throws NoAvailableCells
 
     {
-        return this.whitePawnMoves;
+        if(whitePawnMoves.size()>0) {
+            return this.whitePawnMoves;
+        }
+        else
+            throw new NoAvailableCells();
     }
 }

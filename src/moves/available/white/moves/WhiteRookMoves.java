@@ -5,6 +5,7 @@ import chessitems.BlackItem;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.cell.NoCell;
+import exceptions.moves.NoAvailableCells;
 import exceptions.table.OutOfTable;
 import moves.available.moves.RookMoves;
 
@@ -138,9 +139,13 @@ public class WhiteRookMoves extends RookMoves {
         }
 
     }
-    public ArrayList<Cell> getBlackRookMoves()
-    {
-        return this.whiteRookMoves;
+    public ArrayList<Cell> getBlackRookMoves() throws NoAvailableCells {
+        if(whiteRookMoves.size()>0){
+            return this.whiteRookMoves;
+        }
+        else
+            throw new NoAvailableCells();
+
     }
 
 }

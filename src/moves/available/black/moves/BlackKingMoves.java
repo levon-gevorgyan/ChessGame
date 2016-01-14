@@ -3,6 +3,7 @@ package moves.available.black.moves;
 import chessitems.WhiteItem;
 import chessitems.empty.Empty;
 import chesstable.cells.Cell;
+import exceptions.moves.NoAvailableCells;
 import moves.available.moves.BishopMoves;
 import moves.available.moves.KingMoves;
 
@@ -28,9 +29,13 @@ public class BlackKingMoves extends KingMoves {
         this.blackKingMoves=blackKingMoves;
     }
 
-    public ArrayList<Cell> getBlackKingMoves()
-    {
-        return this.blackKingMoves;
+    public ArrayList<Cell> getBlackKingMoves() throws NoAvailableCells {
+        if(blackKingMoves.size()>0){
+            return this.blackKingMoves;
+        }
+        else
+            throw new NoAvailableCells();
+
     }
 
 }

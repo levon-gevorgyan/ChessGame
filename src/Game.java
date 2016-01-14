@@ -18,8 +18,10 @@ import players.BlackPlayer;
 import players.Player;
 import players.WhitePlayer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -32,6 +34,8 @@ public class Game implements Letters{
 
     public static void main(String[] args)
             throws IOException, InvalidMoveString, EmptySourceCell, OutOfTable, NoCell, InvalidSource, SameChessItem, NotEmptyCell {
+        BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+        String s=reader.readLine();
 
         Table table=new Table();
         table.getAllCells();
@@ -47,10 +51,11 @@ public class Game implements Letters{
         //MAKING TABLE, DO NOT REMOVE---END
 
         //try {
-            new WhiteMove("a2e6").move(table, whitePlayerItems, blackPlayerItems);
+
+        new WhiteMove(s).move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
-            new BlackMove("e7c3").move(table, whitePlayerItems, blackPlayerItems);
-            setAllItems(table, whitePlayerItems, blackPlayerItems);
+            /*new BlackMove("e7c3").move(table, whitePlayerItems, blackPlayerItems);
+            setAllItems(table, whitePlayerItems, blackPlayerItems);*/
 
         /*}
         catch (EmptySourceCell emptySourceCell){
@@ -63,8 +68,8 @@ public class Game implements Letters{
 
         }
         setAllItems(table, whitePlayerItems, blackPlayerItems);*/
-        new WhiteMove("b2d4").move(table, whitePlayerItems, blackPlayerItems);
-        setAllItems(table, whitePlayerItems, blackPlayerItems);
+       /* new WhiteMove("b2d4").move(table, whitePlayerItems, blackPlayerItems);
+        setAllItems(table, whitePlayerItems, blackPlayerItems);*/
         //ArrayList<Cell> a=Table.previousRow(table.getCell(E,2));
 
 
