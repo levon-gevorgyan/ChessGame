@@ -16,12 +16,13 @@ public class Table  implements Letters,Numbers{
 
     private SortedMap<String,Cell> cells=new TreeMap<String,Cell>();
 
-    public static ArrayList<ArrayList<Cell>> rows=new ArrayList<>();
-    public static ArrayList<ArrayList<Cell>> columns=new ArrayList<>();
+    public static ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
+    public static ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
 
-    private   Map<Cell,ArrayList<Cell>> relativeCellsStraight;
-    private   Map<Cell,ArrayList<Cell>> relativeCellsKnight;
+    /*private   Map<Cell,ArrayList<Cell>> relativeCellsStraight;
+    private   Map<Cell,ArrayList<Cell>> relativeCellsKnight;*/
 
+    //Create Table
     public Table()
     {
         makeTable();
@@ -30,7 +31,7 @@ public class Table  implements Letters,Numbers{
     }
 
 
-
+    //Next Row
     public static ArrayList<Cell> nextRow(Cell cell) throws OutOfTable {
 
 
@@ -63,6 +64,7 @@ public class Table  implements Letters,Numbers{
         return null;
     }
 
+    //Previous Row
     public static ArrayList<Cell> previousRow(Cell cell) throws OutOfTable {
 
 
@@ -93,7 +95,8 @@ public class Table  implements Letters,Numbers{
         return null;
     }
 
-public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
+    //Next Column
+    public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -123,6 +126,7 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
         return null;
     }
 
+    //Previous Column
     public static ArrayList<Cell> previousColumn(Cell cell) throws OutOfTable {
 
 
@@ -153,6 +157,9 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
         return null;
     }
 
+    //To Left, Right, UP, Down cells
+    //<--BEGIN-->
+    
     public static Cell leftCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> leftColumn=previousColumn(cell);
@@ -199,6 +206,13 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
         }
     }
 
+    //To Left, Right, Up, Down cells
+    //<--END-->
+
+
+    //To Left Up, Left Down, Right pP, Right Down cells
+    //<--BEGIN-->
+    
     public static Cell diagonalLeftUpCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell left=leftCell(cell);
@@ -243,6 +257,130 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
         }
     }
 
+    //To Left Up, Left Down, Right pP, Right Down cells
+    //<--End-->
+
+
+    //To Up Up Left, Up Up Right, Down Down Left, Down Down Right cells
+    //<--BEGIN-->
+    
+    public static Cell upUpLeft(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell upUpLeft;
+            cell=upCell(cell);
+            upUpLeft=diagonalLeftUpCell(cell);
+            return upUpLeft;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    public static Cell upUpRight(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell upUpRight;
+            cell=upCell(cell);
+            upUpRight=diagonalRightUpCell(cell);
+            return upUpRight;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    public static Cell downDownLeft(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell downDownLeft;
+            cell=downCell(cell);
+            downDownLeft=diagonalLeftDownCell(cell);
+            return downDownLeft;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    public static Cell downDownRight(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell downDownRight;
+            cell=downCell(cell);
+            downDownRight=diagonalRightDownCell(cell);
+            return downDownRight;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    //To Up Up Left, Up Up Right, Down Down Left, Down Down Right cells
+    //<--END-->
+
+    
+    
+    //To Left Left Up, Left Left Down, Right Right Up, Right Right Down cells
+    //<--BEGIN-->
+
+    public static Cell leftLeftUp(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell leftLeftUp;
+            cell=leftCell(cell);
+            leftLeftUp=diagonalLeftUpCell(cell);
+            return leftLeftUp;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    public static Cell leftLeftDown(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell leftLeftDown;
+            cell=leftCell(cell);
+            leftLeftDown=diagonalLeftDownCell(cell);
+            return leftLeftDown;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    public static Cell rightRightUp(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell rightRightUp;
+            cell=rightCell(cell);
+            rightRightUp=diagonalRightUpCell(cell);
+            return rightRightUp;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    public static Cell rightRightDown(Cell cell) throws OutOfTable, NoCell {
+        try {
+            Cell rightRightDown;
+            cell=rightCell(cell);
+            rightRightDown=diagonalRightDownCell(cell);
+            return rightRightDown;
+        }
+        catch (OutOfTable outOfTable)
+        {
+            throw new NoCell();
+        }
+    }
+
+    //To Left Left Up, Left Left Down, Right Right Up, Right Right Down cells
+    //<--END-->
+
+
+    //Find the Crossed Cell
     public static Cell getCrossedCell(ArrayList<Cell> row,ArrayList<Cell> column)
     {
         for (int i=0;i<8;i++)
@@ -256,6 +394,7 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
         return null;
     }
 
+    //Find Cell's Row
     public static ArrayList<Cell> getCellRow(Cell cell)
     {
 
@@ -273,6 +412,8 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
         }
         return null;
     }
+
+    //Find Cell's Column
     public static ArrayList<Cell> getCellColumn(Cell cell)
     {
 
@@ -291,6 +432,7 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
         return null;
     }
 
+    //Set Up the Rows
     private void setRows(){
         ArrayList<ArrayList<Cell>> rows=new ArrayList<>();
 
@@ -308,6 +450,8 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
 
         this.rows=rows;
     }
+
+    //Set Up the Columns
     private void setColumns(){
         ArrayList<ArrayList<Cell>> columns=new ArrayList<>();
 
@@ -328,19 +472,13 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
     }
 
 
-
-
-
-
-
-
-
+    //Get Cell by its Coordinates
     public Cell getCell(Character x,int y)
     {
         String id=String.valueOf(x)+y;
         return cells.get(id);
     }
-    public ArrayList<Cell> getRelativeCellsStraightByCell(Cell cell)
+    /*public ArrayList<Cell> getRelativeCellsStraightByCell(Cell cell)
     {
         Map<Cell,ArrayList<Cell>> relativeCellsMap=this.relativeCellsStraight;
         return relativeCellsMap.get(cell);
@@ -357,8 +495,10 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
     public Map<Cell,ArrayList<Cell>> getRelativeCellsKnight()
     {
         return this.relativeCellsKnight;
-    }
+    }*/
 
+
+    //Receive All Cells of the Table
     public SortedMap<String,Cell> getAllCells()
     {
         return this.cells;
@@ -368,6 +508,8 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
     {
         return this.cells.get(Character.toString(x) + y);
     }
+
+    //Get Table on Screen
     public String toString()
     {
         System.out.println("  A  B  C  D  E  F  G  H");
@@ -390,6 +532,8 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
 
         return null;
     }
+
+    //Make Table
     private void makeTable() {
         for (int i=1;i<=8;i+=2)
         {

@@ -30,6 +30,9 @@ public abstract class Move {
     public abstract void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
             throws SameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell;
 
+    //Moving to Direction Until Empty Cell is Met
+    //<--BEGIN-->
+
     public static ArrayList<Cell> moveUpUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
         
         ArrayList<Cell> list=new ArrayList<>();
@@ -225,6 +228,9 @@ public abstract class Move {
             throw new  NotEmptyCell();
         return list;
     }
+    //Moving to Direction Until Empty Cell is Met
+    //<--END-->
+
 
     public boolean isValidString(String s) throws InvalidMoveString {
         boolean isValidString=false;
@@ -266,28 +272,6 @@ public abstract class Move {
             else {
                 throw new InvalidMoveString();
             }
-
-            /*if(stringToChar.length==2)
-            {
-                try {
-                    if (LetsNums.isLetter(stringToChar[0]))
-                    {
-                        try {
-                            if (LetsNums.isNumber(stringToChar[1]))
-                            {
-                                isValidString=true;
-                            }
-                        } catch (WrongNumber wrongNumber) {
-                            wrongNumber.printStackTrace();
-                        }
-                    }
-                } catch (WrongLetter wrongLetter) {
-                    wrongLetter.printStackTrace();
-                }
-            }
-            else
-                throw new InvalidMoveString();*/
-
 
 
         if (isValidString){

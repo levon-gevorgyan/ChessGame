@@ -47,9 +47,9 @@ public class Game implements Letters{
         //MAKING TABLE, DO NOT REMOVE---END
 
         //try {
-            new WhiteMove("a2b5").move(table, whitePlayerItems, blackPlayerItems);
+            new WhiteMove("d2b5").move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
-            new BlackMove("h8f4").move(table, whitePlayerItems, blackPlayerItems);
+            new BlackMove("d7f4").move(table, whitePlayerItems, blackPlayerItems);
             setAllItems(table, whitePlayerItems, blackPlayerItems);
 
         /*}

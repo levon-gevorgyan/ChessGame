@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by levon.gevorgyan on 12/01/16.
  */
-public class QueenMoves extends AvailableMoves {
+public abstract class QueenMoves extends AvailableMoves {
 
     public ArrayList<Cell> queenMovesDiagLeftUp(Cell cell) {
         ArrayList<Cell> queenMovesDiagLeftUp = new ArrayList<>();
