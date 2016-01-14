@@ -61,7 +61,7 @@ public class Game implements Letters{
 
         }
         setAllItems(table, whitePlayerItems, blackPlayerItems);
-        new BlackMove("a7a1").move(table, whitePlayerItems, blackPlayerItems);
+        new BlackMove("b7a1").move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //ArrayList<Cell> a=Table.previousRow(table.getCell(E,2));
 

@@ -28,11 +28,11 @@ public abstract class BishopMoves extends AvailableMoves {
 
 
         } catch (NoCell noCell) {
-            noCell.printStackTrace();
+
         } catch (NotEmptyCell notEmptyCell) {
-            notEmptyCell.printStackTrace();
+
         } catch (OutOfTable outOfTable) {
-            outOfTable.printStackTrace();
+
         }
         return bishopMovesDiagLeftUp;
 
@@ -47,11 +47,11 @@ public abstract class BishopMoves extends AvailableMoves {
 
 
         } catch (NoCell noCell) {
-            noCell.printStackTrace();
+
         } catch (NotEmptyCell notEmptyCell) {
-            notEmptyCell.printStackTrace();
+
         } catch (OutOfTable outOfTable) {
-            outOfTable.printStackTrace();
+
         }
         return bishopMovesDiagLeftDown;
 
@@ -66,11 +66,11 @@ public abstract class BishopMoves extends AvailableMoves {
 
 
         } catch (NoCell noCell) {
-            noCell.printStackTrace();
+
         } catch (NotEmptyCell notEmptyCell) {
-            notEmptyCell.printStackTrace();
+
         } catch (OutOfTable outOfTable) {
-            outOfTable.printStackTrace();
+
         }
         return bishopMovesDiagRightUp;
 
@@ -84,11 +84,11 @@ public abstract class BishopMoves extends AvailableMoves {
             bishopMovesDiagRightDown.addAll(Move.moveDiagRightDownUntilNotEmpty(cell));
 
         } catch (NoCell noCell) {
-            noCell.printStackTrace();
+
         } catch (NotEmptyCell notEmptyCell) {
-            notEmptyCell.printStackTrace();
+
         } catch (OutOfTable outOfTable) {
-            outOfTable.printStackTrace();
+
         }
         return bishopMovesDiagRightDown;
 

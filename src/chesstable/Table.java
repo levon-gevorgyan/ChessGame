@@ -54,7 +54,7 @@ public class Table  implements Letters,Numbers{
             }
             catch (IndexOutOfBoundsException e)
             {
-                System.out.println(OutOfTable.invalidNextRow());
+                //System.out.println(OutOfTable.invalidNextRow());
                 throw new OutOfTable();
 
 
@@ -86,7 +86,7 @@ public class Table  implements Letters,Numbers{
             }
             catch (IndexOutOfBoundsException e)
             {
-                System.out.println(OutOfTable.invalidPreviousRow());
+                //System.out.println(OutOfTable.invalidPreviousRow());
                 throw new OutOfTable();
             }
         }
@@ -116,7 +116,7 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
             }
             catch (IndexOutOfBoundsException e)
             {
-                System.out.println(OutOfTable.invalidNextColumn());
+                //System.out.println(OutOfTable.invalidNextColumn());
                 throw new OutOfTable();
             }
         }
@@ -146,7 +146,7 @@ public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
             }
             catch (IndexOutOfBoundsException e)
             {
-                System.out.println(OutOfTable.invalidPreviousColumn());
+                //System.out.println(OutOfTable.invalidPreviousColumn());
                 throw new OutOfTable();
             }
         }

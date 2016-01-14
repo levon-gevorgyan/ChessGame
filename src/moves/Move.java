@@ -139,12 +139,13 @@ public abstract class Move {
             }
             catch (NoCell noCell)
             {
-                throw noCell;
+
 
             }
         }
         else
             throw new  NotEmptyCell();
+        return list;
     }
 
     public static ArrayList<Cell>  moveDiagLeftDownUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
@@ -162,12 +163,14 @@ public abstract class Move {
             }
             catch (NoCell noCell)
             {
-                throw noCell;
+
 
             }
         }
         else
             throw new  NotEmptyCell();
+
+        return list;
     }
 
     public static ArrayList<Cell>  moveDiagRightUpUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
@@ -185,12 +188,13 @@ public abstract class Move {
             }
             catch (NoCell noCell)
             {
-                throw noCell;
+
 
             }
         }
         else
             throw new  NotEmptyCell();
+        return list;
     }
 
     public static ArrayList<Cell>  moveDiagRightDownUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
@@ -208,12 +212,13 @@ public abstract class Move {
             }
             catch (NoCell noCell)
             {
-                throw noCell;
+
 
             }
         }
         else
             throw new  NotEmptyCell();
+        return list;
     }
 
     public boolean isValidString(String s) throws InvalidMoveString {

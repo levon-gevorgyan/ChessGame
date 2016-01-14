@@ -128,7 +128,7 @@ public class BlackMove extends Move {
                 {
                     System.out.println(x);
                 }
-                throw new SameChessItem();
+               // throw new SameChessItem();
 
                 /*cellFrom.setChessItem(chessItemEmpty);
                 cellTo.setChessItem(chessItemFrom);
