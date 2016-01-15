@@ -9,9 +9,7 @@ import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
 import exceptions.cell.NotEmptyCell;
 import exceptions.chessitem.SameChessItem;
-import exceptions.moves.InvalidMoveString;
-import exceptions.moves.WrongLetter;
-import exceptions.moves.WrongNumber;
+import exceptions.moves.*;
 import exceptions.table.OutOfTable;
 import letsnums.LetsNums;
 
@@ -28,7 +26,7 @@ public abstract class Move {
     
     
     public abstract void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell;
+            throws SameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells;
 
     //Moving to Direction Until Empty Cell is Met
     //<--BEGIN-->
@@ -252,21 +250,21 @@ public abstract class Move {
                                                 isValidString=true;
                                             }
                                         } catch (WrongNumber wrongNumber) {
-                                            System.out.println("Wrong Number: 2");
+                                            System.out.println("Source is Wrong");
                                         }
 
                                     }
                                 } catch (WrongLetter wrongLetter) {
-                                    System.out.println("Wrong Letter: 2");
+                                    System.out.println("Source is Wrong");
                                 }
 
                             }
                         } catch (WrongNumber wrongNumber) {
-                            System.out.println("Wrong Number: 1");
+                            System.out.println("Target is Wrong");
                         }
                     }
                 } catch (WrongLetter wrongLetter) {
-                    System.out.println("Wrong symbol is: Letter: 1");
+                    System.out.println("Target is Wrong");
                 }
             }
             else {

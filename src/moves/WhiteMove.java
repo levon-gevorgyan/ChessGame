@@ -2,7 +2,6 @@ package moves;
 
 import chessitems.BlackItem;
 import chessitems.ChessItem;
-import chessitems.black.BlackBishop;
 import chessitems.empty.Empty;
 import chessitems.white.*;
 import chesstable.Table;
@@ -14,8 +13,6 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.chessitem.SameChessItem;
 import exceptions.moves.NoAvailableCells;
-import moves.available.moves.AvailableMoves;
-import moves.available.moves.BishopMoves;
 import moves.available.white.moves.*;
 
 import java.util.ArrayList;
@@ -39,9 +36,10 @@ public class WhiteMove extends Move {
             throw new InvalidMoveString("Source & Target are the same");
         }
     }
+
     @Override
     public void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell {
+            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells {
         String from=this.from;
         String to=this.to;
 
@@ -74,7 +72,6 @@ public class WhiteMove extends Move {
 
         if (table.getAllCells().get(from).getChessItem() instanceof Empty) {
             throw new EmptySourceCell(); //Empty Source
-
         }else if(table.getAllCells().get(from).getChessItem() instanceof BlackItem)
             {
                 throw new InvalidSource(); //Invalid Source
@@ -111,10 +108,93 @@ public class WhiteMove extends Move {
                 Cell cellFrom = table.getAllCells().get(from);
                 Cell cellTo = table.getAllCells().get(to);
 
-                //Get available cells of source
+                //Get available cells of source <--Begin-->
+                ArrayList<Cell> availableCells=new ArrayList<>();
+
+
+                    //Conditions
+                    if(cellFrom.getChessItem() instanceof WhiteBishop){
+                        availableCells=new WhiteBishopMoves(cellFrom).getWhiteBishopMoves();
+                    }
+                    else if (cellFrom.getChessItem() instanceof WhiteKing){
+                        availableCells=new WhiteKingMoves(cellFrom).getWhiteKingMoves();
+
+                    }
+                    else if (cellFrom.getChessItem() instanceof WhiteKnight){
+                        availableCells=new WhiteKnightMoves(cellFrom).getWhiteKnightMoves();
+
+                    }
+                    else if (cellFrom.getChessItem() instanceof WhitePawn){
+                        availableCells=new WhitePawnMoves(cellFrom).getWhitePawnMoves();
+
+                    }
+                    else if (cellFrom.getChessItem() instanceof WhiteQueen){
+                        availableCells=new WhiteQueenMoves(cellFrom).getWhiteQueenMoves();
+
+                    }
+                    else if (cellFrom.getChessItem() instanceof WhiteRook){
+                        availableCells=new WhiteRookMoves(cellFrom).getBlackRookMoves();
+
+                    }
+                    else{
+                        throw new NoAvailableCells();
+
+                    }
+
+
+                isAvailableTarget=true;
+                try{
+                    if(isAvailableTarget && availableCells.size()>0)
+                    {
+                        boolean available=false;
+
+                        for(Cell target:availableCells)
+                        {
+                            if(cellTo.equals(target)){
+                                //do
+                                cellFrom.setChessItem(chessItemTo);
+                                cellTo.setChessItem(chessItemFrom);
+
+                                whitePlayerItems.put(to, chessItemFrom);
+                                whitePlayerItems.remove(from);
+                                available=true;
+                            }
+
+                        }
+                        if(!available)
+                        {
+
+                            System.out.print("Available cells are: ");
+                            Cell.getAvailableCellsList(availableCells);
+
+                            throw new InvalidMove();
+
+                        }
+
+                    }
+                    else
+                        Cell.getAvailableCellsList(availableCells);
+                }
+                catch (InvalidMove invalidMove)
+                {
+                    throw new InvalidMove();
+                }
+                //Get available cells of source <--End-->
+
+            }
+            if (isBlackItem) {
+
+                ChessItem chessItemFrom = table.getAllCells().get(from).getChessItem();
+                ChessItem chessItemEmpty = new Empty();
+
+                Cell cellFrom = table.getAllCells().get(from);
+                Cell cellTo = table.getAllCells().get(to);
+
+                //Get available cells of source <--Begin-->
                 ArrayList<Cell> availableCells=new ArrayList<>();
 
                 try {
+                    //Conditions
                     if(cellFrom.getChessItem() instanceof WhiteBishop){
                         availableCells=new WhiteBishopMoves(cellFrom).getWhiteBishopMoves();
                     }
@@ -151,22 +231,31 @@ public class WhiteMove extends Move {
                 try{
                     if(isAvailableTarget && availableCells.size()>0)
                     {
+                        boolean available=false;
+
                         for(Cell target:availableCells)
                         {
-                            if(cellTo.equals(target)){
-
-                                cellFrom.setChessItem(chessItemTo);
+                            if(cellTo.toString().equals(target.toString())){
+                                //do
+                                cellFrom.setChessItem(chessItemEmpty);
                                 cellTo.setChessItem(chessItemFrom);
 
                                 whitePlayerItems.put(to, chessItemFrom);
                                 whitePlayerItems.remove(from);
-                            }
-                            else {
-                                System.out.print("Available cells are: ");
-                                Cell.getAvailableCellsList(availableCells);
 
-                                throw new InvalidMove("Invalid Move");
+                                blackPlayerItems.remove(to);
+                                available=true;
                             }
+
+                        }
+                        if(!available)
+                        {
+
+                            System.out.print("Available cells are: ");
+                            Cell.getAvailableCellsList(availableCells);
+
+                            throw new InvalidMove();
+
                         }
 
                     }
@@ -175,31 +264,9 @@ public class WhiteMove extends Move {
                 }
                 catch (InvalidMove invalidMove)
                 {
-                    System.out.println(invalidMove);
 
                 }
-
-
-
-
-
-
-
-            }
-            if (isBlackItem) {
-                ChessItem chessItemFrom = table.getAllCells().get(from).getChessItem();
-                ChessItem chessItemEmpty = new Empty();
-
-                Cell cellFrom = table.getAllCells().get(from);
-                Cell cellTo = table.getAllCells().get(to);
-
-                cellFrom.setChessItem(chessItemEmpty);
-                cellTo.setChessItem(chessItemFrom);
-
-                whitePlayerItems.put(to, chessItemFrom);
-                whitePlayerItems.remove(from);
-
-                blackPlayerItems.remove(to);
+                //Get available cells of source <--End-->
 
             }
             if (isWhiteItem) {

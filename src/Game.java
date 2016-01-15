@@ -8,7 +8,9 @@ import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
 import exceptions.cell.NotEmptyCell;
 import exceptions.chessitem.SameChessItem;
+import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
+import exceptions.moves.NoAvailableCells;
 import exceptions.table.OutOfTable;
 import moves.BlackMove;
 import moves.Move;
@@ -33,9 +35,10 @@ public class Game implements Letters{
 
 
     public static void main(String[] args)
-            throws IOException, InvalidMoveString, EmptySourceCell, OutOfTable, NoCell, InvalidSource, SameChessItem, NotEmptyCell {
+            throws IOException {
+
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
-        String s=reader.readLine();
+
 
         Table table=new Table();
         table.getAllCells();
@@ -50,10 +53,91 @@ public class Game implements Letters{
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //MAKING TABLE, DO NOT REMOVE---END
 
-        //try {
 
-        new WhiteMove(s).move(table, whitePlayerItems, blackPlayerItems);
-        setAllItems(table, whitePlayerItems, blackPlayerItems);
+        //Start Game
+        String s = "";
+        //try {
+        while (!s.equals("exit"))
+        {
+
+            while (!s.equals("exit"))
+            {
+                boolean nextToBlack;
+                nextToBlack=false;
+
+                System.out.print("White player's turn: ");
+                s=reader.readLine();
+                try {
+                    new WhiteMove(s).move(table, whitePlayerItems, blackPlayerItems);
+                    nextToBlack=true;
+                } catch (SameChessItem sameChessItem) {
+                    System.out.println("Same chess item");
+
+                } catch (EmptySourceCell emptySourceCell) {
+                    System.out.println("Source Cell is empty");
+
+                } catch (InvalidSource invalidSource) {
+                    System.out.println("Source is invalid");
+
+                } catch (NoCell noCell) {
+
+                } catch (InvalidMoveString invalidMoveString) {
+                    System.out.println("String is invalid");
+
+                } catch (InvalidMove invalidMove) {
+
+
+                } catch (NoAvailableCells noAvailableCells) {
+                    System.out.println("No Available Cells");
+                }
+                if(nextToBlack)
+                {
+                    setAllItems(table, whitePlayerItems, blackPlayerItems);
+                    break;
+                }
+                setAllItems(table, whitePlayerItems, blackPlayerItems);
+            }
+            while (!s.equals("exit"))
+            {
+                boolean nextToWhite;
+                nextToWhite=false;
+                System.out.print("Black player's turn: ");
+                s=reader.readLine();
+                try {
+                    new BlackMove(s).move(table, whitePlayerItems, blackPlayerItems);
+                    nextToWhite=true;
+                } catch (SameChessItem sameChessItem) {
+                    System.out.println("Same chess item");
+
+                } catch (EmptySourceCell emptySourceCell) {
+                    System.out.println("Source Cell is empty");
+
+                } catch (InvalidSource invalidSource) {
+                    System.out.println("Source is invalid");
+
+                } catch (NoCell noCell) {
+
+                } catch (InvalidMoveString invalidMoveString) {
+                    System.out.println("String is invalid");
+
+                } catch (InvalidMove invalidMove) {
+
+
+                } catch (NoAvailableCells noAvailableCells) {
+                    System.out.println("No Available Cells");
+                }
+                if(nextToWhite)
+                {
+                    setAllItems(table, whitePlayerItems, blackPlayerItems);
+                    break;
+                }
+                table.toString();
+            }
+
+        }
+
+
+
             /*new BlackMove("e7c3").move(table, whitePlayerItems, blackPlayerItems);
             setAllItems(table, whitePlayerItems, blackPlayerItems);*/
 

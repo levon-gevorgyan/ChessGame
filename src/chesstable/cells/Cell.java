@@ -36,10 +36,12 @@ public abstract class Cell {
     public static void getAvailableCellsList(ArrayList<Cell> list)
     {
         if(list.size()>0){
+            System.out.print("| ");
             for(Cell cell : list)
             {
                 System.out.print(cell.toString()+" | ");
             }
+            System.out.println("\n");
         }
         else
             System.out.println("No Available Moves");
