@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public abstract class PawnMoves extends AvailableMoves {
 
+    //White Pawn
     protected ArrayList<Cell> getWhitePawnMove(Cell cell) {
         ArrayList<Cell> whitePawnMove = new ArrayList<>();
         try {
@@ -50,7 +51,40 @@ public abstract class PawnMoves extends AvailableMoves {
         }
     }
 
+    protected ArrayList<Cell> getWhitePawnMove2(Cell cell) {
+        ArrayList<Cell> whitePawnMoves2 = new ArrayList<>();
+        {
+            try {
 
+                boolean isAllowed=false;
+                for (Cell theCell:Table.rows.get(1)) {
+                    if (theCell.equals(cell))
+                    {
+                        isAllowed=true;
+                        break;
+                    }
+                }
+                if(isAllowed) {
+                    cell=Table.upCell(cell);
+
+                    whitePawnMoves2.add(Table.upCell(cell));
+                }
+
+
+            } catch (OutOfTable outOfTable) {
+
+            } catch (NoCell noCell) {
+
+            }
+
+
+
+            return whitePawnMoves2;
+        }
+    }
+
+
+    //Black Pawn
     protected ArrayList<Cell> getBlackPawnMove (Cell cell){
         ArrayList<Cell> blackPawnMove = new ArrayList<>();
         try {
@@ -89,6 +123,36 @@ public abstract class PawnMoves extends AvailableMoves {
         }
 
 
+    }
+
+    protected ArrayList<Cell> getBlackPawnMove2(Cell cell) {
+        ArrayList<Cell> blackPawnMoves2 = new ArrayList<>();
+        {
+            try {
+
+                boolean isAllowed=false;
+                for (Cell theCell:Table.rows.get(6)) {
+                    if (theCell.equals(cell))
+                    {
+                        isAllowed=true;
+                    }
+                }
+                if(isAllowed) {
+                    cell=Table.downCell(cell);
+                    blackPawnMoves2.add(Table.downCell(cell));
+                }
+
+
+            } catch (OutOfTable outOfTable) {
+
+            } catch (NoCell noCell) {
+
+            }
+
+
+
+            return blackPawnMoves2;
+        }
     }
 }
 

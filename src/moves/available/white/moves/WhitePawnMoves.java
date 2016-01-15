@@ -22,7 +22,12 @@ public class WhitePawnMoves extends PawnMoves {
                 whitePawnMoves.add(getWhitePawnMove(cell).get(0));
             }
         }
-        if (getBlackPawnEatMoves(cell).size() > 0) {
+        if (getWhitePawnMove2(cell).size() > 0) {
+            if (getWhitePawnMove2(cell).get(0).getChessItem() instanceof Empty) {
+                whitePawnMoves.add(getWhitePawnMove2(cell).get(0));
+            }
+        }
+        if (getWhitePawnEatMoves(cell).size() > 0) {
             for (Cell eaten : getWhitePawnEatMoves(cell)) {
                 if (eaten.getChessItem() instanceof BlackItem) {
                     whitePawnMoves.add(eaten);

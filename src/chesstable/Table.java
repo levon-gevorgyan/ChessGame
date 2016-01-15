@@ -19,9 +19,6 @@ public class Table  implements Letters,Numbers{
     public static ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
     public static ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
 
-    /*private   Map<Cell,ArrayList<Cell>> relativeCellsStraight;
-    private   Map<Cell,ArrayList<Cell>> relativeCellsKnight;*/
-
     //Create Table
     public Table()
     {
@@ -478,25 +475,6 @@ public class Table  implements Letters,Numbers{
         String id=String.valueOf(x)+y;
         return cells.get(id);
     }
-    /*public ArrayList<Cell> getRelativeCellsStraightByCell(Cell cell)
-    {
-        Map<Cell,ArrayList<Cell>> relativeCellsMap=this.relativeCellsStraight;
-        return relativeCellsMap.get(cell);
-    }
-    public ArrayList<Cell> getRelativeCellsKnightByCell(Cell cell)
-    {
-        Map<Cell,ArrayList<Cell>> relativeCellsMap2=this.relativeCellsKnight;
-        return relativeCellsMap2.get(cell);
-    }
-    public Map<Cell,ArrayList<Cell>> getRelativeCellsStraight()
-    {
-        return this.relativeCellsStraight;
-    }
-    public Map<Cell,ArrayList<Cell>> getRelativeCellsKnight()
-    {
-        return this.relativeCellsKnight;
-    }*/
-
 
     //Receive All Cells of the Table
     public SortedMap<String,Cell> getAllCells()
@@ -576,6 +554,4 @@ public class Table  implements Letters,Numbers{
             }
         }
     }
-
-
 }
