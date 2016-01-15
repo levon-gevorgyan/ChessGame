@@ -6,6 +6,7 @@ import chessitems.empty.Empty;
 import chessitems.WhiteItem;
 import chesstable.Table;
 import chesstable.cells.Cell;
+import chesstable.cells.Letters;
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.NoCell;
 import exceptions.moves.InvalidMove;
@@ -15,6 +16,7 @@ import exceptions.chessitem.SameChessItem;
 import exceptions.moves.NoAvailableCells;
 import moves.available.black.moves.*;
 import moves.available.moves.AvailableMoves;
+import play.Game;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,8 +25,24 @@ import java.util.SortedMap;
 /**
  * Created by Levon on 1/11/2016.
  */
-public class BlackMove extends Move {
+public class BlackMove extends Move implements Letters {
     public static boolean isBlackItem;
+    //Black Rooks Moves Count
+    public static int countA8=0;
+    public static int countH8=0;
+    public static int countE8=0;
+
+
+    public static boolean getCastlingStatus()
+    {
+        if (countA8==0&&countH8==0&&countE8==0)
+            return true;
+        else
+            return false;
+    }
+    //Black Rooks Moves Count
+
+
     public BlackMove(String string) throws InvalidMoveString {
         if(isValidString(string))
         {
@@ -152,6 +170,25 @@ public class BlackMove extends Move {
                         for(Cell target:availableCells)
                         {
                             if(cellTo.equals(target)){
+                                //check Black Castling
+                                if (cellFrom.getChessItem() instanceof BlackRook){
+                                    if(cellFrom.equals(Game.TABLE.getCell(A,8)))
+                                    {
+                                        countA8++;
+                                    }
+                                    if(cellFrom.equals(Game.TABLE.getCell(H,8)))
+                                    {
+                                        countH8++;
+                                    }
+
+                                }
+                                if (cellFrom.getChessItem() instanceof BlackKing){
+                                    if(cellFrom.equals(Game.TABLE.getCell(E,8)))
+                                    {
+                                        countE8++;
+                                    }
+
+                                }
                                 //do
                                 cellFrom.setChessItem(chessItemTo);
                                 cellTo.setChessItem(chessItemFrom);
@@ -237,6 +274,25 @@ public class BlackMove extends Move {
                         for(Cell target:availableCells)
                         {
                             if(cellTo.equals(target)){
+                                //check Black Castling
+                                if (cellFrom.getChessItem() instanceof BlackRook){
+                                    if(cellFrom.equals(Game.TABLE.getCell(A,8)))
+                                    {
+                                        countA8++;
+                                    }
+                                    if(cellFrom.equals(Game.TABLE.getCell(H,8)))
+                                    {
+                                        countH8++;
+                                    }
+
+                                }
+                                if (cellFrom.getChessItem() instanceof BlackKing){
+                                    if(cellFrom.equals(Game.TABLE.getCell(E,8)))
+                                    {
+                                        countE8++;
+                                    }
+
+                                }
                                 //do
                                 cellFrom.setChessItem(chessItemEmpty);
                                 cellTo.setChessItem(chessItemFrom);
@@ -265,7 +321,7 @@ public class BlackMove extends Move {
                 }
                 catch (InvalidMove invalidMove)
                 {
-
+                    throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
 

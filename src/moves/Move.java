@@ -28,6 +28,7 @@ public abstract class Move {
     public abstract void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
             throws SameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells;
 
+
     //Moving to Direction Until Empty Cell is Met
     //<--BEGIN-->
 

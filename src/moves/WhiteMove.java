@@ -6,6 +6,7 @@ import chessitems.empty.Empty;
 import chessitems.white.*;
 import chesstable.Table;
 import chesstable.cells.Cell;
+import chesstable.cells.Letters;
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.NoCell;
 import exceptions.moves.InvalidMove;
@@ -14,6 +15,7 @@ import exceptions.cell.InvalidSource;
 import exceptions.chessitem.SameChessItem;
 import exceptions.moves.NoAvailableCells;
 import moves.available.white.moves.*;
+import play.Game;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,7 +24,22 @@ import java.util.SortedMap;
 /**
  * Created by Levon on 1/11/2016.
  */
-public class WhiteMove extends Move {
+public class WhiteMove extends Move implements Letters{
+    //White Rooks Moves Count
+    public static int countA1=0;
+    public static int countH1=0;
+    public static int countE1=0;
+
+
+    public static boolean getCastlingStatus()
+    {
+        if (countA1==0&&countH1==0&&countE1==0)
+            return true;
+        else
+            return false;
+    }
+    //White Rooks Moves Count
+
 
     public WhiteMove(String string) throws InvalidMoveString {
         if(isValidString(string))
@@ -42,6 +59,8 @@ public class WhiteMove extends Move {
             throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells {
         String from=this.from;
         String to=this.to;
+
+
 
 
         boolean isTargetString=false; //checks whether target exists
@@ -151,6 +170,28 @@ public class WhiteMove extends Move {
                         for(Cell target:availableCells)
                         {
                             if(cellTo.equals(target)){
+                                //check White Castling
+                                if (cellFrom.getChessItem() instanceof WhiteRook){
+                                    if(cellFrom.equals(Game.TABLE.getCell(A,1)))
+                                    {
+                                        countA1++;
+                                        //System.out.println(countA1);
+                                    }
+                                    if(cellFrom.equals(Game.TABLE.getCell(H,1)))
+                                    {
+                                        countH1++;
+                                        //System.out.println(countH1);
+                                    }
+
+                                }
+                                if (cellFrom.getChessItem() instanceof WhiteKing){
+                                    if(cellFrom.equals(Game.TABLE.getCell(E,1)))
+                                    {
+                                        countE1++;
+                                        //System.out.println(countE1);
+                                    }
+
+                                }
                                 //do
                                 cellFrom.setChessItem(chessItemTo);
                                 cellTo.setChessItem(chessItemFrom);
@@ -235,7 +276,26 @@ public class WhiteMove extends Move {
 
                         for(Cell target:availableCells)
                         {
-                            if(cellTo.toString().equals(target.toString())){
+                            if(cellTo.equals(target)){
+                                //check White Castling
+                                if (cellFrom.getChessItem() instanceof WhiteRook){
+                                    if(cellFrom.equals(Game.TABLE.getCell(A,1)))
+                                    {
+                                        countA1++;
+                                    }
+                                    if(cellFrom.equals(Game.TABLE.getCell(H,1)))
+                                    {
+                                        countH1++;
+                                    }
+
+                                }
+                                if (cellFrom.getChessItem() instanceof WhiteKing){
+                                    if(cellFrom.equals(Game.TABLE.getCell(E,1)))
+                                    {
+                                        countE1++;
+                                    }
+
+                                }
                                 //do
                                 cellFrom.setChessItem(chessItemEmpty);
                                 cellTo.setChessItem(chessItemFrom);
@@ -264,7 +324,7 @@ public class WhiteMove extends Move {
                 }
                 catch (InvalidMove invalidMove)
                 {
-
+                    throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
 

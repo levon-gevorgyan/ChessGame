@@ -1,3 +1,5 @@
+package play;
+
 import chessitems.ChessItem;
 import chesstable.cells.Cell;
 import chesstable.Table;
@@ -31,6 +33,9 @@ import java.util.SortedMap;
  * Created by Levon on 1/9/2016.
  */
 public class Game implements Letters{
+    public static Table TABLE;
+
+
 
 
 
@@ -41,6 +46,7 @@ public class Game implements Letters{
 
 
         Table table=new Table();
+        TABLE=table;
         table.getAllCells();
 
         Player whitePlayer = new WhitePlayer();
@@ -54,7 +60,7 @@ public class Game implements Letters{
         //MAKING TABLE, DO NOT REMOVE---END
 
 
-        //Start Game
+        //Start play.Game
         String s = "";
         //try {
         while (!s.equals("exit"))
