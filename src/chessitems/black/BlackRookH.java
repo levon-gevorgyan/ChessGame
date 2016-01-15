@@ -1,16 +1,14 @@
 package chessitems.black;
 
-import chessitems.BlackItem;
-import chessitems.ChessItem;
 import colors.Black;
 
 /**
- * Created by Levon on 1/9/2016.
+ * Created by Levon on 1/16/2016.
  */
-public abstract class BlackRook extends BlackItem {
+public class BlackRookH extends BlackRook {
     private static int count=0;
 
-    public BlackRook(){
+    public BlackRookH(){
         setCount(getCount()+1);
     }
 

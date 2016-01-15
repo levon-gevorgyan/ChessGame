@@ -15,14 +15,14 @@ public class WhitePlayer extends Player {
 
     public WhitePlayer()
     {
-        this.chessItemsMap.put("a1",new WhiteRook());
+        this.chessItemsMap.put("a1",new WhiteRookA());
         this.chessItemsMap.put("b1",new WhiteKnight());
         this.chessItemsMap.put("c1",new WhiteBishop());
         this.chessItemsMap.put("d1",new WhiteQueen());
         this.chessItemsMap.put("e1",new WhiteKing());
         this.chessItemsMap.put("f1",new WhiteBishop());
         this.chessItemsMap.put("g1",new WhiteKnight());
-        this.chessItemsMap.put("h1",new WhiteRook());
+        this.chessItemsMap.put("h1",new WhiteRookH());
         this.chessItemsMap.put("a2",new WhitePawn());
         this.chessItemsMap.put("b2",new WhitePawn());
         this.chessItemsMap.put("c2",new WhitePawn());

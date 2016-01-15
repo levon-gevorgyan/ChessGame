@@ -59,6 +59,11 @@ public class Game implements Letters{
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //MAKING TABLE, DO NOT REMOVE---END
 
+        //TESTING PART----->Begin
+        /*new BlackMove(s).move(table, whitePlayerItems, blackPlayerItems);
+        setAllItems(table, whitePlayerItems, blackPlayerItems);*/
+
+        //TESTING PART----->End
 
         //Start play.Game
         String s = "";

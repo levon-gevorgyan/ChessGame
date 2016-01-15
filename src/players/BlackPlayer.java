@@ -2,7 +2,6 @@ package players;
 
 import chessitems.ChessItem;
 import chessitems.black.*;
-import chesstable.Table;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,14 +13,14 @@ public class BlackPlayer extends Player {
     private Map<String, ChessItem> chessItemsMap=new HashMap<>();;
     public BlackPlayer()
     {
-        this.chessItemsMap.put("a8",new BlackRook());
+        this.chessItemsMap.put("a8",new BlackRookA());
         this.chessItemsMap.put("b8",new BlackKnight());
         this.chessItemsMap.put("c8",new BlackBishop());
         this.chessItemsMap.put("d8",new BlackQueen());
         this.chessItemsMap.put("e8",new BlackKing());
         this.chessItemsMap.put("f8",new BlackBishop());
         this.chessItemsMap.put("g8",new BlackKnight());
-        this.chessItemsMap.put("h8",new BlackRook());
+        this.chessItemsMap.put("h8",new BlackRookH());
         this.chessItemsMap.put("a7",new BlackPawn());
         this.chessItemsMap.put("b7",new BlackPawn());
         this.chessItemsMap.put("c7",new BlackPawn());

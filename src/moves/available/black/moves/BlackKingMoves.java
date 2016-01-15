@@ -3,16 +3,18 @@ package moves.available.black.moves;
 import chessitems.WhiteItem;
 import chessitems.empty.Empty;
 import chesstable.cells.Cell;
+import chesstable.cells.Letters;
 import exceptions.moves.NoAvailableCells;
-import moves.available.moves.BishopMoves;
+import moves.BlackMove;
 import moves.available.moves.KingMoves;
+import play.Game;
 
 import java.util.ArrayList;
 
 /**
  * Created by levon.gevorgyan on 12/01/16.
  */
-public class BlackKingMoves extends KingMoves {
+public class BlackKingMoves extends KingMoves implements Letters{
     private ArrayList<Cell> blackKingMoves;
 
     public BlackKingMoves(Cell cell)
@@ -26,6 +28,24 @@ public class BlackKingMoves extends KingMoves {
             }
 
         }
+        if(Game.TABLE.getCell(B,8).getChessItem() instanceof Empty
+                && Game.TABLE.getCell(C,8).getChessItem() instanceof Empty
+                && Game.TABLE.getCell(D,8).getChessItem() instanceof Empty)
+        {
+            if(BlackMove.getLeftCastlingStatus())
+            {
+                blackKingMoves.add(Game.TABLE.getCell(C,8));
+            }
+        }
+        if(Game.TABLE.getCell(F,8).getChessItem() instanceof Empty
+                && Game.TABLE.getCell(G,8).getChessItem() instanceof Empty)
+        {
+            if(BlackMove.getRightCastlingStatus())
+            {
+                blackKingMoves.add(Game.TABLE.getCell(G,8));
+            }
+        }
+
         this.blackKingMoves=blackKingMoves;
     }
 
@@ -35,7 +55,6 @@ public class BlackKingMoves extends KingMoves {
         }
         else
             throw new NoAvailableCells();
-
     }
 
 }

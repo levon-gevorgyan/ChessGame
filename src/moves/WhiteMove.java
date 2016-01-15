@@ -29,16 +29,27 @@ public class WhiteMove extends Move implements Letters{
     public static int countA1=0;
     public static int countH1=0;
     public static int countE1=0;
+    private boolean castlingHasDone=false;
 
+    private static boolean playerRookA1=true;
+    private static boolean playerRookH1=true;
+    private static boolean playerKingE1=true;
 
-    public static boolean getCastlingStatus()
+//Get castling status
+    public static boolean getLeftCastlingStatus()
     {
-        if (countA1==0&&countH1==0&&countE1==0)
+        if (countE1==0&&countA1==0)
             return true;
         else
             return false;
     }
-    //White Rooks Moves Count
+    public static boolean getRightCastlingStatus()
+    {
+        if (countH1==0&&countE1==0)
+            return true;
+        else
+            return false;
+    }
 
 
     public WhiteMove(String string) throws InvalidMoveString {
@@ -59,8 +70,6 @@ public class WhiteMove extends Move implements Letters{
             throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells {
         String from=this.from;
         String to=this.to;
-
-
 
 
         boolean isTargetString=false; //checks whether target exists
@@ -170,35 +179,106 @@ public class WhiteMove extends Move implements Letters{
                         for(Cell target:availableCells)
                         {
                             if(cellTo.equals(target)){
-                                //check White Castling
-                                if (cellFrom.getChessItem() instanceof WhiteRook){
-                                    if(cellFrom.equals(Game.TABLE.getCell(A,1)))
+
+                                if(!castlingHasDone) //if castling has not been done yet
+                                {
+                                    if(cellFrom.getChessItem() instanceof WhiteKing)
                                     {
-                                        countA1++;
-                                        //System.out.println(countA1);
+                                        if (cellTo.equals(table.getCell(C, 1))) {
+                                            if(getLeftCastlingStatus())
+                                            {
+                                                cellFrom.setChessItem(chessItemTo);
+                                                cellTo.setChessItem(chessItemFrom);
+
+                                                String rookCellFrom = "a1";
+                                                String rookCellTo = "d1";
+                                                ChessItem rookItemFrom = table.getCell(A, 1).getChessItem();
+                                                ChessItem rookItemTo = table.getCell(D, 1).getChessItem();
+
+                                                table.getCell(A, 1).setChessItem(rookItemTo);
+                                                table.getCell(D, 1).setChessItem(rookItemFrom);
+
+                                                whitePlayerItems.put(to, chessItemFrom);
+                                                whitePlayerItems.remove(from);
+                                                whitePlayerItems.put(rookCellTo, rookItemFrom);
+                                                whitePlayerItems.remove(rookCellFrom);
+                                                available = true;
+                                                castlingHasDone=true;
+                                            }
+                                        }
+                                        else if (cellTo.equals(table.getCell(G, 1))) {
+                                            if (getRightCastlingStatus()) {
+                                                cellFrom.setChessItem(chessItemTo);
+                                                cellTo.setChessItem(chessItemFrom);
+
+                                                String rookCellFrom = "h1";
+                                                String rookCellTo = "f1";
+                                                ChessItem rookItemFrom = table.getCell(H, 1).getChessItem();
+                                                ChessItem rookItemTo = table.getCell(F, 1).getChessItem();
+
+                                                table.getCell(H, 1).setChessItem(rookItemTo);
+                                                table.getCell(F, 1).setChessItem(rookItemFrom);
+
+                                                whitePlayerItems.put(to, chessItemFrom);
+                                                whitePlayerItems.remove(from);
+                                                whitePlayerItems.put(rookCellTo, rookItemFrom);
+                                                whitePlayerItems.remove(rookCellFrom);
+                                                available = true;
+                                                castlingHasDone = true;
+                                            }
+                                        }
+                                        else {
+                                            cellFrom.setChessItem(chessItemTo);
+                                            cellTo.setChessItem(chessItemFrom);
+
+                                            whitePlayerItems.put(to, chessItemFrom);
+                                            whitePlayerItems.remove(from);
+                                            available = true;
+                                            castlingHasDone=true;
+                                            countE1++;
+                                            playerKingE1=false;
+                                        }
+
                                     }
-                                    if(cellFrom.equals(Game.TABLE.getCell(H,1)))
-                                    {
-                                        countH1++;
-                                        //System.out.println(countH1);
+                                    else {
+                                        //check White Castling
+                                        if (cellFrom.getChessItem() instanceof WhiteRookA && playerRookA1) {
+                                            countA1++;
+                                            playerRookA1=false;
+                                            //System.out.println(countA1);
+                                        }
+                                        if (cellFrom.getChessItem() instanceof WhiteRookH && playerRookH1) {
+                                            countH1++;
+                                            playerRookH1=false;
+                                            System.out.println(countH1);
+                                        }
+                                        if (cellFrom.getChessItem() instanceof WhiteKing && playerKingE1) {
+                                            countE1++;
+                                            playerKingE1=false;
+                                            //System.out.println(countE1);
+                                        }
+                                        cellFrom.setChessItem(chessItemTo);
+                                        cellTo.setChessItem(chessItemFrom);
+
+                                        whitePlayerItems.put(to, chessItemFrom);
+                                        whitePlayerItems.remove(from);
+                                        available = true;
+
                                     }
 
-                                }
-                                if (cellFrom.getChessItem() instanceof WhiteKing){
-                                    if(cellFrom.equals(Game.TABLE.getCell(E,1)))
-                                    {
-                                        countE1++;
-                                        //System.out.println(countE1);
-                                    }
+
 
                                 }
                                 //do
-                                cellFrom.setChessItem(chessItemTo);
-                                cellTo.setChessItem(chessItemFrom);
+                                if(castlingHasDone) //if castling has been already done
+                                {
+                                    cellFrom.setChessItem(chessItemTo);
+                                    cellTo.setChessItem(chessItemFrom);
 
-                                whitePlayerItems.put(to, chessItemFrom);
-                                whitePlayerItems.remove(from);
-                                available=true;
+                                    whitePlayerItems.put(to, chessItemFrom);
+                                    whitePlayerItems.remove(from);
+                                    available = true;
+                                }
                             }
 
                         }

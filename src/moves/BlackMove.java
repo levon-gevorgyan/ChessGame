@@ -31,16 +31,27 @@ public class BlackMove extends Move implements Letters {
     public static int countA8=0;
     public static int countH8=0;
     public static int countE8=0;
+    private boolean castlingHasDone=false;
 
+    private static boolean playerRookA8=true;
+    private static boolean playerRookH8=true;
+    private static boolean playerKingE8=true;
 
-    public static boolean getCastlingStatus()
+//Get castling status
+    public static boolean getLeftCastlingStatus()
     {
-        if (countA8==0&&countH8==0&&countE8==0)
+        if (countE8==0&&countA8==0)
             return true;
         else
             return false;
     }
-    //Black Rooks Moves Count
+    public static boolean getRightCastlingStatus()
+    {
+        if (countH8==0&&countE8==0)
+            return true;
+        else
+            return false;
+    }
 
 
     public BlackMove(String string) throws InvalidMoveString {
@@ -170,32 +181,106 @@ public class BlackMove extends Move implements Letters {
                         for(Cell target:availableCells)
                         {
                             if(cellTo.equals(target)){
-                                //check Black Castling
-                                if (cellFrom.getChessItem() instanceof BlackRook){
-                                    if(cellFrom.equals(Game.TABLE.getCell(A,8)))
+
+                                if(!castlingHasDone) //if castling has not been done yet
+                                {
+                                    if(cellFrom.getChessItem() instanceof BlackKing)
                                     {
-                                        countA8++;
+                                        if (cellTo.equals(table.getCell(C, 8))) {
+                                            if(getLeftCastlingStatus())
+                                            {
+                                                cellFrom.setChessItem(chessItemTo);
+                                                cellTo.setChessItem(chessItemFrom);
+
+                                                String rookCellFrom = "a8";
+                                                String rookCellTo = "d8";
+                                                ChessItem rookItemFrom = table.getCell(A, 8).getChessItem();
+                                                ChessItem rookItemTo = table.getCell(D, 8).getChessItem();
+
+                                                table.getCell(A, 8).setChessItem(rookItemTo);
+                                                table.getCell(D, 8).setChessItem(rookItemFrom);
+
+                                                blackPlayerItems.put(to, chessItemFrom);
+                                                blackPlayerItems.remove(from);
+                                                blackPlayerItems.put(rookCellTo, rookItemFrom);
+                                                blackPlayerItems.remove(rookCellFrom);
+                                                available = true;
+                                                castlingHasDone=true;
+                                            }
+                                        }
+                                        else if (cellTo.equals(table.getCell(G, 8))) {
+                                            if (getRightCastlingStatus()) {
+                                                cellFrom.setChessItem(chessItemTo);
+                                                cellTo.setChessItem(chessItemFrom);
+
+                                                String rookCellFrom = "h8";
+                                                String rookCellTo = "f8";
+                                                ChessItem rookItemFrom = table.getCell(H, 8).getChessItem();
+                                                ChessItem rookItemTo = table.getCell(F, 8).getChessItem();
+
+                                                table.getCell(H, 8).setChessItem(rookItemTo);
+                                                table.getCell(F, 8).setChessItem(rookItemFrom);
+
+                                                blackPlayerItems.put(to, chessItemFrom);
+                                                blackPlayerItems.remove(from);
+                                                blackPlayerItems.put(rookCellTo, rookItemFrom);
+                                                blackPlayerItems.remove(rookCellFrom);
+                                                available = true;
+                                                castlingHasDone = true;
+                                            }
+                                        }
+                                        else {
+                                            cellFrom.setChessItem(chessItemTo);
+                                            cellTo.setChessItem(chessItemFrom);
+
+                                            blackPlayerItems.put(to, chessItemFrom);
+                                            blackPlayerItems.remove(from);
+                                            available = true;
+                                            castlingHasDone=true;
+                                            countE8++;
+                                            playerKingE8=false;
+                                        }
+
                                     }
-                                    if(cellFrom.equals(Game.TABLE.getCell(H,8)))
-                                    {
-                                        countH8++;
+                                    else {
+                                        //check White Castling
+                                        if (cellFrom.getChessItem() instanceof BlackRookA && playerRookA8) {
+                                            countA8++;
+                                            playerRookA8=false;
+                                            //System.out.println(countA8);
+                                        }
+                                        if (cellFrom.getChessItem() instanceof BlackRookH && playerRookH8) {
+                                            countH8++;
+                                            playerRookH8=false;
+                                            System.out.println(countH8);
+                                        }
+                                        if (cellFrom.getChessItem() instanceof BlackKing && playerKingE8) {
+                                            countE8++;
+                                            playerKingE8=false;
+                                            //System.out.println(countE8);
+                                        }
+                                        cellFrom.setChessItem(chessItemTo);
+                                        cellTo.setChessItem(chessItemFrom);
+
+                                        blackPlayerItems.put(to, chessItemFrom);
+                                        blackPlayerItems.remove(from);
+                                        available = true;
+
                                     }
 
-                                }
-                                if (cellFrom.getChessItem() instanceof BlackKing){
-                                    if(cellFrom.equals(Game.TABLE.getCell(E,8)))
-                                    {
-                                        countE8++;
-                                    }
+
 
                                 }
                                 //do
-                                cellFrom.setChessItem(chessItemTo);
-                                cellTo.setChessItem(chessItemFrom);
+                                if(castlingHasDone) //if castling has been already done
+                                {
+                                    cellFrom.setChessItem(chessItemTo);
+                                    cellTo.setChessItem(chessItemFrom);
 
-                                blackPlayerItems.put(to, chessItemFrom);
-                                blackPlayerItems.remove(from);
-                                available=true;
+                                    blackPlayerItems.put(to, chessItemFrom);
+                                    blackPlayerItems.remove(from);
+                                    available = true;
+                                }
                             }
 
                         }
