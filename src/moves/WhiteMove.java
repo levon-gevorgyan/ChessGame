@@ -17,6 +17,7 @@ import exceptions.moves.NoAvailableCells;
 import moves.available.white.moves.*;
 import play.Game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
@@ -67,7 +68,7 @@ public class WhiteMove extends Move implements Letters{
 
     @Override
     public void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells {
+            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
         String from=this.from;
         String to=this.to;
 
@@ -301,6 +302,7 @@ public class WhiteMove extends Move implements Letters{
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
+                doPawnChangeWhite(whitePlayerItems,cellTo);//do Castling
 
             }
             if (isBlackItem) {
@@ -407,6 +409,8 @@ public class WhiteMove extends Move implements Letters{
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
+
+                doPawnChangeWhite(whitePlayerItems,cellTo);//do Castling
 
             }
             if (isWhiteItem) {

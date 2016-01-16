@@ -18,6 +18,7 @@ import moves.available.black.moves.*;
 import moves.available.moves.AvailableMoves;
 import play.Game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
@@ -69,7 +70,7 @@ public class BlackMove extends Move implements Letters {
 
     @Override
     public void move(Table table, Map<String, ChessItem> whitePlayerItems, Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells {
+            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
         String from=this.from;
         String to=this.to;
 
@@ -303,6 +304,7 @@ public class BlackMove extends Move implements Letters {
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
+                doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
 
             }
             if (isWhiteItem) {
@@ -409,6 +411,7 @@ public class BlackMove extends Move implements Letters {
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
+                doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
 
             }
             if (isBlackItem) {

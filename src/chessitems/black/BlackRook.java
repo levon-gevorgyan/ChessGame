@@ -7,7 +7,7 @@ import colors.Black;
 /**
  * Created by Levon on 1/9/2016.
  */
-public abstract class BlackRook extends BlackItem {
+public class BlackRook extends BlackItem {
     private static int count=0;
 
     public BlackRook(){

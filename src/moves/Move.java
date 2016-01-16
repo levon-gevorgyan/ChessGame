@@ -1,7 +1,11 @@
 package moves;
 
+import chessitems.BlackItem;
 import chessitems.ChessItem;
+import chessitems.WhiteItem;
+import chessitems.black.*;
 import chessitems.empty.Empty;
+import chessitems.white.*;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.cell.EmptySourceCell;
@@ -13,6 +17,9 @@ import exceptions.moves.*;
 import exceptions.table.OutOfTable;
 import letsnums.LetsNums;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -26,7 +33,119 @@ public abstract class Move {
     
     
     public abstract void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells;
+            throws SameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException;
+
+    protected boolean pawnChangeWhite(ChessItem pawn)
+    {
+        if(pawn instanceof WhitePawn)
+        {
+            for(Cell cell : Table.rows.get(7))
+            {
+                if(cell.getChessItem().equals(pawn))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    protected boolean pawnChangeBlack(ChessItem pawn)
+    {
+        if(pawn instanceof BlackPawn)
+        {
+            for(Cell cell : Table.rows.get(0))
+            {
+                if(cell.getChessItem().equals(pawn))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected void doPawnChangeWhite(Map<String, ChessItem> whitePlayerItems,Cell cell) throws IOException {
+        if(pawnChangeWhite(cell.getChessItem())) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+            boolean isDone = false;
+            String string;
+
+            while (!isDone) {
+                System.out.println("Choose one of following white items:");
+                System.out.println("queen");
+                System.out.println("rook");
+                System.out.println("bishop");
+                System.out.println("knight");
+                System.out.print("Your decision is: ");
+                string = reader.readLine();
+
+                try {
+                    WhiteItem newPawn = whitePawnChangeTo(string);
+                    whitePlayerItems.put(cell.toString(), newPawn);
+                    cell.setChessItem(newPawn);
+                    isDone = true;
+                } catch (InvalidChangeItem invalidChangeItem) {
+                    System.out.print("Wrong White Item. Try again: ");
+                }
+            }
+        }
+    }
+
+    protected void doPawnChangeBlack(Map<String, ChessItem> blackPlayerItems,Cell cell) throws IOException {
+        if(pawnChangeBlack(cell.getChessItem())) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+            boolean isDone = false;
+            String string;
+
+            while (!isDone) {
+                System.out.println("Choose one of following black items:");
+                System.out.println("queen");
+                System.out.println("rook");
+                System.out.println("bishop");
+                System.out.println("knight");
+                System.out.print("Your decision is: ");
+                string = reader.readLine();
+
+                try {
+                    BlackItem newPawn = blackPawnChangeTo(string);
+                    blackPlayerItems.put(cell.toString(), newPawn);
+                    cell.setChessItem(newPawn);
+                    isDone = true;
+                } catch (InvalidChangeItem invalidChangeItem) {
+                    System.out.print("Wrong White Item. Try again: ");
+                }
+            }
+        }
+
+    }
+
+    protected WhiteItem whitePawnChangeTo(String item) throws InvalidChangeItem {
+        if (item.equals("queen"))
+            return new WhiteQueen();
+        if (item.equals("rook"))
+            return new WhiteRook();
+        if (item.equals("bishop"))
+            return new WhiteBishop();
+        if (item.equals("knight"))
+            return new WhiteKnight();
+        throw new InvalidChangeItem();
+    }
+    protected BlackItem blackPawnChangeTo(String item) throws InvalidChangeItem {
+        if (item.equals("queen"))
+            return new BlackQueen();
+        if (item.equals("rook"))
+            return new BlackRook();
+        if (item.equals("bishop"))
+            return new BlackBishop();
+        if (item.equals("knight"))
+            return new BlackKnight();
+        throw new InvalidChangeItem();
+    }
+
 
 
     //Moving to Direction Until Empty Cell is Met

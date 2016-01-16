@@ -7,7 +7,7 @@ import colors.White;
 /**
  * Created by Levon on 1/9/2016.
  */
-public abstract class WhiteRook extends WhiteItem {
+public class WhiteRook extends WhiteItem {
     private static int count=0;
 
     public WhiteRook(){

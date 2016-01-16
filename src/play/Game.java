@@ -71,7 +71,7 @@ public class Game implements Letters{
         while (!s.equals("exit"))
         {
 
-            while (!s.equals("exit"))
+            while (!s.equals("exit")) //White player's turn
             {
                 boolean nextToBlack;
                 nextToBlack=false;
@@ -108,7 +108,7 @@ public class Game implements Letters{
                 }
                 setAllItems(table, whitePlayerItems, blackPlayerItems);
             }
-            while (!s.equals("exit"))
+            /*while (!s.equals("exit")) //Black player's turn
             {
                 boolean nextToWhite;
                 nextToWhite=false;
@@ -143,7 +143,7 @@ public class Game implements Letters{
                     break;
                 }
                 table.toString();
-            }
+            }*/
 
         }
 
