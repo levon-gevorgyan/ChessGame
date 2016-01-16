@@ -9,10 +9,10 @@ import chesstable.cells.Cell;
 import chesstable.cells.Letters;
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.NoCell;
+import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
-import exceptions.chessitem.SameChessItem;
 import exceptions.moves.NoAvailableCells;
 import moves.available.white.moves.*;
 import play.Game;
@@ -26,6 +26,8 @@ import java.util.SortedMap;
  * Created by Levon on 1/11/2016.
  */
 public class WhiteMove extends Move implements Letters{
+
+    boolean isCompleted=false;
     //White Rooks Moves Count
     public static int countA1=0;
     public static int countH1=0;
@@ -67,8 +69,11 @@ public class WhiteMove extends Move implements Letters{
     }
 
     @Override
-    public void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
+    public boolean move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
+            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
+
+
+
         String from=this.from;
         String to=this.to;
 
@@ -162,13 +167,14 @@ public class WhiteMove extends Move implements Letters{
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom).getBlackRookMoves();
+                        availableCells=new WhiteRookMoves(cellFrom).getWhiteRookMoves();
 
                     }
                     else{
                         throw new NoAvailableCells();
 
                     }
+                //Get available cells of source <--End-->
 
 
                 isAvailableTarget=true;
@@ -205,6 +211,7 @@ public class WhiteMove extends Move implements Letters{
                                                 whitePlayerItems.remove(rookCellFrom);
                                                 available = true;
                                                 castlingHasDone=true;
+                                                isCompleted=true;
                                             }
                                         }
                                         else if (cellTo.equals(table.getCell(G, 1))) {
@@ -226,6 +233,7 @@ public class WhiteMove extends Move implements Letters{
                                                 whitePlayerItems.remove(rookCellFrom);
                                                 available = true;
                                                 castlingHasDone = true;
+                                                isCompleted=true;
                                             }
                                         }
                                         else {
@@ -238,6 +246,7 @@ public class WhiteMove extends Move implements Letters{
                                             castlingHasDone=true;
                                             countE1++;
                                             playerKingE1=false;
+                                            isCompleted=true;
                                         }
 
                                     }
@@ -264,6 +273,7 @@ public class WhiteMove extends Move implements Letters{
                                         whitePlayerItems.put(to, chessItemFrom);
                                         whitePlayerItems.remove(from);
                                         available = true;
+                                        isCompleted=true;
 
                                     }
 
@@ -279,6 +289,7 @@ public class WhiteMove extends Move implements Letters{
                                     whitePlayerItems.put(to, chessItemFrom);
                                     whitePlayerItems.remove(from);
                                     available = true;
+                                    isCompleted=true;
                                 }
                             }
 
@@ -303,6 +314,7 @@ public class WhiteMove extends Move implements Letters{
                 }
                 //Get available cells of source <--End-->
                 doPawnChangeWhite(whitePlayerItems,cellTo);//do Castling
+                isCompleted=true;
 
             }
             if (isBlackItem) {
@@ -338,7 +350,7 @@ public class WhiteMove extends Move implements Letters{
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom).getBlackRookMoves();
+                        availableCells=new WhiteRookMoves(cellFrom).getWhiteRookMoves();
 
                     }
                     else{
@@ -350,6 +362,8 @@ public class WhiteMove extends Move implements Letters{
                 {
                     new NoAvailableCells("Source doesn't have any available cell");
                 }
+
+
                 isAvailableTarget=true;
                 try{
                     if(isAvailableTarget && availableCells.size()>0)
@@ -387,6 +401,7 @@ public class WhiteMove extends Move implements Letters{
 
                                 blackPlayerItems.remove(to);
                                 available=true;
+                                isCompleted=true;
                             }
 
                         }
@@ -408,16 +423,21 @@ public class WhiteMove extends Move implements Letters{
                 {
                     throw new InvalidMove();
                 }
-                //Get available cells of source <--End-->
+
 
                 doPawnChangeWhite(whitePlayerItems,cellTo);//do Castling
 
             }
             if (isWhiteItem) {
-                throw new SameChessItem();
+                throw new PlayerSameChessItem();
             }
         }
 
+        if(isCompleted)
+            return true;
+        else
+            return false;
 
     }
+
 }

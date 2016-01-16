@@ -13,7 +13,7 @@ public class BlackPlayer extends Player {
     private Map<String, ChessItem> chessItemsMap=new HashMap<>();;
     public BlackPlayer()
     {
-        /*this.chessItemsMap.put("a8",new BlackRookA());
+        this.chessItemsMap.put("a8",new BlackRookA());
         this.chessItemsMap.put("b8",new BlackKnight());
         this.chessItemsMap.put("c8",new BlackBishop());
         this.chessItemsMap.put("d8",new BlackQueen());
@@ -28,7 +28,7 @@ public class BlackPlayer extends Player {
         this.chessItemsMap.put("e7",new BlackPawn());
         this.chessItemsMap.put("f7",new BlackPawn());
         this.chessItemsMap.put("g7",new BlackPawn());
-        this.chessItemsMap.put("h7",new BlackPawn());*/
+        this.chessItemsMap.put("h7",new BlackPawn());
 
     }
 

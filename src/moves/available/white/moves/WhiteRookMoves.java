@@ -139,7 +139,7 @@ public class WhiteRookMoves extends RookMoves {
         }
 
     }
-    public ArrayList<Cell> getBlackRookMoves() throws NoAvailableCells {
+    public ArrayList<Cell> getWhiteRookMoves() throws NoAvailableCells {
         if(whiteRookMoves.size()>0){
             return this.whiteRookMoves;
         }

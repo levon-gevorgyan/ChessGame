@@ -3,7 +3,7 @@ package colors;
 /**
  * Created by Levon on 1/9/2016.
  */
-public interface Black {
+public interface Black extends Colors {
 
     String KING = String.valueOf('\u265A'); //black chess KING
     String QUEEN = String.valueOf('\u265B'); //black chess queen

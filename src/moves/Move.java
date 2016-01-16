@@ -8,14 +8,20 @@ import chessitems.empty.Empty;
 import chessitems.white.*;
 import chesstable.Table;
 import chesstable.cells.Cell;
+
+import colors.Colors;
+
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
 import exceptions.cell.NotEmptyCell;
-import exceptions.chessitem.SameChessItem;
+import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.moves.*;
 import exceptions.table.OutOfTable;
 import letsnums.LetsNums;
+import moves.available.black.moves.*;
+import moves.available.white.moves.*;
+import play.Game;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,15 +32,169 @@ import java.util.Map;
 /**
  * Created by Levon on 1/11/2016.
  */
-public abstract class Move {
+public abstract class Move implements Colors{
     protected String string;
     protected String from;
     protected String to;
     
     
-    public abstract void move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException;
+    public abstract boolean move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
+            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException;
 
+    public static boolean isInAllItemsOFAvailableCellListWhite(Cell kingCell, Map<String, ChessItem> playerItems)
+    {
+        //Get available cells of source <--Begin-->
+        ArrayList<Cell> allAvailableCells=new ArrayList<>();
+
+        for(Map.Entry<String, ChessItem> pair:playerItems.entrySet())
+        {
+       
+            //Conditions
+            try {
+                if(pair.getValue() instanceof WhiteBishop){
+                    allAvailableCells.addAll(new WhiteBishopMoves(Game.getCellByString(pair.getKey())).getWhiteBishopMoves());
+                }
+            } catch (NoAvailableCells noAvailableCells) {
+                
+            }
+            if (pair.getValue() instanceof WhiteKing){
+                try {
+                    allAvailableCells.addAll(new WhiteKingMoves(Game.getCellByString(pair.getKey())).getWhiteKingMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof WhiteKnight){
+                try {
+                    allAvailableCells.addAll(new WhiteKnightMoves(Game.getCellByString(pair.getKey())).getWhiteKnightMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof WhitePawn){
+                try {
+                    allAvailableCells.addAll(new WhitePawnMoves(Game.getCellByString(pair.getKey())).getWhitePawnMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof WhiteQueen){
+                try {
+                    allAvailableCells.addAll(new WhiteQueenMoves(Game.getCellByString(pair.getKey())).getWhiteQueenMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof WhiteRook){
+                try {
+                    allAvailableCells.addAll(new WhiteRookMoves(Game.getCellByString(pair.getKey())).getWhiteRookMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                } catch (NoCell noCell) {
+                   
+                }
+
+            }
+            
+        }
+        if(allAvailableCells.size()==0){
+            return false;
+
+        }
+        else 
+        {
+            for(Cell cell:allAvailableCells)
+            {
+                if(cell.getChessItem().equals(kingCell.getChessItem()))
+                    return true;
+            }
+            
+        }
+        return false;
+         
+    }
+    public static boolean isInAllItemsOFAvailableCellListBlack(Cell kingCell, Map<String, ChessItem> playerItems)
+    {
+        //Get available cells of source <--Begin-->
+        ArrayList<Cell> allAvailableCells=new ArrayList<>();
+
+        for(Map.Entry<String, ChessItem> pair:playerItems.entrySet())
+        {
+       
+            //Conditions
+            try {
+                if(pair.getValue() instanceof BlackBishop){
+                    allAvailableCells.addAll(new BlackBishopMoves(Game.getCellByString(pair.getKey())).getBlackBishopMoves());
+                }
+            } catch (NoAvailableCells noAvailableCells) {
+                
+            }
+            if (pair.getValue() instanceof BlackKing){
+                try {
+                    allAvailableCells.addAll(new BlackKingMoves(Game.getCellByString(pair.getKey())).getBlackKingMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof BlackKnight){
+                try {
+                    allAvailableCells.addAll(new BlackKnightMoves(Game.getCellByString(pair.getKey())).getBlackKnightMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof BlackPawn){
+                try {
+                    allAvailableCells.addAll(new BlackPawnMoves(Game.getCellByString(pair.getKey())).getBlackPawnMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof BlackQueen){
+                try {
+                    allAvailableCells.addAll(new BlackQueenMoves(Game.getCellByString(pair.getKey())).getBlackQueenMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                }
+
+            }
+            if (pair.getValue() instanceof BlackRook){
+                try {
+                    allAvailableCells.addAll(new BlackRookMoves(Game.getCellByString(pair.getKey())).getBlackRookMoves());
+                } catch (NoAvailableCells noAvailableCells) {
+                    
+                } catch (NoCell noCell) {
+                   
+                }
+
+            }
+            
+        }
+        if(allAvailableCells.size()==0){
+            return false;
+
+        }
+        else 
+        {
+            for(Cell cell:allAvailableCells)
+            {
+                if(cell.getChessItem().equals(kingCell.getChessItem()))
+                    return true;
+            }
+            
+        }
+        return false;
+         
+    }
+
+    //Checks if Row 8 has Pawn
     protected boolean pawnChangeWhite(ChessItem pawn)
     {
         if(pawn instanceof WhitePawn)
@@ -51,6 +211,7 @@ public abstract class Move {
 
     }
 
+    //Checks if Row 1 has Pawn
     protected boolean pawnChangeBlack(ChessItem pawn)
     {
         if(pawn instanceof BlackPawn)
@@ -66,6 +227,7 @@ public abstract class Move {
         return false;
     }
 
+    //Change White Pawn
     protected void doPawnChangeWhite(Map<String, ChessItem> whitePlayerItems,Cell cell) throws IOException {
         if(pawnChangeWhite(cell.getChessItem())) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -94,6 +256,7 @@ public abstract class Move {
         }
     }
 
+    //Change Black Pawn
     protected void doPawnChangeBlack(Map<String, ChessItem> blackPlayerItems,Cell cell) throws IOException {
         if(pawnChangeBlack(cell.getChessItem())) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

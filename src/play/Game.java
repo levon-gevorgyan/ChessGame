@@ -1,19 +1,21 @@
 package play;
 
 import chessitems.ChessItem;
+import chessitems.black.BlackKing;
+import chessitems.white.WhiteKing;
 import chesstable.cells.Cell;
 import chesstable.Table;
 import chesstable.cells.Letters;
 
+import colors.Colors;
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
-import exceptions.cell.NotEmptyCell;
-import exceptions.chessitem.SameChessItem;
+import exceptions.chessitem.PlayerSameChessItem;
+import exceptions.game.Check;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
 import exceptions.moves.NoAvailableCells;
-import exceptions.table.OutOfTable;
 import moves.BlackMove;
 import moves.Move;
 import moves.WhiteMove;
@@ -32,11 +34,15 @@ import java.util.SortedMap;
 /**
  * Created by Levon on 1/9/2016.
  */
-public class Game implements Letters{
+public class Game implements Letters, Colors{
+
     public static Table TABLE;
 
-
-
+    public static Cell getCellByString(String string)
+    {
+        char[] s=string.toCharArray();
+        return TABLE.getCell(s[0],Character.getNumericValue(s[1]));
+    }
 
 
     public static void main(String[] args)
@@ -59,6 +65,8 @@ public class Game implements Letters{
         setAllItems(table, whitePlayerItems, blackPlayerItems);
         //MAKING TABLE, DO NOT REMOVE---END
 
+
+
         //TESTING PART----->Begin
         /*new BlackMove(s).move(table, whitePlayerItems, blackPlayerItems);
         setAllItems(table, whitePlayerItems, blackPlayerItems);*/
@@ -67,7 +75,7 @@ public class Game implements Letters{
 
         //Start play.Game
         String s = "";
-        //try {
+
         while (!s.equals("exit"))
         {
 
@@ -80,9 +88,10 @@ public class Game implements Letters{
                 s=reader.readLine();
                 try {
                     new WhiteMove(s).move(table, whitePlayerItems, blackPlayerItems);
+
                     nextToBlack=true;
-                } catch (SameChessItem sameChessItem) {
-                    System.out.println("Same chess item");
+                } catch (PlayerSameChessItem playerSameChessItem) {
+                    System.out.println("Source & Target are the same");
 
                 } catch (EmptySourceCell emptySourceCell) {
                     System.out.println("Source Cell is empty");
@@ -104,11 +113,22 @@ public class Game implements Letters{
                 if(nextToBlack)
                 {
                     setAllItems(table, whitePlayerItems, blackPlayerItems);
+                    //is Check or not
+                    Cell kingCell=getOpponentKingCell(BLACK,whitePlayerItems,blackPlayerItems);
+                    if(Move.isInAllItemsOFAvailableCellListWhite(kingCell, whitePlayerItems))
+                    {
+                        try {
+                            throw new Check();
+                        } catch (Check check) {
+                            System.out.println("Check to Black Army");
+                        }
+                    }
+
                     break;
                 }
                 setAllItems(table, whitePlayerItems, blackPlayerItems);
             }
-            /*while (!s.equals("exit")) //Black player's turn
+            while (!s.equals("exit")) //Black player's turn
             {
                 boolean nextToWhite;
                 nextToWhite=false;
@@ -117,7 +137,7 @@ public class Game implements Letters{
                 try {
                     new BlackMove(s).move(table, whitePlayerItems, blackPlayerItems);
                     nextToWhite=true;
-                } catch (SameChessItem sameChessItem) {
+                } catch (PlayerSameChessItem sameChessItem) {
                     System.out.println("Same chess item");
 
                 } catch (EmptySourceCell emptySourceCell) {
@@ -140,60 +160,24 @@ public class Game implements Letters{
                 if(nextToWhite)
                 {
                     setAllItems(table, whitePlayerItems, blackPlayerItems);
+                    //is Check or not
+                    Cell kingCell=getOpponentKingCell(WHITE,whitePlayerItems,blackPlayerItems);
+                    if(Move.isInAllItemsOFAvailableCellListBlack(kingCell, blackPlayerItems))
+                    {
+                        try {
+                            throw new Check();
+                        } catch (Check check) {
+                            System.out.println("Check to White Army");
+                        }
+
+                    }
                     break;
                 }
                 table.toString();
-            }*/
-
-        }
-
-
-
-            /*new BlackMove("e7c3").move(table, whitePlayerItems, blackPlayerItems);
-            setAllItems(table, whitePlayerItems, blackPlayerItems);*/
-
-        /*}
-        catch (EmptySourceCell emptySourceCell){
-            System.out.println(emptySourceCell.toString());
-        }
-        catch (SameChessItem sameChessItem){
-            System.out.println("Target is your Item");
-        } catch (InvalidSource invalidSource) {
-            System.out.println("Source is not yours");
-
-        }
-        setAllItems(table, whitePlayerItems, blackPlayerItems);*/
-       /* new WhiteMove("b2d4").move(table, whitePlayerItems, blackPlayerItems);
-        setAllItems(table, whitePlayerItems, blackPlayerItems);*/
-        //ArrayList<Cell> a=Table.previousRow(table.getCell(E,2));
-
-
-        /*for(Map.Entry<Cell,ArrayList<Cell>> pair: table.getRelativeCellsStraight().entrySet())
-        {
-            System.out.print(Character.toString(pair.getKey().getX())+pair.getKey().getY()+"-");
-            for (Cell cell: pair.getValue())
-            {
-                System.out.print(Character.toString(cell.getX()) + cell.getY() + ", ");
             }
-            System.out.println("\n");
-        }*/
 
-
-        //setAllItems(table, whitePlayerItems, blackPlayerItems);
-        //Cell C= Move.moveDiagLeftUpUntilNotEmpty(table.getCell(H,2));
-
-        /*for (int i=0;i<8;i++)
-        {*/
-        //System.out.println(C.toString());
-        /*}*/
-
-
-
-
+        }
     }
-
-
-
 
     private static void setAllItems(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems){
 
@@ -210,8 +194,32 @@ public class Game implements Letters{
             }
 
         }
-
         table.toString();
+
+    }
+    //get Opponent's King's location
+    private static Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer)
+    {
+        if(playerColor.equals(BLACK))
+        {
+            for(Map.Entry<String,ChessItem> pair:blackPlayer.entrySet())
+            {
+                if(pair.getValue() instanceof BlackKing)
+                    return Game.getCellByString(pair.getKey());
+            }
+        }
+        if(playerColor.equals(WHITE))
+        {
+            for(Map.Entry<String,ChessItem> pair:whitePlayer.entrySet())
+            {
+                if(pair.getValue() instanceof WhiteKing)
+                    return Game.getCellByString(pair.getKey());
+            }
+        }
+        return null;
     }
 
+
+
 }
+

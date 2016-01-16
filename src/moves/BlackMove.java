@@ -9,13 +9,12 @@ import chesstable.cells.Cell;
 import chesstable.cells.Letters;
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.NoCell;
+import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
-import exceptions.chessitem.SameChessItem;
 import exceptions.moves.NoAvailableCells;
 import moves.available.black.moves.*;
-import moves.available.moves.AvailableMoves;
 import play.Game;
 
 import java.io.IOException;
@@ -27,16 +26,17 @@ import java.util.SortedMap;
  * Created by Levon on 1/11/2016.
  */
 public class BlackMove extends Move implements Letters {
-    public static boolean isBlackItem;
+
+    boolean isCompleted=false;
     //Black Rooks Moves Count
     public static int countA8=0;
     public static int countH8=0;
     public static int countE8=0;
     private boolean castlingHasDone=false;
 
-    private static boolean playerRookA8=true;
-    private static boolean playerRookH8=true;
-    private static boolean playerKingE8=true;
+    protected static boolean playerRookA8=true;
+    protected static boolean playerRookH8=true;
+    protected static boolean playerKingE8=true;
 
 //Get castling status
     public static boolean getLeftCastlingStatus()
@@ -69,8 +69,11 @@ public class BlackMove extends Move implements Letters {
     }
 
     @Override
-    public void move(Table table, Map<String, ChessItem> whitePlayerItems, Map<String, ChessItem> blackPlayerItems)
-            throws SameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
+    public boolean move(Table table, Map<String, ChessItem> whitePlayerItems, Map<String, ChessItem> blackPlayerItems)
+            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
+
+
+
         String from=this.from;
         String to=this.to;
 
@@ -171,6 +174,7 @@ public class BlackMove extends Move implements Letters {
                         throw new NoAvailableCells();
 
                     }
+                //Get available cells of source <--End-->
 
 
                 isAvailableTarget=true;
@@ -207,6 +211,7 @@ public class BlackMove extends Move implements Letters {
                                                 blackPlayerItems.remove(rookCellFrom);
                                                 available = true;
                                                 castlingHasDone=true;
+                                                isCompleted=true;
                                             }
                                         }
                                         else if (cellTo.equals(table.getCell(G, 8))) {
@@ -228,6 +233,7 @@ public class BlackMove extends Move implements Letters {
                                                 blackPlayerItems.remove(rookCellFrom);
                                                 available = true;
                                                 castlingHasDone = true;
+                                                isCompleted=true;
                                             }
                                         }
                                         else {
@@ -240,6 +246,7 @@ public class BlackMove extends Move implements Letters {
                                             castlingHasDone=true;
                                             countE8++;
                                             playerKingE8=false;
+                                            isCompleted=true;
                                         }
 
                                     }
@@ -266,6 +273,7 @@ public class BlackMove extends Move implements Letters {
                                         blackPlayerItems.put(to, chessItemFrom);
                                         blackPlayerItems.remove(from);
                                         available = true;
+                                        isCompleted=true;
 
                                     }
 
@@ -281,6 +289,7 @@ public class BlackMove extends Move implements Letters {
                                     blackPlayerItems.put(to, chessItemFrom);
                                     blackPlayerItems.remove(from);
                                     available = true;
+                                    isCompleted=true;
                                 }
                             }
 
@@ -305,6 +314,7 @@ public class BlackMove extends Move implements Letters {
                 }
                 //Get available cells of source <--End-->
                 doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
+                isCompleted=true;
 
             }
             if (isWhiteItem) {
@@ -352,6 +362,8 @@ public class BlackMove extends Move implements Letters {
                 {
                     new NoAvailableCells("Source doesn't have any available cell");
                 }
+
+
                 isAvailableTarget=true;
                 try{
                     if(isAvailableTarget && availableCells.size()>0)
@@ -389,6 +401,7 @@ public class BlackMove extends Move implements Letters {
 
                                 whitePlayerItems.remove(to);
                                 available=true;
+                                isCompleted=true;
                             }
 
                         }
@@ -410,15 +423,21 @@ public class BlackMove extends Move implements Letters {
                 {
                     throw new InvalidMove();
                 }
-                //Get available cells of source <--End-->
+
+
                 doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
 
             }
             if (isBlackItem) {
-                throw new SameChessItem();
+                throw new PlayerSameChessItem();
             }
         }
 
+        if(isCompleted)
+            return true;
+        else
+            return false;
 
     }
+
 }

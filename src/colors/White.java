@@ -3,7 +3,7 @@ package colors;
 /**
  * Created by Levon on 1/9/2016.
  */
-public interface White {
+public interface White extends Colors{
 
     String KING = String.valueOf('\u2654'); //white chess KING
     String QUEEN = String.valueOf('\u2655'); //white chess queen
