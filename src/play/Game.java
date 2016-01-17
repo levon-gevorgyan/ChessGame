@@ -20,6 +20,8 @@ import moves.BlackMove;
 import moves.Move;
 import moves.WhiteMove;
 
+import moves.TestBlackMove;
+import moves.available.black.moves.BlackKingMoves;
 import players.BlackPlayer;
 import players.Player;
 import players.WhitePlayer;
@@ -31,6 +33,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Created by Levon on 1/9/2016.
@@ -47,9 +50,12 @@ public class Game implements Letters, Colors{
     }
 
 
-    public static void main(String[] args)
-            throws IOException {
 
+
+    public static void main(String[] args) throws IOException {
+
+        boolean whiteKingHasNoMoves=false;
+        boolean blackKingHasNoMoves=false;
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
 
 
@@ -82,7 +88,8 @@ public class Game implements Letters, Colors{
         while (!s.equals("exit"))
         {
 
-            while (!s.equals("exit")) //White player's turn
+            //White player's turn
+            while (!s.equals("exit"))
             {
                 boolean nextToBlack;
                 nextToBlack=false;
@@ -151,13 +158,50 @@ public class Game implements Letters, Colors{
                         } catch (Check check) {
                             System.out.println("Check to Black Army");
                         }
+
+                        // is Mate or not
+                        saveStateArrayList.add(new SaveState(s,whitePlayerItems,blackPlayerItems));
+                        previousState=saveStateArrayList.get(saveStateArrayList.size()-1);
+                        SortedMap<Cell,Boolean> kingAvailableMovesMap=new TreeMap<>();
+                        try {
+                            ArrayList<Cell> kingAvailableCells=new BlackKingMoves(kingCell).getBlackKingMoves();
+                            for(Cell cell:kingAvailableCells)
+                            {
+                                new TestBlackMove(kingCell.toString(),cell.toString()).
+                                        move(table, whitePlayerItems, blackPlayerItems);
+
+                                setAllItems(table, whitePlayerItems, blackPlayerItems);
+
+                                if(Move.isInAllItemsOFAvailableCellListWhite(cell, whitePlayerItems))
+                                {
+                                    kingAvailableMovesMap.put(cell, true);
+                                }
+                            }
+
+                        } catch (NoAvailableCells noAvailableCells) {
+                            blackKingHasNoMoves=true;
+                        } catch (NoCell noCell) {
+
+                        } catch (InvalidMove invalidMove) {
+
+                        } catch (PlayerSameChessItem playerSameChessItem) {
+
+                        } catch (EmptySourceCell emptySourceCell) {
+
+                        } catch (InvalidSource invalidSource) {
+
+                        }
+
+
                     }
 
                     break;
                 }
 
             }
-            while (!s.equals("exit")) //Black player's turn
+
+            //Black player's turn
+            while (!s.equals("exit"))
             {
                 boolean nextToWhite;
                 nextToWhite=false;

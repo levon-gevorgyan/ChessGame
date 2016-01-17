@@ -38,7 +38,10 @@ public class BlackMove extends Move implements Letters {
     protected static boolean playerRookH8=true;
     protected static boolean playerKingE8=true;
 
-//Get castling status
+    public BlackMove() {
+    }
+
+    //Get castling status
     public static boolean getLeftCastlingStatus()
     {
         if (countE8==0&&countA8==0)

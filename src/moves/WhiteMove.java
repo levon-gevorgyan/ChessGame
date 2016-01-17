@@ -38,7 +38,10 @@ public class WhiteMove extends Move implements Letters{
     private static boolean playerRookH1=true;
     private static boolean playerKingE1=true;
 
-//Get castling status
+    public WhiteMove() {
+    }
+
+    //Get castling status
     public static boolean getLeftCastlingStatus()
     {
         if (countE1==0&&countA1==0)
