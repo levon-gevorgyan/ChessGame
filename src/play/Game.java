@@ -7,7 +7,7 @@ import chesstable.cells.Cell;
 import chesstable.Table;
 import chesstable.cells.Letters;
 
-import colors.Colors;
+/*import colors.Colors;
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
@@ -18,7 +18,7 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.moves.NoAvailableCells;
 import moves.BlackMove;
 import moves.Move;
-import moves.WhiteMove;
+import moves.WhiteMove;*/
 
 import players.BlackPlayer;
 import players.Player;
@@ -35,9 +35,9 @@ import java.util.SortedMap;
 /**
  * Created by Levon on 1/9/2016.
  */
-public class Game implements Letters, Colors{
+public class Game implements Letters{
 
-    public static Table TABLE;
+    /*public static Table TABLE;
     private static ArrayList<SaveState> saveStateArrayList=new ArrayList<>();
 
     public static Cell getCellByString(String string)
@@ -45,7 +45,7 @@ public class Game implements Letters, Colors{
         char[] s=string.toCharArray();
         return TABLE.getCell(s[0],Character.getNumericValue(s[1]));
     }
-
+*/
 
     public static void main(String[] args)
             throws IOException {
@@ -54,7 +54,7 @@ public class Game implements Letters, Colors{
 
 
         Table table=new Table();
-        TABLE=table;
+        //TABLE=table;
         table.getAllCells();
 
         Player whitePlayer = new WhitePlayer();
@@ -77,7 +77,7 @@ public class Game implements Letters, Colors{
         //TESTING PART----->End
 
         //Start play.Game
-        String s = "";
+        /*String s = "";
 
         while (!s.equals("exit"))
         {
@@ -233,7 +233,7 @@ public class Game implements Letters, Colors{
 
             }
 
-        }
+        }*/
     }
 
     //Setting up all items on the table
@@ -255,7 +255,7 @@ public class Game implements Letters, Colors{
     }
 
     //get Opponent's King's location
-    private static Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer)
+   /* private static Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer)
     {
         if(playerColor.equals(BLACK))
         {
@@ -276,7 +276,7 @@ public class Game implements Letters, Colors{
         return null;
     }
 
-
+*/
 
 }
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public abstract class KnightMoves extends AvailableMoves {
 
-    public ArrayList<Cell> getKnightMoves(Cell cell)
+    public ArrayList<Cell> getKnightMoves(Cell cell, Table Table)
     {
         ArrayList<Cell> knightMoves=new ArrayList<>();
         try {

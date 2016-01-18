@@ -2,6 +2,7 @@ package moves.available.black.moves;
 
 import chessitems.WhiteItem;
 import chessitems.empty.Empty;
+import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.moves.NoAvailableCells;
 import moves.available.moves.PawnMoves;
@@ -14,21 +15,21 @@ import java.util.ArrayList;
 public class BlackPawnMoves extends PawnMoves {
     private ArrayList<Cell> blackPawnMoves;
 
-    public BlackPawnMoves(Cell cell) {
+    public BlackPawnMoves(Cell cell, Table Table) {
         ArrayList<Cell> blackPawnMoves = new ArrayList<>();
 
-        if (getBlackPawnMove(cell).size() > 0) {
-            if (getBlackPawnMove(cell).get(0).getChessItem() instanceof Empty) {
-                blackPawnMoves.add(getBlackPawnMove(cell).get(0));
+        if (getBlackPawnMove(cell, Table).size() > 0) {
+            if (getBlackPawnMove(cell, Table).get(0).getChessItem() instanceof Empty) {
+                blackPawnMoves.add(getBlackPawnMove(cell, Table).get(0));
             }
         }
-        if (getBlackPawnMove2(cell).size() > 0) {
-            if (getBlackPawnMove2(cell).get(0).getChessItem() instanceof Empty) {
-                blackPawnMoves.add(getBlackPawnMove2(cell).get(0));
+        if (getBlackPawnMove2(cell, Table).size() > 0) {
+            if (getBlackPawnMove2(cell, Table).get(0).getChessItem() instanceof Empty) {
+                blackPawnMoves.add(getBlackPawnMove2(cell, Table).get(0));
             }
         }
-        if (getBlackPawnEatMoves(cell).size() > 0) {
-            for (Cell eaten : getBlackPawnEatMoves(cell)) {
+        if (getBlackPawnEatMoves(cell, Table).size() > 0) {
+            for (Cell eaten : getBlackPawnEatMoves(cell, Table)) {
                 if (eaten.getChessItem() instanceof WhiteItem) {
                     blackPawnMoves.add(eaten);
                 }
@@ -47,8 +48,5 @@ public class BlackPawnMoves extends PawnMoves {
         }
         else
             throw new NoAvailableCells();
-
-
     }
 }
-

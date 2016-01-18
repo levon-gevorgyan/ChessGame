@@ -1,3 +1,4 @@
+/*
 package moves;
 
 import chessitems.BlackItem;
@@ -22,9 +23,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
 
+*/
 /**
  * Created by Levon on 1/11/2016.
- */
+ *//*
+
 public class WhiteMove extends Move implements Letters{
 
     boolean isCompleted=false;
@@ -441,3 +444,4 @@ public class WhiteMove extends Move implements Letters{
     }
 
 }
+*/

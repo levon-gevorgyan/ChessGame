@@ -17,15 +17,15 @@ import java.util.ArrayList;
 public class BlackQueenMoves extends QueenMoves {
     private ArrayList<Cell> blackQueenMoves;
 
-    public BlackQueenMoves(Cell cell) {
+    public BlackQueenMoves(Cell cell, Table Table) {
         try {
             ArrayList<Cell> blackQueenMoves = new ArrayList<>();
 
 
-            ArrayList<Cell> leftUp = queenMovesDiagLeftUp(cell);
-            ArrayList<Cell> leftDown = queenMovesDiagLeftDown(cell);
-            ArrayList<Cell> rightUp = queenMovesDiagRightUp(cell);
-            ArrayList<Cell> rightDown = queenMovesDiagRightDown(cell);
+            ArrayList<Cell> leftUp = queenMovesDiagLeftUp(cell, Table);
+            ArrayList<Cell> leftDown = queenMovesDiagLeftDown(cell, Table);
+            ArrayList<Cell> rightUp = queenMovesDiagRightUp(cell, Table);
+            ArrayList<Cell> rightDown = queenMovesDiagRightDown(cell, Table);
 
             Cell lastLeftUpCell = cell;
             if (leftUp.size() > 0) {
@@ -122,10 +122,10 @@ public class BlackQueenMoves extends QueenMoves {
                 blackQueenMoves.addAll(rightDown);
             }
 
-            ArrayList<Cell> up = queenMovesUp(cell);
-            ArrayList<Cell> down = queenMovesDown(cell);
-            ArrayList<Cell> left = queenMovesLeft(cell);
-            ArrayList<Cell> right = queenMovesRight(cell);
+            ArrayList<Cell> up = queenMovesUp(cell, Table);
+            ArrayList<Cell> down = queenMovesDown(cell, Table);
+            ArrayList<Cell> left = queenMovesLeft(cell, Table);
+            ArrayList<Cell> right = queenMovesRight(cell, Table);
 
             Cell lastLeftCell = cell;
             if (left.size() > 0) {

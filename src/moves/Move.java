@@ -19,8 +19,7 @@ import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.moves.*;
 import exceptions.table.OutOfTable;
 import letsnums.LetsNums;
-import moves.available.black.moves.*;
-import moves.available.white.moves.*;
+
 import play.Game;
 
 import java.io.BufferedReader;
@@ -41,7 +40,7 @@ public abstract class Move implements Colors{
     public abstract boolean move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
             throws PlayerSameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException;
 
-    public static boolean isInAllItemsOFAvailableCellListWhite(Cell kingCell, Map<String, ChessItem> playerItems)
+    /*public boolean isInAllItemsOFAvailableCellListWhite(Cell kingCell, Map<String, ChessItem> playerItems)
     {
         //Get available cells of source <--Begin-->
         ArrayList<Cell> allAvailableCells=new ArrayList<>();
@@ -117,7 +116,7 @@ public abstract class Move implements Colors{
         return false;
          
     }
-    public static boolean isInAllItemsOFAvailableCellListBlack(Cell kingCell, Map<String, ChessItem> playerItems)
+    public boolean isInAllItemsOFAvailableCellListBlack(Cell kingCell, Map<String, ChessItem> playerItems)
     {
         //Get available cells of source <--Begin-->
         ArrayList<Cell> allAvailableCells=new ArrayList<>();
@@ -192,10 +191,10 @@ public abstract class Move implements Colors{
         }
         return false;
          
-    }
+    }*/
 
     //Checks if Row 8 has Pawn
-    protected boolean pawnChangeWhite(ChessItem pawn)
+    /*protected boolean pawnChangeWhite(ChessItem pawn)
     {
         if(pawn instanceof WhitePawn)
         {
@@ -225,7 +224,8 @@ public abstract class Move implements Colors{
             }
         }
         return false;
-    }
+    }*/
+/*
 
     //Change White Pawn
     protected void doPawnChangeWhite(Map<String, ChessItem> whitePlayerItems,Cell cell) throws IOException {
@@ -309,13 +309,14 @@ public abstract class Move implements Colors{
         throw new InvalidChangeItem();
     }
 
+*/
 
 
     //Moving to Direction Until Empty Cell is Met
     //<--BEGIN-->
 
-    public static ArrayList<Cell> moveUpUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
-        
+    public static ArrayList<Cell> moveUpUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
+
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))
@@ -340,7 +341,7 @@ public abstract class Move implements Colors{
         return list;
     }
 
-    public static ArrayList<Cell>  moveDownUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
+    public static  ArrayList<Cell>  moveDownUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))
@@ -364,7 +365,7 @@ public abstract class Move implements Colors{
         return list;
     }
 
-    public static ArrayList<Cell>  moveLeftUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
+    public static  ArrayList<Cell>  moveLeftUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))
@@ -388,7 +389,7 @@ public abstract class Move implements Colors{
         return list;
     }
 
-    public static ArrayList<Cell>  moveRightUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
+    public static  ArrayList<Cell>  moveRightUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))
@@ -413,7 +414,7 @@ public abstract class Move implements Colors{
         return list;
     }
 
-    public static ArrayList<Cell>  moveDiagLeftUpUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
+    public static   ArrayList<Cell>  moveDiagLeftUpUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))
@@ -437,7 +438,7 @@ public abstract class Move implements Colors{
         return list;
     }
 
-    public static ArrayList<Cell>  moveDiagLeftDownUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
+    public static   ArrayList<Cell>  moveDiagLeftDownUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))
@@ -462,7 +463,7 @@ public abstract class Move implements Colors{
         return list;
     }
 
-    public static ArrayList<Cell>  moveDiagRightUpUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
+    public static   ArrayList<Cell>  moveDiagRightUpUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))
@@ -486,7 +487,7 @@ public abstract class Move implements Colors{
         return list;
     }
 
-    public static ArrayList<Cell>  moveDiagRightDownUntilNotEmpty(Cell cell) throws OutOfTable, NoCell, NotEmptyCell {
+    public static   ArrayList<Cell>  moveDiagRightDownUntilNotEmpty(Cell cell,Table Table) throws OutOfTable, NoCell, NotEmptyCell {
         ArrayList<Cell> list=new ArrayList<>();
 
         if (!(cell.getChessItem() instanceof Empty))

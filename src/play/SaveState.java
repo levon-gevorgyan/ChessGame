@@ -1,3 +1,4 @@
+/*
 package play;
 
 import chessitems.ChessItem;
@@ -9,9 +10,11 @@ import chesstable.cells.WhiteCell;
 import java.util.HashMap;
 import java.util.Map;
 
+*/
 /**
  * Created by Levon on 17.01.2016.
- */
+ *//*
+
 public class SaveState {
     private Map<String, ChessItem> whitePlayerItems;
     private Map<String, ChessItem> blackPlayerItems;
@@ -79,3 +82,4 @@ public class SaveState {
         return cellTo;
     }
 }
+*/
