@@ -14,10 +14,18 @@ import java.util.*;
  */
 public class Table  implements Letters,Numbers{
 
-    private SortedMap<String,Cell> cells=new TreeMap<String,Cell>();
+    private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the Table
 
-    public static ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
-    public static ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
+    public ArrayList<ArrayList<Cell>> getRows() {
+        return rows;
+    }
+
+    public ArrayList<ArrayList<Cell>> getColumns() {
+        return columns;
+    }
+
+    private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
+    private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
 
     //Create Table
     public Table()
@@ -29,7 +37,7 @@ public class Table  implements Letters,Numbers{
 
 
     //Next Row
-    public static ArrayList<Cell> nextRow(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> nextRow(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -62,7 +70,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Previous Row
-    public static ArrayList<Cell> previousRow(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> previousRow(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -93,7 +101,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Next Column
-    public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -124,7 +132,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Previous Column
-    public static ArrayList<Cell> previousColumn(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> previousColumn(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -157,7 +165,7 @@ public class Table  implements Letters,Numbers{
     //To Left, Right, UP, Down cells
     //<--BEGIN-->
     
-    public static Cell leftCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell leftCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> leftColumn=previousColumn(cell);
             ArrayList<Cell> sameRow=getCellRow(cell);
@@ -168,7 +176,7 @@ public class Table  implements Letters,Numbers{
             throw new NoCell();
         }
     }
-    public static Cell rightCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell rightCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> rightColumn=nextColumn(cell);
             ArrayList<Cell> sameRow=getCellRow(cell);
@@ -179,7 +187,7 @@ public class Table  implements Letters,Numbers{
             throw new NoCell();
         }
     }
-    public static Cell downCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell downCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> downRow=previousRow(cell);
             ArrayList<Cell> sameColumn=getCellColumn(cell);
@@ -191,7 +199,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell upCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell upCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> upRow=nextRow(cell);
             ArrayList<Cell> sameColumn=getCellColumn(cell);
@@ -210,7 +218,7 @@ public class Table  implements Letters,Numbers{
     //To Left Up, Left Down, Right pP, Right Down cells
     //<--BEGIN-->
     
-    public static Cell diagonalLeftUpCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalLeftUpCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell left=leftCell(cell);
             return upCell(left);
@@ -221,7 +229,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell diagonalLeftDownCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalLeftDownCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell left=leftCell(cell);
             return downCell(left);
@@ -232,7 +240,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell diagonalRightUpCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalRightUpCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell right=rightCell(cell);
             return upCell(right);
@@ -243,7 +251,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell diagonalRightDownCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalRightDownCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell right=rightCell(cell);
             return downCell(right);
@@ -261,7 +269,7 @@ public class Table  implements Letters,Numbers{
     //To Up Up Left, Up Up Right, Down Down Left, Down Down Right cells
     //<--BEGIN-->
     
-    public static Cell upUpLeft(Cell cell) throws OutOfTable, NoCell {
+    public Cell upUpLeft(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell upUpLeft;
             cell=upCell(cell);
@@ -274,7 +282,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell upUpRight(Cell cell) throws OutOfTable, NoCell {
+    public Cell upUpRight(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell upUpRight;
             cell=upCell(cell);
@@ -287,7 +295,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell downDownLeft(Cell cell) throws OutOfTable, NoCell {
+    public Cell downDownLeft(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell downDownLeft;
             cell=downCell(cell);
@@ -300,7 +308,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell downDownRight(Cell cell) throws OutOfTable, NoCell {
+    public Cell downDownRight(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell downDownRight;
             cell=downCell(cell);
@@ -321,7 +329,7 @@ public class Table  implements Letters,Numbers{
     //To Left Left Up, Left Left Down, Right Right Up, Right Right Down cells
     //<--BEGIN-->
 
-    public static Cell leftLeftUp(Cell cell) throws OutOfTable, NoCell {
+    public Cell leftLeftUp(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell leftLeftUp;
             cell=leftCell(cell);
@@ -334,7 +342,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell leftLeftDown(Cell cell) throws OutOfTable, NoCell {
+    public Cell leftLeftDown(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell leftLeftDown;
             cell=leftCell(cell);
@@ -347,7 +355,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell rightRightUp(Cell cell) throws OutOfTable, NoCell {
+    public Cell rightRightUp(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell rightRightUp;
             cell=rightCell(cell);
@@ -360,7 +368,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell rightRightDown(Cell cell) throws OutOfTable, NoCell {
+    public Cell rightRightDown(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell rightRightDown;
             cell=rightCell(cell);
@@ -378,7 +386,7 @@ public class Table  implements Letters,Numbers{
 
 
     //Find the Crossed Cell
-    public static Cell getCrossedCell(ArrayList<Cell> row,ArrayList<Cell> column)
+    public Cell getCrossedCell(ArrayList<Cell> row,ArrayList<Cell> column)
     {
         for (int i=0;i<8;i++)
         {
@@ -392,7 +400,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Find Cell's Row
-    public static ArrayList<Cell> getCellRow(Cell cell)
+    public ArrayList<Cell> getCellRow(Cell cell)
     {
 
         char x=cell.getX();
@@ -411,7 +419,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Find Cell's Column
-    public static ArrayList<Cell> getCellColumn(Cell cell)
+    public ArrayList<Cell> getCellColumn(Cell cell)
     {
 
         char x=cell.getX();
