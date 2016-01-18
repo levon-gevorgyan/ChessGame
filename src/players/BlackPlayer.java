@@ -16,17 +16,17 @@ public class BlackPlayer extends Player {
         this.chessItemsMap.put("a8",new BlackRookA());
         this.chessItemsMap.put("b8",new BlackKnight());
         this.chessItemsMap.put("c8",new BlackBishop());
-        this.chessItemsMap.put("d8",new BlackQueen());
+        //this.chessItemsMap.put("d8",new BlackQueen());
         this.chessItemsMap.put("e8",new BlackKing());
-        this.chessItemsMap.put("f8",new BlackBishop());
+        //this.chessItemsMap.put("f8",new BlackBishop());
         this.chessItemsMap.put("g8",new BlackKnight());
         this.chessItemsMap.put("h8",new BlackRookH());
         this.chessItemsMap.put("a7",new BlackPawn());
         this.chessItemsMap.put("b7",new BlackPawn());
         this.chessItemsMap.put("c7",new BlackPawn());
-        this.chessItemsMap.put("d7",new BlackPawn());
-        this.chessItemsMap.put("e7",new BlackPawn());
-        this.chessItemsMap.put("f7",new BlackPawn());
+        //this.chessItemsMap.put("d7",new BlackPawn());
+        //this.chessItemsMap.put("e7",new BlackPawn());
+        //this.chessItemsMap.put("f7",new BlackPawn());
         this.chessItemsMap.put("g7",new BlackPawn());
         this.chessItemsMap.put("h7",new BlackPawn());
 

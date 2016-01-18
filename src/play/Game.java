@@ -162,19 +162,36 @@ public class Game implements Letters, Colors{
                         // is Mate or not
                         saveStateArrayList.add(new SaveState(s,whitePlayerItems,blackPlayerItems));
                         previousState=saveStateArrayList.get(saveStateArrayList.size()-1);
-                        SortedMap<Cell,Boolean> kingAvailableMovesMap=new TreeMap<>();
+                        ArrayList<Cell> kingAvailableMovesList=new ArrayList<>();
                         try {
                             ArrayList<Cell> kingAvailableCells=new BlackKingMoves(kingCell).getBlackKingMoves();
                             for(Cell cell:kingAvailableCells)
                             {
-                                new TestBlackMove(kingCell.toString(),cell.toString()).
-                                        move(table, whitePlayerItems, blackPlayerItems);
+                                try {
+                                    new TestBlackMove(kingCell.toString(),cell.toString()).
+                                            move(table, whitePlayerItems, blackPlayerItems);
 
-                                setAllItems(table, whitePlayerItems, blackPlayerItems);
+                                    setAllItems(table, whitePlayerItems, blackPlayerItems);
+                                    table.toString();
 
-                                if(Move.isInAllItemsOFAvailableCellListWhite(cell, whitePlayerItems))
-                                {
-                                    kingAvailableMovesMap.put(cell, true);
+                                    if(Move.isInAllItemsOFAvailableCellListWhite(cell, whitePlayerItems)) {
+
+                                        kingAvailableMovesList.add(cell);
+                                    }
+                                    //Undo Last Move
+                                    whitePlayerItems=previousState.getWhitePlayerItems();
+                                    blackPlayerItems=previousState.getBlackPlayerItems();
+
+                                    getCellByString(Character.toString(s.toCharArray()[0])+Character.toString(s.toCharArray()[1])).
+                                            setChessItem(previousState.getCellFrom().getChessItem());
+                                    getCellByString(Character.toString(s.toCharArray()[2])+Character.toString(s.toCharArray()[3])).
+                                            setChessItem(previousState.getCellTo().getChessItem());
+                                    setAllItems(table, whitePlayerItems, blackPlayerItems);
+                                    //table.toString();
+                                    //Undo Last Move
+                                }
+                                catch (NoAvailableCells noAvailableCells) {
+
                                 }
                             }
 

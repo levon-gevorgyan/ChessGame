@@ -18,7 +18,7 @@ public class WhitePlayer extends Player {
         this.chessItemsMap.put("a1",new WhiteRookA());
         this.chessItemsMap.put("b1",new WhiteKnight());
         this.chessItemsMap.put("c1",new WhiteBishop());
-        this.chessItemsMap.put("d1",new WhiteQueen());
+        this.chessItemsMap.put("d3",new WhiteQueen());
         this.chessItemsMap.put("e1",new WhiteKing());
         this.chessItemsMap.put("f1",new WhiteBishop());
         this.chessItemsMap.put("g1",new WhiteKnight());
