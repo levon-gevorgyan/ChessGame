@@ -1,4 +1,3 @@
-/*
 package moves;
 
 import chessitems.BlackItem;
@@ -23,18 +22,16 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
 
-*/
-/**
- * Created by Levon on 1/11/2016.
- *//*
+//Created by Levon on 1/11/2016.
+
 
 public class WhiteMove extends Move implements Letters{
 
     boolean isCompleted=false;
-    //White Rooks Moves Count
-    public static int countA1=0;
-    public static int countH1=0;
-    public static int countE1=0;
+    //White Rooks and King Moves Count
+    private static int countA1=0;
+    private static int countH1=0;
+    private static int countE1=0;
     private boolean castlingHasDone=false;
 
     private static boolean playerRookA1=true;
@@ -151,26 +148,26 @@ public class WhiteMove extends Move implements Letters{
 
                     //Conditions
                     if(cellFrom.getChessItem() instanceof WhiteBishop){
-                        availableCells=new WhiteBishopMoves(cellFrom).getWhiteBishopMoves();
+                        availableCells=new WhiteBishopMoves(cellFrom,table).getWhiteBishopMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKing){
-                        availableCells=new WhiteKingMoves(cellFrom).getWhiteKingMoves();
+                        availableCells=new WhiteKingMoves(cellFrom,table).getWhiteKingMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKnight){
-                        availableCells=new WhiteKnightMoves(cellFrom).getWhiteKnightMoves();
+                        availableCells=new WhiteKnightMoves(cellFrom,table).getWhiteKnightMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhitePawn){
-                        availableCells=new WhitePawnMoves(cellFrom).getWhitePawnMoves();
+                        availableCells=new WhitePawnMoves(cellFrom,table).getWhitePawnMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteQueen){
-                        availableCells=new WhiteQueenMoves(cellFrom).getWhiteQueenMoves();
+                        availableCells=new WhiteQueenMoves(cellFrom,table).getWhiteQueenMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom).getWhiteRookMoves();
+                        availableCells=new WhiteRookMoves(cellFrom,table).getWhiteRookMoves();
 
                     }
                     else{
@@ -316,7 +313,7 @@ public class WhiteMove extends Move implements Letters{
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
-                doPawnChangeWhite(whitePlayerItems,cellTo);//do Castling
+                doPawnChangeWhite(whitePlayerItems,cellTo,table);//do Castling
                 isCompleted=true;
 
             }
@@ -334,26 +331,26 @@ public class WhiteMove extends Move implements Letters{
                 try {
                     //Conditions
                     if(cellFrom.getChessItem() instanceof WhiteBishop){
-                        availableCells=new WhiteBishopMoves(cellFrom).getWhiteBishopMoves();
+                        availableCells=new WhiteBishopMoves(cellFrom,table).getWhiteBishopMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKing){
-                        availableCells=new WhiteKingMoves(cellFrom).getWhiteKingMoves();
+                        availableCells=new WhiteKingMoves(cellFrom,table).getWhiteKingMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKnight){
-                        availableCells=new WhiteKnightMoves(cellFrom).getWhiteKnightMoves();
+                        availableCells=new WhiteKnightMoves(cellFrom,table).getWhiteKnightMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhitePawn){
-                        availableCells=new WhitePawnMoves(cellFrom).getWhitePawnMoves();
+                        availableCells=new WhitePawnMoves(cellFrom,table).getWhitePawnMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteQueen){
-                        availableCells=new WhiteQueenMoves(cellFrom).getWhiteQueenMoves();
+                        availableCells=new WhiteQueenMoves(cellFrom,table).getWhiteQueenMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom).getWhiteRookMoves();
+                        availableCells=new WhiteRookMoves(cellFrom,table).getWhiteRookMoves();
 
                     }
                     else{
@@ -378,18 +375,18 @@ public class WhiteMove extends Move implements Letters{
                             if(cellTo.equals(target)){
                                 //check White Castling
                                 if (cellFrom.getChessItem() instanceof WhiteRook){
-                                    if(cellFrom.equals(Game.TABLE.getCell(A,1)))
+                                    if(cellFrom.equals(table.getCell(A,1)))
                                     {
                                         countA1++;
                                     }
-                                    if(cellFrom.equals(Game.TABLE.getCell(H,1)))
+                                    if(cellFrom.equals(table.getCell(H,1)))
                                     {
                                         countH1++;
                                     }
 
                                 }
                                 if (cellFrom.getChessItem() instanceof WhiteKing){
-                                    if(cellFrom.equals(Game.TABLE.getCell(E,1)))
+                                    if(cellFrom.equals(table.getCell(E,1)))
                                     {
                                         countE1++;
                                     }
@@ -428,7 +425,7 @@ public class WhiteMove extends Move implements Letters{
                 }
 
 
-                doPawnChangeWhite(whitePlayerItems,cellTo);//do Castling
+                doPawnChangeWhite(whitePlayerItems,cellTo,table);//do Castling
 
             }
             if (isWhiteItem) {
@@ -444,4 +441,3 @@ public class WhiteMove extends Move implements Letters{
     }
 
 }
-*/

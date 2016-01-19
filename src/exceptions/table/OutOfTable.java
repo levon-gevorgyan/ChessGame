@@ -13,7 +13,7 @@ public class OutOfTable extends Exception {
 
     }
 
-    public static String invalidNextRow()
+    /*public static String invalidNextRow()
     {
         return "Invalid Next Row";
     }
@@ -28,7 +28,7 @@ public class OutOfTable extends Exception {
     public static String invalidPreviousColumn()
     {
         return "Invalid Previous Column";
-    }
+    }*/
 
     /*public String toString(){
         return "is Out of Table";

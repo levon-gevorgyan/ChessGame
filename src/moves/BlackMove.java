@@ -28,10 +28,10 @@ import java.util.SortedMap;
 public class BlackMove extends Move implements Letters {
 
     boolean isCompleted=false;
-    //Black Rooks Moves Count
-    public static int countA8=0;
-    public static int countH8=0;
-    public static int countE8=0;
+    //Black Rooks and King Moves Count
+    private static int countA8=0;
+    private static int countH8=0;
+    private static int countE8=0;
     private boolean castlingHasDone=false;
 
     protected static boolean playerRookA8=true;
@@ -148,26 +148,26 @@ public class BlackMove extends Move implements Letters {
 
                     //Conditions
                     if(cellFrom.getChessItem() instanceof BlackBishop){
-                        availableCells=new BlackBishopMoves(cellFrom).getBlackBishopMoves();
+                        availableCells=new BlackBishopMoves(cellFrom,table).getBlackBishopMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKing){
-                        availableCells=new BlackKingMoves(cellFrom).getBlackKingMoves();
+                        availableCells=new BlackKingMoves(cellFrom,table).getBlackKingMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKnight){
-                        availableCells=new BlackKnightMoves(cellFrom).getBlackKnightMoves();
+                        availableCells=new BlackKnightMoves(cellFrom,table).getBlackKnightMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackPawn){
-                        availableCells=new BlackPawnMoves(cellFrom).getBlackPawnMoves();
+                        availableCells=new BlackPawnMoves(cellFrom,table).getBlackPawnMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackQueen){
-                        availableCells=new BlackQueenMoves(cellFrom).getBlackQueenMoves();
+                        availableCells=new BlackQueenMoves(cellFrom,table).getBlackQueenMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackRook){
-                        availableCells=new BlackRookMoves(cellFrom).getBlackRookMoves();
+                        availableCells=new BlackRookMoves(cellFrom,table).getBlackRookMoves();
 
                     }
                     else{
@@ -313,7 +313,7 @@ public class BlackMove extends Move implements Letters {
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
-                doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
+                doPawnChangeBlack(blackPlayerItems, cellTo,table);//do Castling
                 isCompleted=true;
 
             }
@@ -331,26 +331,26 @@ public class BlackMove extends Move implements Letters {
                 try {
                     //Conditions
                     if(cellFrom.getChessItem() instanceof BlackBishop){
-                        availableCells=new BlackBishopMoves(cellFrom).getBlackBishopMoves();
+                        availableCells=new BlackBishopMoves(cellFrom,table).getBlackBishopMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKing){
-                        availableCells=new BlackKingMoves(cellFrom).getBlackKingMoves();
+                        availableCells=new BlackKingMoves(cellFrom,table).getBlackKingMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKnight){
-                        availableCells=new BlackKnightMoves(cellFrom).getBlackKnightMoves();
+                        availableCells=new BlackKnightMoves(cellFrom,table).getBlackKnightMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackPawn){
-                        availableCells=new BlackPawnMoves(cellFrom).getBlackPawnMoves();
+                        availableCells=new BlackPawnMoves(cellFrom,table).getBlackPawnMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackQueen){
-                        availableCells=new BlackQueenMoves(cellFrom).getBlackQueenMoves();
+                        availableCells=new BlackQueenMoves(cellFrom,table).getBlackQueenMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackRook){
-                        availableCells=new BlackRookMoves(cellFrom).getBlackRookMoves();
+                        availableCells=new BlackRookMoves(cellFrom,table).getBlackRookMoves();
 
                     }
                     else{
@@ -375,18 +375,18 @@ public class BlackMove extends Move implements Letters {
                             if(cellTo.equals(target)){
                                 //check Black Castling
                                 if (cellFrom.getChessItem() instanceof BlackRook){
-                                    if(cellFrom.equals(Game.TABLE.getCell(A,8)))
+                                    if(cellFrom.equals(table.getCell(A, 8)))
                                     {
                                         countA8++;
                                     }
-                                    if(cellFrom.equals(Game.TABLE.getCell(H,8)))
+                                    if(cellFrom.equals(table.getCell(H,8)))
                                     {
                                         countH8++;
                                     }
 
                                 }
                                 if (cellFrom.getChessItem() instanceof BlackKing){
-                                    if(cellFrom.equals(Game.TABLE.getCell(E,8)))
+                                    if(cellFrom.equals(table.getCell(E,8)))
                                     {
                                         countE8++;
                                     }
@@ -425,7 +425,7 @@ public class BlackMove extends Move implements Letters {
                 }
 
 
-                doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
+                doPawnChangeBlack(blackPlayerItems, cellTo,table);//do Castling
 
             }
             if (isBlackItem) {

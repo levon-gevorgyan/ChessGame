@@ -1,8 +1,12 @@
 package chesstable;
 
+import chessitems.ChessItem;
+import chessitems.black.BlackKing;
 import chessitems.empty.Empty;
 
+import chessitems.white.WhiteKing;
 import chesstable.cells.*;
+import colors.Colors;
 import exceptions.cell.NoCell;
 import exceptions.table.OutOfTable;
 
@@ -12,7 +16,7 @@ import java.util.*;
 /**
  * Created by Levon on 1/9/2016.
  */
-public class Table  implements Letters,Numbers{
+public class Table  implements Letters,Numbers, Colors{
 
     private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the Table
 
@@ -35,6 +39,11 @@ public class Table  implements Letters,Numbers{
         setColumns();
     }
 
+    public Cell getCellByString(String string)
+    {
+        char[] s=string.toCharArray();
+        return getCell(s[0], Character.getNumericValue(s[1]));
+    }
 
     //Next Row
     public ArrayList<Cell> nextRow(Cell cell) throws OutOfTable {
@@ -561,5 +570,27 @@ public class Table  implements Letters,Numbers{
                 }
             }
         }
+    }
+
+    //get Opponent's King's location
+    public Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer,Table table)
+    {
+        if(playerColor.equals(BLACK))
+        {
+            for(Map.Entry<String,ChessItem> pair:blackPlayer.entrySet())
+            {
+                if(pair.getValue() instanceof BlackKing)
+                    return table.getCellByString(pair.getKey());
+            }
+        }
+        if(playerColor.equals(WHITE))
+        {
+            for(Map.Entry<String,ChessItem> pair:whitePlayer.entrySet())
+            {
+                if(pair.getValue() instanceof WhiteKing)
+                    return table.getCellByString(pair.getKey());
+            }
+        }
+        return null;
     }
 }

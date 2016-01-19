@@ -2,6 +2,7 @@ package moves.available.white.moves;
 
 import chessitems.BlackItem;
 import chessitems.empty.Empty;
+import chesstable.Table;
 import chesstable.cells.Cell;
 import chesstable.cells.Letters;
 import exceptions.moves.NoAvailableCells;
@@ -17,10 +18,10 @@ import java.util.ArrayList;
 public class WhiteKingMoves extends KingMoves implements Letters {
     private ArrayList<Cell> whiteKingMoves;
 
-    public WhiteKingMoves(Cell cell)
+    public WhiteKingMoves(Cell cell, Table Table)
     {
         ArrayList<Cell> whiteKingMoves=new ArrayList<>();
-        for (Cell kingMove:getKingMoves(cell))
+        for (Cell kingMove:getKingMoves(cell, Table))
         {
             if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof BlackItem)
             {
@@ -28,21 +29,21 @@ public class WhiteKingMoves extends KingMoves implements Letters {
             }
 
         }
-        if(Game.TABLE.getCell(B,1).getChessItem() instanceof Empty
-                && Game.TABLE.getCell(C,1).getChessItem() instanceof Empty
-                && Game.TABLE.getCell(D,1).getChessItem() instanceof Empty)
+        if(Table.getCell(B, 1).getChessItem() instanceof Empty
+                && Table.getCell(C,1).getChessItem() instanceof Empty
+                && Table.getCell(D,1).getChessItem() instanceof Empty)
         {
             if(WhiteMove.getLeftCastlingStatus())
             {
-                whiteKingMoves.add(Game.TABLE.getCell(C,1));
+                whiteKingMoves.add(Table.getCell(C,1));
             }
         }
-        if(Game.TABLE.getCell(F,1).getChessItem() instanceof Empty
-                && Game.TABLE.getCell(G,1).getChessItem() instanceof Empty)
+        if(Table.getCell(F,1).getChessItem() instanceof Empty
+                && Table.getCell(G,1).getChessItem() instanceof Empty)
         {
             if(WhiteMove.getRightCastlingStatus())
             {
-                whiteKingMoves.add(Game.TABLE.getCell(G,1));
+                whiteKingMoves.add(Table.getCell(G,1));
             }
         }
 
