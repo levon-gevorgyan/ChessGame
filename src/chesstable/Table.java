@@ -37,6 +37,24 @@ public class Table  implements Letters,Numbers, Colors{
         makeTable();
         setRows();
         setColumns();
+
+    }
+
+    public void setAllItems(Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems){
+
+        for (SortedMap.Entry<String, Cell> cell : getAllCells().entrySet()) {
+            for (Map.Entry<String, ChessItem> item : whitePlayerItems.entrySet()) {
+                if (cell.getKey().equals(item.getKey())) {
+                    cell.getValue().setChessItem(item.getValue());
+                }
+            }
+            for (Map.Entry<String, ChessItem> item : blackPlayerItems.entrySet()) {
+                if (cell.getKey().equals(item.getKey())) {
+                    cell.getValue().setChessItem(item.getValue());
+                }
+            }
+
+        }
     }
 
     public Cell getCellByString(String string)

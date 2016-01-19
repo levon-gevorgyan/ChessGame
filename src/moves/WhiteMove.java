@@ -68,6 +68,12 @@ public class WhiteMove extends Move implements Letters{
         }
     }
 
+    public WhiteMove(String from,String to)
+    {
+        this.from=from;
+        this.to=to;
+    }
+
     @Override
     public boolean move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
             throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {

@@ -7,7 +7,7 @@ import chesstable.cells.Cell;
 import chesstable.Table;
 import chesstable.cells.Letters;
 
-/*import colors.Colors;
+import colors.Colors;
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
@@ -18,19 +18,8 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.moves.NoAvailableCells;
 import moves.BlackMove;
 import moves.Move;
-import moves.WhiteMove;*/
-
-import colors.Colors;
-import exceptions.cell.EmptySourceCell;
-import exceptions.cell.InvalidSource;
-import exceptions.cell.NoCell;
-import exceptions.chessitem.PlayerSameChessItem;
-import exceptions.game.Check;
-import exceptions.moves.InvalidMove;
-import exceptions.moves.InvalidMoveString;
-import exceptions.moves.NoAvailableCells;
-import moves.Move;
 import moves.WhiteMove;
+import moves.available.black.moves.BlackKingMoves;
 import players.BlackPlayer;
 import players.Player;
 import players.WhitePlayer;
@@ -39,9 +28,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 
 /**
  * Created by Levon on 1/9/2016.
@@ -53,9 +40,12 @@ public class Game implements Letters, Colors{
 
 
 
-    public static void main(String[] args)
-            throws IOException {
 
+
+    public static void main(String[] args) throws IOException {
+
+        boolean whiteKingHasNoMoves=false;
+        boolean blackKingHasNoMoves=false;
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
 
 
@@ -68,9 +58,11 @@ public class Game implements Letters, Colors{
 
         Map<String, ChessItem> whitePlayerItems = whitePlayer.getChessItemsMap();
         Map<String, ChessItem> blackPlayerItems = blackPlayer.getChessItemsMap();
+        Map<String, ChessItem> whitePlayerItemsTest = new HashMap<>();
+        Map<String, ChessItem> blackPlayerItemsTest = new HashMap<>();
 
         //MAKING TABLE, DO NOT REMOVE---BEGIN
-        setAllItems(table, whitePlayerItems, blackPlayerItems);
+        table.setAllItems(whitePlayerItems, blackPlayerItems);
         table.toString();
         //MAKING TABLE, DO NOT REMOVE---END
 
@@ -95,27 +87,29 @@ public class Game implements Letters, Colors{
 
                 System.out.print("White player's turn: ");
                 s=reader.readLine();
-                saveStateArrayList.add(new SaveState(s,whitePlayerItems,blackPlayerItems,table));
+                whitePlayerItemsTest.putAll(whitePlayerItems);
+                blackPlayerItemsTest.putAll(blackPlayerItems);
+                saveStateArrayList.add(new SaveState(s,whitePlayerItemsTest,blackPlayerItemsTest,table));
                 SaveState previousState=saveStateArrayList.get(saveStateArrayList.size()-1);
 
                 try {
                     new WhiteMove(s).move(table, whitePlayerItems, blackPlayerItems);
-                    setAllItems(table, whitePlayerItems, blackPlayerItems);
+                    table.setAllItems(whitePlayerItems, blackPlayerItems);
                     Cell myKingCell=table.getOpponentKingCell(WHITE, whitePlayerItems, blackPlayerItems,table);
 
                     //is Check to my king?
-                    if(Move.isInAllItemsOfAvailableCellListBlack(myKingCell, blackPlayerItems,table))
+                    if(Move.isInAllItemsOfAvailableCellListBlack(myKingCell, blackPlayerItems, table))
                     {
                         System.out.println("Black player will Announce you Check and Mate");
                         //Undo Last Move
                         whitePlayerItems=previousState.getWhitePlayerItems();
                         blackPlayerItems=previousState.getBlackPlayerItems();
 
-                        table.getCellByString(Character.toString(s.toCharArray()[0])+Character.toString(s.toCharArray()[1])).
+                        table.getCellByString(Character.toString(s.toCharArray()[0]) + Character.toString(s.toCharArray()[1])).
                                 setChessItem(previousState.getCellFrom().getChessItem());
-                        table.getCellByString(Character.toString(s.toCharArray()[2])+Character.toString(s.toCharArray()[3])).
+                        table.getCellByString(Character.toString(s.toCharArray()[2]) + Character.toString(s.toCharArray()[3])).
                                 setChessItem(previousState.getCellTo().getChessItem());
-                        setAllItems(table, whitePlayerItems, blackPlayerItems);
+                        table.setAllItems(whitePlayerItems, blackPlayerItems);
                         table.toString();
                         //Undo Last Move
 
@@ -147,9 +141,9 @@ public class Game implements Letters, Colors{
                 }
                 if(nextToBlack)
                 {
-                    setAllItems(table, whitePlayerItems, blackPlayerItems);
+                    table.setAllItems(whitePlayerItems, blackPlayerItems);
                     //is Check or not
-                    Cell kingCell=table.getOpponentKingCell(BLACK,whitePlayerItems,blackPlayerItems,table);
+                    Cell kingCell=table.getOpponentKingCell(BLACK, whitePlayerItems, blackPlayerItems, table);
                     if(Move.isInAllItemsOfAvailableCellListWhite(kingCell, whitePlayerItems,table))
                     {
                         try {
@@ -157,6 +151,55 @@ public class Game implements Letters, Colors{
                         } catch (Check check) {
                             System.out.println("Check to Black Army");
                         }
+
+                        // is Mate or not
+                        saveStateArrayList.add(new SaveState(s,whitePlayerItems,blackPlayerItems,table));
+                        previousState=saveStateArrayList.get(saveStateArrayList.size()-1);
+                        previousState.getTable().toString();
+                        SortedMap<Cell,Boolean> kingAvailableMovesMap=new TreeMap<>();
+                        try {
+                            ArrayList<Cell> kingAvailableCells=new BlackKingMoves(kingCell,table).getBlackKingMoves();
+
+                                for (Cell cell : kingAvailableCells) {
+                                    try {
+                                        new BlackMove(kingCell.toString(), cell.toString()).move(table, whitePlayerItems, blackPlayerItems);
+
+                                        table.setAllItems(whitePlayerItems, blackPlayerItems);
+                                        table.toString();
+
+
+
+
+
+                                        //table = previousState.getTable();
+                                        whitePlayer.setChessItemsMap(previousState.getWhitePlayerItems());
+                                        blackPlayer.setChessItemsMap(previousState.getBlackPlayerItems());
+                                        System.out.println(whitePlayerItems.toString());
+                                        System.out.println(blackPlayerItems.toString());
+
+
+
+                                    } catch (InvalidMove invalidMove) {
+                                        invalidMove.printStackTrace();
+                                    } catch (PlayerSameChessItem playerSameChessItem) {
+                                        playerSameChessItem.printStackTrace();
+                                    } catch (NoCell noCell) {
+                                        noCell.printStackTrace();
+                                    } catch (NoAvailableCells noAvailableCells) {
+                                        noAvailableCells.printStackTrace();
+                                    } catch (InvalidSource invalidSource) {
+                                        invalidSource.printStackTrace();
+                                    } catch (EmptySourceCell emptySourceCell) {
+                                        emptySourceCell.printStackTrace();
+                                    }
+                                }
+
+
+                        } catch (NoAvailableCells noAvailableCells) {
+                            noAvailableCells.printStackTrace();
+                        }
+
+
                     }
 
                     break;
@@ -242,23 +285,7 @@ public class Game implements Letters, Colors{
         }
     }
 
-    //Setting up all items on the table
-    private static void setAllItems(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems){
 
-        for (SortedMap.Entry<String, Cell> cell : table.getAllCells().entrySet()) {
-            for (Map.Entry<String, ChessItem> item : whitePlayerItems.entrySet()) {
-                if (cell.getKey().equals(item.getKey())) {
-                    cell.getValue().setChessItem(item.getValue());
-                }
-            }
-            for (Map.Entry<String, ChessItem> item : blackPlayerItems.entrySet()) {
-                if (cell.getKey().equals(item.getKey())) {
-                    cell.getValue().setChessItem(item.getValue());
-                }
-            }
-
-        }
-    }
 
 }
 

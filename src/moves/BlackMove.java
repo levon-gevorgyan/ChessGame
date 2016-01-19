@@ -67,6 +67,11 @@ public class BlackMove extends Move implements Letters {
             throw new InvalidMoveString("Source & Target are the same");
         }
     }
+    public BlackMove(String from,String to)
+    {
+        this.from=from;
+        this.to=to;
+    }
 
     @Override
     public boolean move(Table table, Map<String, ChessItem> whitePlayerItems, Map<String, ChessItem> blackPlayerItems)
