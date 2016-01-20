@@ -6,19 +6,21 @@ import chessitems.white.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Created by Levon on 1/10/2016.
  */
 public class WhitePlayer extends Player {
-    private Map<String, ChessItem> chessItemsMap=new HashMap<>();
+    private SortedMap<String, ChessItem> chessItemsMap=new TreeMap<>();
 
     public WhitePlayer()
     {
         this.chessItemsMap.put("a1",new WhiteRookA());
         this.chessItemsMap.put("b1",new WhiteKnight());
         this.chessItemsMap.put("c1",new WhiteBishop());
-        this.chessItemsMap.put("d1",new WhiteQueen());
+        this.chessItemsMap.put("d3",new WhiteQueen());
         this.chessItemsMap.put("e1",new WhiteKing());
         this.chessItemsMap.put("f1",new WhiteBishop());
         this.chessItemsMap.put("g1",new WhiteKnight());
@@ -35,11 +37,14 @@ public class WhitePlayer extends Player {
     }
 
 
-
     @Override
-    public Map<String, ChessItem> getChessItemsMap() {
+    public SortedMap<String, ChessItem> getChessItemsMap() {
         return this.chessItemsMap;
     }
 
-
+    @Override
+    public void setChessItemsMap(SortedMap<String, ChessItem> chessItemsMap) {
+        this.chessItemsMap = new TreeMap<String, ChessItem>(chessItemsMap) {
+        };
+    }
 }

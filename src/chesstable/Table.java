@@ -9,6 +9,8 @@ import chesstable.cells.*;
 import colors.Colors;
 import exceptions.cell.NoCell;
 import exceptions.table.OutOfTable;
+import players.BlackPlayer;
+import players.WhitePlayer;
 
 
 import java.util.*;
@@ -19,20 +21,34 @@ import java.util.*;
 public class Table  implements Letters,Numbers, Colors{
 
     private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the Table
+    private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
+    private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
+
+
+
+    public void setCells(SortedMap<String, Cell> cells) {
+        this.cells = new TreeMap<String,Cell>(cells);
+    }
 
     public ArrayList<ArrayList<Cell>> getRows() {
         return rows;
+    }
+
+    public void setRows(ArrayList<ArrayList<Cell>> rows) {
+        this.rows = new ArrayList<ArrayList<Cell>>(rows);
     }
 
     public ArrayList<ArrayList<Cell>> getColumns() {
         return columns;
     }
 
-    private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
-    private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
+    public void setColumns(ArrayList<ArrayList<Cell>> columns) {
+        this.columns = new ArrayList<ArrayList<Cell>>(columns);
+    }
 
     //Create Table
     public Table()
+
     {
         makeTable();
         setRows();
@@ -40,9 +56,11 @@ public class Table  implements Letters,Numbers, Colors{
 
     }
 
-    public void setAllItems(Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems){
+    public void setAllItems(WhitePlayer whitePlayer, BlackPlayer blackPlayer){
 
-        for (SortedMap.Entry<String, Cell> cell : getAllCells().entrySet()) {
+        Map<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
+        Map<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
+        for (SortedMap.Entry<String, Cell> cell : getCells().entrySet()) {
             for (Map.Entry<String, ChessItem> item : whitePlayerItems.entrySet()) {
                 if (cell.getKey().equals(item.getKey())) {
                     cell.getValue().setChessItem(item.getValue());
@@ -512,7 +530,7 @@ public class Table  implements Letters,Numbers, Colors{
     }
 
     //Receive All Cells of the Table
-    public SortedMap<String,Cell> getAllCells()
+    public SortedMap<String,Cell> getCells()
     {
         return this.cells;
     }
@@ -588,6 +606,10 @@ public class Table  implements Letters,Numbers, Colors{
                 }
             }
         }
+    }
+    public void resetTable() {
+        cells.clear();
+        makeTable();
     }
 
     //get Opponent's King's location

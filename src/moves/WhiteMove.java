@@ -15,7 +15,8 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.moves.NoAvailableCells;
 import moves.available.white.moves.*;
-import play.Game;
+import players.BlackPlayer;
+import players.WhitePlayer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,10 +76,10 @@ public class WhiteMove extends Move implements Letters{
     }
 
     @Override
-    public boolean move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
+    public boolean move(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
             throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
-
-
+        Map<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
+        Map<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
 
         String from=this.from;
         String to=this.to;
@@ -95,7 +96,7 @@ public class WhiteMove extends Move implements Letters{
         {
             if(from.equals(item.getKey()))
             {
-                for (SortedMap.Entry<String, Cell> cell:table.getAllCells().entrySet())
+                for (SortedMap.Entry<String, Cell> cell:table.getCells().entrySet())
                 {
                     if(cell.getKey().equals(to))
                     {
@@ -110,18 +111,18 @@ public class WhiteMove extends Move implements Letters{
             }
         }
 
-        if (table.getAllCells().get(from).getChessItem() instanceof Empty) {
+        if (table.getCells().get(from).getChessItem() instanceof Empty) {
             throw new EmptySourceCell(); //Empty Source
-        }else if(table.getAllCells().get(from).getChessItem() instanceof BlackItem)
+        }else if(table.getCells().get(from).getChessItem() instanceof BlackItem)
             {
                 throw new InvalidSource(); //Invalid Source
             }
         else {
 
-            for (SortedMap.Entry<String, Cell> cell : table.getAllCells().entrySet()) {
+            for (SortedMap.Entry<String, Cell> cell : table.getCells().entrySet()) {
                 if (cell.getKey().equals(to)) {
                     if (isTargetCell && isTargetString) {
-                        if (table.getAllCells().get(to).getChessItem() instanceof Empty) {
+                        if (table.getCells().get(to).getChessItem() instanceof Empty) {
                             isEmpty = true;
                             isWhiteItem = false;
                             break;
@@ -129,10 +130,10 @@ public class WhiteMove extends Move implements Letters{
                     }
                 }
             }
-            for (SortedMap.Entry<String, Cell> cell : table.getAllCells().entrySet()) {
+            for (SortedMap.Entry<String, Cell> cell : table.getCells().entrySet()) {
                 if (cell.getKey().equals(to)) {
                     if (isTargetCell && isTargetString) {
-                        if (table.getAllCells().get(to).getChessItem() instanceof BlackItem) {
+                        if (table.getCells().get(to).getChessItem() instanceof BlackItem) {
                             isBlackItem = true;
                             isWhiteItem = false;
                             break;
@@ -142,11 +143,11 @@ public class WhiteMove extends Move implements Letters{
             }
             if (isEmpty) {
 
-                ChessItem chessItemFrom = table.getAllCells().get(from).getChessItem();
-                ChessItem chessItemTo = table.getAllCells().get(to).getChessItem();
+                ChessItem chessItemFrom = table.getCells().get(from).getChessItem();
+                ChessItem chessItemTo = table.getCells().get(to).getChessItem();
 
-                Cell cellFrom = table.getAllCells().get(from);
-                Cell cellTo = table.getAllCells().get(to);
+                Cell cellFrom = table.getCells().get(from);
+                Cell cellTo = table.getCells().get(to);
 
                 //Get available cells of source <--Begin-->
                 ArrayList<Cell> availableCells=new ArrayList<>();
@@ -278,6 +279,7 @@ public class WhiteMove extends Move implements Letters{
 
                                         whitePlayerItems.put(to, chessItemFrom);
                                         whitePlayerItems.remove(from);
+
                                         available = true;
                                         isCompleted=true;
 
@@ -325,11 +327,11 @@ public class WhiteMove extends Move implements Letters{
             }
             if (isBlackItem) {
 
-                ChessItem chessItemFrom = table.getAllCells().get(from).getChessItem();
+                ChessItem chessItemFrom = table.getCells().get(from).getChessItem();
                 ChessItem chessItemEmpty = new Empty();
 
-                Cell cellFrom = table.getAllCells().get(from);
-                Cell cellTo = table.getAllCells().get(to);
+                Cell cellFrom = table.getCells().get(from);
+                Cell cellTo = table.getCells().get(to);
 
                 //Get available cells of source <--Begin-->
                 ArrayList<Cell> availableCells=new ArrayList<>();

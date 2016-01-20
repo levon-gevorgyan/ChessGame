@@ -5,84 +5,45 @@ import chesstable.Table;
 import chesstable.cells.BlackCell;
 import chesstable.cells.Cell;
 import chesstable.cells.WhiteCell;
+import players.BlackPlayer;
+import players.Player;
+import players.WhitePlayer;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 //Created by Levon on 17.01.2016.
 
 
 public class SaveState {
-    private Map<String, ChessItem> whitePlayerItems;
-    private Map<String, ChessItem> blackPlayerItems;
-    private Cell cellFrom;
-    private Cell cellTo;
-    private Table table;
+
+    private SortedMap<String,Cell> cells;
+
+    private ArrayList<ArrayList<Cell>> rows;
+    private ArrayList<ArrayList<Cell>> columns;
+    private Map<String, ChessItem> whiteItemsMap;
+    private Map<String, ChessItem> blackItemsMap;
 
 
-    public Table getTable() {
-        return table;
-    }
 
-    public SaveState(String string, Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems, Table table)
+    public SaveState(Table table, Player whitePlayer, Player blackPlayer)
     {
+        this.cells= (SortedMap<String,Cell>)((TreeMap<String,Cell>)table.getCells()).clone();
 
-        String from=Character.toString(string.toCharArray()[0])+Character.toString(string.toCharArray()[1]);
-        String to=Character.toString(string.toCharArray()[2])+Character.toString(string.toCharArray()[3]);
-        Cell cellFrom=table.getCellByString(from);
-        Cell cellTo=table.getCellByString(to);
 
-        if (cellFrom instanceof WhiteCell)
-        {
-            cellFrom=new WhiteCell(from.toCharArray()[0],Character.getNumericValue(from.toCharArray()[1]),
-                    table.getCellByString(from).getChessItem());
-        }
-        if (cellFrom instanceof BlackCell)
-        {
-            cellFrom=new BlackCell(from.toCharArray()[0],Character.getNumericValue(from.toCharArray()[1]),
-                    table.getCellByString(from).getChessItem());
-        }
-        if (cellTo instanceof WhiteCell)
-        {
-            cellTo=new WhiteCell(to.toCharArray()[0],Character.getNumericValue(to.toCharArray()[1]),
-                    table.getCellByString(to).getChessItem());
-        }
-        if (cellTo instanceof BlackCell)
-        {
-            cellTo=new BlackCell(to.toCharArray()[0],Character.getNumericValue(to.toCharArray()[1]),
-                    table.getCellByString(to).getChessItem());
-        }
-
-        Map<String, ChessItem> whitePlayerItemsSave = new HashMap<>();
-        Map<String, ChessItem> blackPlayerItemsSave = new HashMap<>();
-
-        whitePlayerItemsSave.putAll(whitePlayerItems);
-
-        blackPlayerItemsSave.putAll(blackPlayerItems);
-
-        this.whitePlayerItems=whitePlayerItemsSave;
-        this.blackPlayerItems=blackPlayerItemsSave;
-        this.cellFrom=cellFrom;
-        this.cellTo=cellTo;
-        this.table=table;
-
+        this.rows=new ArrayList<ArrayList<Cell>>(table.getRows());
+        this.columns=new ArrayList<ArrayList<Cell>>(table.getColumns());
+        this.whiteItemsMap=(Map<String, ChessItem>)((HashMap<String, ChessItem>)whitePlayer.getChessItemsMap()).clone();
+        this.blackItemsMap=(Map<String, ChessItem>)((HashMap<String, ChessItem>)blackPlayer.getChessItemsMap()).clone();
 
     }
 
-    public Map<String, ChessItem> getWhitePlayerItems() {
-        return this.whitePlayerItems;
-    }
-
-    public Map<String, ChessItem> getBlackPlayerItems() {
-        return this.blackPlayerItems;
-    }
-
-    public Cell getCellFrom() {
-        return cellFrom;
-    }
-
-    public Cell getCellTo() {
-        return cellTo;
+    public void returnHere (Table table, Player whitePlayer, Player blackPlayer)
+    {
+        table.setCells(this.cells);
+        table.setRows(this.rows);
+        table.setColumns(this.columns);
+        //whitePlayer.setChessItemsMap(whiteItemsMap);
+        //blackPlayer.setChessItemsMap(blackItemsMap);
     }
 }

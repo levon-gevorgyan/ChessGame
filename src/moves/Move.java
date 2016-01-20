@@ -23,6 +23,8 @@ import letsnums.LetsNums;
 import moves.available.black.moves.*;
 import moves.available.white.moves.*;
 import play.Game;
+import players.BlackPlayer;
+import players.WhitePlayer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public abstract class Move implements Colors{
     protected String to;
     
     
-    public abstract boolean move(Table table,Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
+    public abstract boolean move(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
             throws PlayerSameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException;
 
     public static boolean isInAllItemsOfAvailableCellListWhite(Cell kingCell, Map<String, ChessItem> playerItems, Table table)
