@@ -22,12 +22,53 @@ public class Table  implements Letters,Numbers, Colors{
 
     private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the Table
     private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
+    private ArrayList<Cell> rowsCells=new ArrayList<>(); //All Rows of the Table
     private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
+    private ArrayList<Cell> columnsCells=new ArrayList<>(); //All Columns of the Table
+    private WhitePlayer whitePlayer;
+    private BlackPlayer blackPlayer;
 
+    public ArrayList<Cell> getRowsCells() {
+        return rowsCells;
+    }
 
+    public void setRowsCells(ArrayList<Cell> rowsCells) {
+        this.rowsCells = new ArrayList<>(rowsCells);
+    }
+
+    public ArrayList<Cell> getColumnsCells() {
+        return columnsCells;
+    }
+
+    public void setColumnsCells(ArrayList<Cell> columnsCells) {
+        this.columnsCells = new ArrayList<>(columnsCells);
+    }
+
+    public Table(Table another) {
+        this.cells = (SortedMap<String,Cell>)((TreeMap<String,Cell>)(another.getCells())).clone();
+        this.rows=(ArrayList<ArrayList<Cell>>)(another.getRows()).clone();
+        this.columns=(ArrayList<ArrayList<Cell>>)(another.getColumns()).clone();
+    }
+
+    public WhitePlayer getWhitePlayer() {
+        return whitePlayer;
+    }
+
+    public void setWhitePlayer(WhitePlayer whitePlayer) {
+        this.whitePlayer = whitePlayer;
+    }
+
+    public BlackPlayer getBlackPlayer() {
+        return blackPlayer;
+    }
+
+    public void setBlackPlayer(BlackPlayer blackPlayer) {
+        this.blackPlayer = blackPlayer;
+    }
 
     public void setCells(SortedMap<String, Cell> cells) {
-        this.cells = new TreeMap<String,Cell>(cells);
+        this.cells = null;
+        this.cells=new TreeMap<String,Cell>(cells);
     }
 
     public ArrayList<ArrayList<Cell>> getRows() {
@@ -47,19 +88,31 @@ public class Table  implements Letters,Numbers, Colors{
     }
 
     //Create Table
-    public Table()
+    public Table(SortedMap<String,Cell> cells,
+                 ArrayList<ArrayList<Cell>> rows,ArrayList<Cell> rowsCells,
+                 ArrayList<ArrayList<Cell>> columns,ArrayList<Cell> columnsCells,
+                 WhitePlayer whitePlayer, BlackPlayer blackPlayer)
 
     {
-        makeTable();
-        setRows();
-        setColumns();
+
+        cells=createCells(cells);
+        this.cells=cells;
+        this.rowsCells=rowsCells;
+        rows=createRows(rows,rowsCells);
+        this.rows=rows;
+        this.columnsCells=columnsCells;
+        columns = createColumns(columns,columnsCells);
+        this.columns=columns;
+        this.whitePlayer=whitePlayer;
+        this.blackPlayer=blackPlayer;
+        setAllItems(whitePlayer,blackPlayer);
 
     }
 
     public void setAllItems(WhitePlayer whitePlayer, BlackPlayer blackPlayer){
 
-        Map<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
-        Map<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
+        SortedMap<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
+        SortedMap<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
         for (SortedMap.Entry<String, Cell> cell : getCells().entrySet()) {
             for (Map.Entry<String, ChessItem> item : whitePlayerItems.entrySet()) {
                 if (cell.getKey().equals(item.getKey())) {
@@ -482,42 +535,43 @@ public class Table  implements Letters,Numbers, Colors{
         return null;
     }
 
-    //Set Up the Rows
-    private void setRows(){
-        ArrayList<ArrayList<Cell>> rows=new ArrayList<>();
+    //Create the Rows
+    public ArrayList<ArrayList<Cell>> createRows(ArrayList<ArrayList<Cell>> rows,ArrayList<Cell> rowsCells){
+        rows=new ArrayList<>();
+        rowsCells=new ArrayList<>();
 
         for(int i=1;i<=8;i++)
         {
-            ArrayList<Cell> arrayList=new ArrayList<>();
+
 
             for(int j=1;j<=8;j++)
             {
-                arrayList.add(getCell(LetterList[j],Character.getNumericValue(NumberList[i])));
+                rowsCells.add(getCell(LetterList[j],Character.getNumericValue(NumberList[i])));
 
             }
-            rows.add(arrayList);
+            rows.add(rowsCells);
         }
 
-        this.rows=rows;
+        return rows;
     }
 
     //Set Up the Columns
-    private void setColumns(){
-        ArrayList<ArrayList<Cell>> columns=new ArrayList<>();
-
+    public ArrayList<ArrayList<Cell>> createColumns(ArrayList<ArrayList<Cell>> columns,ArrayList<Cell> columnsCells){
+        columns=new ArrayList<>();
+        columnsCells=new ArrayList<>();
         for(int i=1;i<=8;i++)
         {
-            ArrayList<Cell> arrayList=new ArrayList<>();
+
 
             for(int j=1;j<=8;j++)
             {
-                arrayList.add(getCell(LetterList[i],Character.getNumericValue(NumberList[j])));
+                columnsCells.add(getCell(LetterList[i],Character.getNumericValue(NumberList[j])));
 
             }
-            columns.add(arrayList);
+            columns.add(columnsCells);
         }
 
-        this.columns=columns;
+        return columns;
 
     }
 
@@ -550,12 +604,12 @@ public class Table  implements Letters,Numbers, Colors{
             System.out.print(i + "|");
             for(int j=1;j<=8;j++)
             {
-                System.out.print(cells.get(Character.toString(LetterList[j]) + i).line1());
+                System.out.print(this.cells.get(Character.toString(LetterList[j]) + i).line1());
             }
             System.out.print(i+"\n |");
             for(int j=1;j<=8;j++)
             {
-                System.out.print(cells.get(Character.toString(LetterList[j]) + i).line2()+ "|");
+                System.out.print(this.cells.get(Character.toString(LetterList[j]) + i).line2() + "|");
             }
             System.out.print("\n");
         }
@@ -564,34 +618,35 @@ public class Table  implements Letters,Numbers, Colors{
         return null;
     }
 
-    //Make Table
-    private void makeTable() {
+    //Create empty cells
+    private SortedMap<String,Cell> createCells(SortedMap<String,Cell> cells) {
+        cells=new TreeMap<String,Cell>();
         for (int i=1;i<=8;i+=2)
         {
             for(int j=1;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
             }
         }
         for (int i=2;i<=8;i+=2)
         {
             for(int j=2;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
             }
         }
         for (int i=1;i<=8;i+=2)
         {
             for(int j=2;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
             }
         }
         for (int i=2;i<=8;i+=2)
         {
             for(int j=1;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
             }
         }
         for (SortedMap.Entry<String, Cell> cell : cells.entrySet()) {
@@ -606,11 +661,11 @@ public class Table  implements Letters,Numbers, Colors{
                 }
             }
         }
+        return cells;
     }
-    public void resetTable() {
-        cells.clear();
-        makeTable();
-    }
+
+
+
 
     //get Opponent's King's location
     public Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer,Table table)

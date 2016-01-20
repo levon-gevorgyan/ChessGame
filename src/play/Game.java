@@ -48,28 +48,72 @@ public class Game implements Letters, Colors{
         //boolean blackKingHasNoMoves=false;
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
 
+        SortedMap<String,Cell> cells = null;
+        SortedMap<String,Cell> cellsSave = null;
 
-        Table table=new Table();
-        Table tableTest=new Table();
+        ArrayList<ArrayList<Cell>> rows = null;
+        ArrayList<ArrayList<Cell>> rowsSave = null;
+
+        ArrayList<ArrayList<Cell>> columns = null;
+        ArrayList<ArrayList<Cell>> columnsSave = null;
 
         WhitePlayer whitePlayer = new WhitePlayer();
+        WhitePlayer whitePlayerSave = new WhitePlayer();
+
         BlackPlayer blackPlayer = new BlackPlayer();
+        BlackPlayer blackPlayerSave = new BlackPlayer();
 
-        SortedMap<String, ChessItem> whiteItemsMap=whitePlayer.getChessItemsMap();
-        SortedMap<String, ChessItem> blackItemsMap=blackPlayer.getChessItemsMap();
-        SortedMap<String, ChessItem> whiteItemsMapCOPY=new TreeMap<>(whitePlayer.getChessItemsMap());
-        SortedMap<String, ChessItem> blackItemsMapCOPY=new TreeMap<>(blackPlayer.getChessItemsMap());
+        ArrayList<Cell> rowsCells=new ArrayList<>();
+        ArrayList<Cell> columnsCells=new ArrayList<>();
 
-
-
-        tableTest.setCells(table.getCells());
+        Table table=new Table(cells,rows,rowsCells,columns,columnsCells,whitePlayer,blackPlayer);
+        //Table tableSave=new Table(cellsSave,rowsSave,columnsSave,whitePlayerSave,blackPlayerSave);
 
 
 
+        SortedMap<String, ChessItem> whiteItemsMapSave=new TreeMap<>(whitePlayer.getChessItemsMap());
+        SortedMap<String, ChessItem> blackItemsMapSave=new TreeMap<>(blackPlayer.getChessItemsMap());
+        /*tableSave.setCells(table.getCells());
+        tableSave.setRows(table.getRows());
+        tableSave.setColumns(table.getColumns());*/
+        Table table1=new Table(table);
+        table.toString();
 
 
 
-        //MAKING TABLE, DO NOT REMOVE---BEGIN
+
+        /*try {
+          new WhiteMove("a2a4").move(table, whitePlayer, blackPlayer);
+
+        } catch (PlayerSameChessItem playerSameChessItem) {
+            playerSameChessItem.printStackTrace();
+        } catch (EmptySourceCell emptySourceCell) {
+            emptySourceCell.printStackTrace();
+        } catch (InvalidSource invalidSource) {
+            invalidSource.printStackTrace();
+        } catch (NoCell noCell) {
+            noCell.printStackTrace();
+        } catch (InvalidMove invalidMove) {
+            invalidMove.printStackTrace();
+        } catch (NoAvailableCells noAvailableCells) {
+            noAvailableCells.printStackTrace();
+        } catch (InvalidMoveString invalidMoveString) {
+            invalidMoveString.printStackTrace();
+        }*/
+        //table.toString();
+       /* table.setCells(tableSave.getCells());
+        table.setColumns(tableSave.getColumns());
+        table.setRows(tableSave.getRows());
+        whitePlayer.setChessItemsMap(whiteItemsMapSave);
+        blackPlayer.setChessItemsMap(blackItemsMapSave);
+        table.toString();*/
+
+
+
+
+
+
+        /*//MAKING TABLE, DO NOT REMOVE---BEGIN
         table.setAllItems(whitePlayer, blackPlayer);
         table.toString();
         //MAKING TABLE, DO NOT REMOVE---END
@@ -100,7 +144,7 @@ public class Game implements Letters, Colors{
         System.out.println(whitePlayer.getChessItemsMap().toString());
         System.out.println(tableTest.getCells().toString());
 
-
+*/
         //TESTING PART----->Begin
 
 
