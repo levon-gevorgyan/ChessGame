@@ -17,16 +17,16 @@ import java.util.ArrayList;
  */
 public class BlackBishopMoves extends BishopMoves {
     private ArrayList<Cell> blackBishopMoves;
-    public BlackBishopMoves(Cell cell)  {
+    public BlackBishopMoves(Cell cell,Table Table)  {
 
         try {
             ArrayList<Cell> blackBishopMoves = new ArrayList<>();
 
 
-            ArrayList<Cell> leftUp = bishopMovesDiagLeftUp(cell);
-            ArrayList<Cell> leftDown = bishopMovesDiagLeftDown(cell);
-            ArrayList<Cell> rightUp = bishopMovesDiagRightUp(cell);
-            ArrayList<Cell> rightDown = bishopMovesDiagRightDown(cell);
+            ArrayList<Cell> leftUp = bishopMovesDiagLeftUp(cell,Table);
+            ArrayList<Cell> leftDown = bishopMovesDiagLeftDown(cell,Table);
+            ArrayList<Cell> rightUp = bishopMovesDiagRightUp(cell,Table);
+            ArrayList<Cell> rightDown = bishopMovesDiagRightDown(cell,Table);
 
             Cell lastLeftUpCell = cell;
             if (leftUp.size() > 0) {

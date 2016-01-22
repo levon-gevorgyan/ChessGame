@@ -1,10 +1,16 @@
 package chesstable;
 
+import chessitems.ChessItem;
+import chessitems.black.BlackKing;
 import chessitems.empty.Empty;
 
+import chessitems.white.WhiteKing;
 import chesstable.cells.*;
+import colors.Colors;
 import exceptions.cell.NoCell;
 import exceptions.table.OutOfTable;
+import players.BlackPlayer;
+import players.WhitePlayer;
 
 
 import java.util.*;
@@ -12,24 +18,98 @@ import java.util.*;
 /**
  * Created by Levon on 1/9/2016.
  */
-public class Table  implements Letters,Numbers{
+public class Table  implements Letters,Numbers, Colors{
 
-    private SortedMap<String,Cell> cells=new TreeMap<String,Cell>();
+    private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the Table
+    private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
+    private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
+    private WhitePlayer whitePlayer;
+    private BlackPlayer blackPlayer;
 
-    public static ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
-    public static ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
-
-    //Create Table
-    public Table()
-    {
-        makeTable();
-        setRows();
-        setColumns();
+    public Table(Table cloneTable) {
+        this.cells = (SortedMap<String,Cell>)((TreeMap<String,Cell>)(cloneTable.getCells())).clone();
+        this.rows=(ArrayList<ArrayList<Cell>>)(cloneTable.getRows()).clone();
+        this.columns=(ArrayList<ArrayList<Cell>>)(cloneTable.getColumns()).clone();
     }
 
+    public WhitePlayer getWhitePlayer() {
+        return whitePlayer;
+    }
+
+    public void setWhitePlayer(WhitePlayer whitePlayer) {
+        this.whitePlayer = whitePlayer;
+    }
+
+    public BlackPlayer getBlackPlayer() {
+        return blackPlayer;
+    }
+
+    public void setBlackPlayer(BlackPlayer blackPlayer) {
+        this.blackPlayer = blackPlayer;
+    }
+
+    public void setCells(SortedMap<String, Cell> cells) {
+        this.cells = null;
+        this.cells=new TreeMap<String,Cell>(cells);
+    }
+
+    public ArrayList<ArrayList<Cell>> getRows() {
+        return rows;
+    }
+
+    public void setRows(ArrayList<ArrayList<Cell>> rows) {
+        this.rows = new ArrayList<ArrayList<Cell>>(rows);
+    }
+
+    public ArrayList<ArrayList<Cell>> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(ArrayList<ArrayList<Cell>> columns) {
+        this.columns = new ArrayList<ArrayList<Cell>>(columns);
+    }
+
+    //Create Table
+    public Table(SortedMap<String,Cell> cells,
+                 ArrayList<ArrayList<Cell>> rows,ArrayList<ArrayList<Cell>> columns,
+                 WhitePlayer whitePlayer, BlackPlayer blackPlayer)
+    {
+        this.whitePlayer=whitePlayer;
+        this.blackPlayer=blackPlayer;
+
+        this.cells=createCells(cells);
+
+        this.rows=rows(rows);
+        this.columns=columns(columns);
+    }
+
+    public void setAllItems(WhitePlayer whitePlayer, BlackPlayer blackPlayer){
+
+        SortedMap<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
+        SortedMap<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
+        for (SortedMap.Entry<String, Cell> cell : getCells().entrySet()) {
+            for (Map.Entry<String, ChessItem> item : whitePlayerItems.entrySet()) {
+                if (cell.getKey().equals(item.getKey())) {
+                    cell.getValue().setChessItem(item.getValue());
+                }
+            }
+            for (Map.Entry<String, ChessItem> item : blackPlayerItems.entrySet()) {
+                if (cell.getKey().equals(item.getKey())) {
+                    cell.getValue().setChessItem(item.getValue());
+                }
+            }
+
+        }
+    }
+
+    public Cell getCellByString(String string)
+    {
+        char[] s=string.toCharArray();
+        return getCell(s[0], Character.getNumericValue(s[1]));
+    }
 
     //Next Row
-    public static ArrayList<Cell> nextRow(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> nextRow(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -62,7 +142,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Previous Row
-    public static ArrayList<Cell> previousRow(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> previousRow(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -93,7 +173,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Next Column
-    public static ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> nextColumn(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -124,7 +204,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Previous Column
-    public static ArrayList<Cell> previousColumn(Cell cell) throws OutOfTable {
+    public ArrayList<Cell> previousColumn(Cell cell) throws OutOfTable {
 
 
         for (int j=0;j<8;j++)
@@ -157,7 +237,7 @@ public class Table  implements Letters,Numbers{
     //To Left, Right, UP, Down cells
     //<--BEGIN-->
     
-    public static Cell leftCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell leftCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> leftColumn=previousColumn(cell);
             ArrayList<Cell> sameRow=getCellRow(cell);
@@ -168,7 +248,7 @@ public class Table  implements Letters,Numbers{
             throw new NoCell();
         }
     }
-    public static Cell rightCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell rightCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> rightColumn=nextColumn(cell);
             ArrayList<Cell> sameRow=getCellRow(cell);
@@ -179,7 +259,7 @@ public class Table  implements Letters,Numbers{
             throw new NoCell();
         }
     }
-    public static Cell downCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell downCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> downRow=previousRow(cell);
             ArrayList<Cell> sameColumn=getCellColumn(cell);
@@ -191,7 +271,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell upCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell upCell(Cell cell) throws OutOfTable, NoCell {
         try {
             ArrayList<Cell> upRow=nextRow(cell);
             ArrayList<Cell> sameColumn=getCellColumn(cell);
@@ -210,7 +290,7 @@ public class Table  implements Letters,Numbers{
     //To Left Up, Left Down, Right pP, Right Down cells
     //<--BEGIN-->
     
-    public static Cell diagonalLeftUpCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalLeftUpCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell left=leftCell(cell);
             return upCell(left);
@@ -221,7 +301,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell diagonalLeftDownCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalLeftDownCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell left=leftCell(cell);
             return downCell(left);
@@ -232,7 +312,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell diagonalRightUpCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalRightUpCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell right=rightCell(cell);
             return upCell(right);
@@ -243,7 +323,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell diagonalRightDownCell(Cell cell) throws OutOfTable, NoCell {
+    public Cell diagonalRightDownCell(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell right=rightCell(cell);
             return downCell(right);
@@ -261,7 +341,7 @@ public class Table  implements Letters,Numbers{
     //To Up Up Left, Up Up Right, Down Down Left, Down Down Right cells
     //<--BEGIN-->
     
-    public static Cell upUpLeft(Cell cell) throws OutOfTable, NoCell {
+    public Cell upUpLeft(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell upUpLeft;
             cell=upCell(cell);
@@ -274,7 +354,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell upUpRight(Cell cell) throws OutOfTable, NoCell {
+    public Cell upUpRight(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell upUpRight;
             cell=upCell(cell);
@@ -287,7 +367,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell downDownLeft(Cell cell) throws OutOfTable, NoCell {
+    public Cell downDownLeft(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell downDownLeft;
             cell=downCell(cell);
@@ -300,7 +380,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell downDownRight(Cell cell) throws OutOfTable, NoCell {
+    public Cell downDownRight(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell downDownRight;
             cell=downCell(cell);
@@ -321,7 +401,7 @@ public class Table  implements Letters,Numbers{
     //To Left Left Up, Left Left Down, Right Right Up, Right Right Down cells
     //<--BEGIN-->
 
-    public static Cell leftLeftUp(Cell cell) throws OutOfTable, NoCell {
+    public Cell leftLeftUp(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell leftLeftUp;
             cell=leftCell(cell);
@@ -334,7 +414,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell leftLeftDown(Cell cell) throws OutOfTable, NoCell {
+    public Cell leftLeftDown(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell leftLeftDown;
             cell=leftCell(cell);
@@ -347,7 +427,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell rightRightUp(Cell cell) throws OutOfTable, NoCell {
+    public Cell rightRightUp(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell rightRightUp;
             cell=rightCell(cell);
@@ -360,7 +440,7 @@ public class Table  implements Letters,Numbers{
         }
     }
 
-    public static Cell rightRightDown(Cell cell) throws OutOfTable, NoCell {
+    public Cell rightRightDown(Cell cell) throws OutOfTable, NoCell {
         try {
             Cell rightRightDown;
             cell=rightCell(cell);
@@ -378,7 +458,7 @@ public class Table  implements Letters,Numbers{
 
 
     //Find the Crossed Cell
-    public static Cell getCrossedCell(ArrayList<Cell> row,ArrayList<Cell> column)
+    public Cell getCrossedCell(ArrayList<Cell> row,ArrayList<Cell> column)
     {
         for (int i=0;i<8;i++)
         {
@@ -392,7 +472,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Find Cell's Row
-    public static ArrayList<Cell> getCellRow(Cell cell)
+    public ArrayList<Cell> getCellRow(Cell cell)
     {
 
         char x=cell.getX();
@@ -411,7 +491,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Find Cell's Column
-    public static ArrayList<Cell> getCellColumn(Cell cell)
+    public ArrayList<Cell> getCellColumn(Cell cell)
     {
 
         char x=cell.getX();
@@ -430,27 +510,28 @@ public class Table  implements Letters,Numbers{
     }
 
     //Set Up the Rows
-    private void setRows(){
-        ArrayList<ArrayList<Cell>> rows=new ArrayList<>();
+    private ArrayList<ArrayList<Cell>>  rows(ArrayList<ArrayList<Cell>> rows){
+        rows=new ArrayList<>();
+
 
         for(int i=1;i<=8;i++)
         {
             ArrayList<Cell> arrayList=new ArrayList<>();
 
-            for(int j=1;j<=8;j++)
-            {
+
+            for(int j=1; j <= 8; j++) {
                 arrayList.add(getCell(LetterList[j],Character.getNumericValue(NumberList[i])));
 
             }
             rows.add(arrayList);
         }
 
-        this.rows=rows;
+        return rows;
     }
 
     //Set Up the Columns
-    private void setColumns(){
-        ArrayList<ArrayList<Cell>> columns=new ArrayList<>();
+    private ArrayList<ArrayList<Cell>> columns(ArrayList<ArrayList<Cell>> columns){
+        columns=new ArrayList<>();
 
         for(int i=1;i<=8;i++)
         {
@@ -464,7 +545,7 @@ public class Table  implements Letters,Numbers{
             columns.add(arrayList);
         }
 
-        this.columns=columns;
+       return columns;
 
     }
 
@@ -477,7 +558,7 @@ public class Table  implements Letters,Numbers{
     }
 
     //Receive All Cells of the Table
-    public SortedMap<String,Cell> getAllCells()
+    public SortedMap<String,Cell> getCells()
     {
         return this.cells;
     }
@@ -497,12 +578,12 @@ public class Table  implements Letters,Numbers{
             System.out.print(i + "|");
             for(int j=1;j<=8;j++)
             {
-                System.out.print(cells.get(Character.toString(LetterList[j]) + i).line1());
+                System.out.print(this.cells.get(Character.toString(LetterList[j]) + i).line1());
             }
             System.out.print(i+"\n |");
             for(int j=1;j<=8;j++)
             {
-                System.out.print(cells.get(Character.toString(LetterList[j]) + i).line2()+ "|");
+                System.out.print(this.cells.get(Character.toString(LetterList[j]) + i).line2() + "|");
             }
             System.out.print("\n");
         }
@@ -511,34 +592,35 @@ public class Table  implements Letters,Numbers{
         return null;
     }
 
-    //Make Table
-    private void makeTable() {
+    //Create empty cells
+    private SortedMap<String,Cell> createCells(SortedMap<String,Cell> cells) {
+        cells=new TreeMap<String,Cell>();
         for (int i=1;i<=8;i+=2)
         {
             for(int j=1;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
             }
         }
         for (int i=2;i<=8;i+=2)
         {
             for(int j=2;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new BlackCell(LetterList[i], j, new Empty()));
             }
         }
         for (int i=1;i<=8;i+=2)
         {
             for(int j=2;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
             }
         }
         for (int i=2;i<=8;i+=2)
         {
             for(int j=1;j<=8;j+=2)
             {
-                this.cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
+                cells.put(Character.toString(LetterList[i]) + j, new WhiteCell(LetterList[i], j, new Empty()));
             }
         }
         for (SortedMap.Entry<String, Cell> cell : cells.entrySet()) {
@@ -553,5 +635,31 @@ public class Table  implements Letters,Numbers{
                 }
             }
         }
+        return cells;
+    }
+
+
+
+
+    //get Opponent's King's location
+    public Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer,Table table)
+    {
+        if(playerColor.equals(BLACK))
+        {
+            for(Map.Entry<String,ChessItem> pair:blackPlayer.entrySet())
+            {
+                if(pair.getValue() instanceof BlackKing)
+                    return table.getCellByString(pair.getKey());
+            }
+        }
+        if(playerColor.equals(WHITE))
+        {
+            for(Map.Entry<String,ChessItem> pair:whitePlayer.entrySet())
+            {
+                if(pair.getValue() instanceof WhiteKing)
+                    return table.getCellByString(pair.getKey());
+            }
+        }
+        return null;
     }
 }

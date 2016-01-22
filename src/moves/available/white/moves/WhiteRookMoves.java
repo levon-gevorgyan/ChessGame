@@ -16,16 +16,16 @@ import java.util.ArrayList;
  */
 public class WhiteRookMoves extends RookMoves {
     private ArrayList<Cell> whiteRookMoves;
-    public WhiteRookMoves(Cell cell) throws NoCell {
+    public WhiteRookMoves(Cell cell, Table Table) throws NoCell {
 
         try {
             ArrayList<Cell> whiteRookMoves = new ArrayList<>();
 
 
-            ArrayList<Cell> up = rookMovesUp(cell);
-            ArrayList<Cell> down = rookMovesDown(cell);
-            ArrayList<Cell> left = rookMovesLeft(cell);
-            ArrayList<Cell> right = rookMovesRight(cell);
+            ArrayList<Cell> up = rookMovesUp(cell, Table);
+            ArrayList<Cell> down = rookMovesDown(cell, Table);
+            ArrayList<Cell> left = rookMovesLeft(cell, Table);
+            ArrayList<Cell> right = rookMovesRight(cell, Table);
 
             Cell lastLeftCell = cell;
             if (left.size() > 0) {

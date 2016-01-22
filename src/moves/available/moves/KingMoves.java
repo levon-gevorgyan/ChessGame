@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by levon.gevorgyan on 12/01/16.
  */
 public abstract class KingMoves extends AvailableMoves {
-    protected ArrayList<Cell> getKingMoves(Cell cell)
+    protected ArrayList<Cell> getKingMoves(Cell cell, Table Table)
     {
         ArrayList<Cell> kingMoves=new ArrayList<>();
 

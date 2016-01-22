@@ -15,16 +15,16 @@ import java.util.ArrayList;
  */
 public class WhiteBishopMoves extends BishopMoves {
     private ArrayList<Cell> whiteBishopMoves;
-    public WhiteBishopMoves(Cell cell)  {
+    public WhiteBishopMoves(Cell cell, Table Table)  {
 
         try {
             ArrayList<Cell> whiteBishopMoves = new ArrayList<>();
 
 
-            ArrayList<Cell> leftUp = bishopMovesDiagLeftUp(cell);
-            ArrayList<Cell> leftDown = bishopMovesDiagLeftDown(cell);
-            ArrayList<Cell> rightUp = bishopMovesDiagRightUp(cell);
-            ArrayList<Cell> rightDown = bishopMovesDiagRightDown(cell);
+            ArrayList<Cell> leftUp = bishopMovesDiagLeftUp(cell,Table);
+            ArrayList<Cell> leftDown = bishopMovesDiagLeftDown(cell,Table);
+            ArrayList<Cell> rightUp = bishopMovesDiagRightUp(cell,Table);
+            ArrayList<Cell> rightDown = bishopMovesDiagRightDown(cell,Table);
 
             Cell lastLeftUpCell = cell;
             if (leftUp.size() > 0) {
@@ -110,8 +110,6 @@ public class WhiteBishopMoves extends BishopMoves {
 
                 }
             }
-
-
 
 
             if (leftUp.size()>0)

@@ -15,7 +15,8 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.moves.NoAvailableCells;
 import moves.available.black.moves.*;
-import play.Game;
+import players.BlackPlayer;
+import players.WhitePlayer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,10 +29,10 @@ import java.util.SortedMap;
 public class BlackMove extends Move implements Letters {
 
     boolean isCompleted=false;
-    //Black Rooks Moves Count
-    public static int countA8=0;
-    public static int countH8=0;
-    public static int countE8=0;
+    //Black Rooks and King Moves Count
+    private static int countA8=0;
+    private static int countH8=0;
+    private static int countE8=0;
     private boolean castlingHasDone=false;
 
     protected static boolean playerRookA8=true;
@@ -71,11 +72,17 @@ public class BlackMove extends Move implements Letters {
         }
     }
 
+    public BlackMove(String from,String to)
+    {
+        this.from=from;
+        this.to=to;
+    }
+
     @Override
-    public boolean move(Table table, Map<String, ChessItem> whitePlayerItems, Map<String, ChessItem> blackPlayerItems)
+    public boolean move(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
             throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
-
-
+        Map<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
+        Map<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
 
         String from=this.from;
         String to=this.to;
@@ -92,7 +99,7 @@ public class BlackMove extends Move implements Letters {
         {
             if(from.equals(item.getKey()))
             {
-                for (SortedMap.Entry<String, Cell> cell:table.getAllCells().entrySet())
+                for (SortedMap.Entry<String, Cell> cell:table.getCells().entrySet())
                 {
                     if(cell.getKey().equals(to))
                     {
@@ -107,18 +114,18 @@ public class BlackMove extends Move implements Letters {
             }
         }
 
-        if (table.getAllCells().get(from).getChessItem() instanceof Empty) {
+        if (table.getCells().get(from).getChessItem() instanceof Empty) {
             throw new EmptySourceCell(); //Empty Source
-        }else if(table.getAllCells().get(from).getChessItem() instanceof WhiteItem)
+        }else if(table.getCells().get(from).getChessItem() instanceof WhiteItem)
         {
                 throw new InvalidSource(); //Invalid Source
             }
         else {
 
-            for (SortedMap.Entry<String, Cell> cell : table.getAllCells().entrySet()) {
+            for (SortedMap.Entry<String, Cell> cell : table.getCells().entrySet()) {
                 if (cell.getKey().equals(to)) {
                     if (isTargetCell && isTargetString) {
-                        if (table.getAllCells().get(to).getChessItem() instanceof Empty) {
+                        if (table.getCells().get(to).getChessItem() instanceof Empty) {
                             isEmpty = true;
                             isBlackItem = false;
                             break;
@@ -126,10 +133,10 @@ public class BlackMove extends Move implements Letters {
                     }
                 }
             }
-            for (SortedMap.Entry<String, Cell> cell : table.getAllCells().entrySet()) {
+            for (SortedMap.Entry<String, Cell> cell : table.getCells().entrySet()) {
                 if (cell.getKey().equals(to)) {
                     if (isTargetCell && isTargetString) {
-                        if (table.getAllCells().get(to).getChessItem() instanceof WhiteItem) {
+                        if (table.getCells().get(to).getChessItem() instanceof WhiteItem) {
                             isBlackItem = false;
                             isWhiteItem = true;
                             break;
@@ -139,11 +146,11 @@ public class BlackMove extends Move implements Letters {
             }
             if (isEmpty) {
 
-                ChessItem chessItemFrom = table.getAllCells().get(from).getChessItem();
-                ChessItem chessItemTo = table.getAllCells().get(to).getChessItem();
+                ChessItem chessItemFrom = table.getCells().get(from).getChessItem();
+                ChessItem chessItemTo = table.getCells().get(to).getChessItem();
 
-                Cell cellFrom = table.getAllCells().get(from);
-                Cell cellTo = table.getAllCells().get(to);
+                Cell cellFrom = table.getCells().get(from);
+                Cell cellTo = table.getCells().get(to);
 
                 //Get available cells of source <--Begin-->
                 ArrayList<Cell> availableCells=new ArrayList<>();
@@ -151,26 +158,26 @@ public class BlackMove extends Move implements Letters {
 
                     //Conditions
                     if(cellFrom.getChessItem() instanceof BlackBishop){
-                        availableCells=new BlackBishopMoves(cellFrom).getBlackBishopMoves();
+                        availableCells=new BlackBishopMoves(cellFrom,table).getBlackBishopMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKing){
-                        availableCells=new BlackKingMoves(cellFrom).getBlackKingMoves();
+                        availableCells=new BlackKingMoves(cellFrom,table).getBlackKingMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKnight){
-                        availableCells=new BlackKnightMoves(cellFrom).getBlackKnightMoves();
+                        availableCells=new BlackKnightMoves(cellFrom,table).getBlackKnightMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackPawn){
-                        availableCells=new BlackPawnMoves(cellFrom).getBlackPawnMoves();
+                        availableCells=new BlackPawnMoves(cellFrom,table).getBlackPawnMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackQueen){
-                        availableCells=new BlackQueenMoves(cellFrom).getBlackQueenMoves();
+                        availableCells=new BlackQueenMoves(cellFrom,table).getBlackQueenMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackRook){
-                        availableCells=new BlackRookMoves(cellFrom).getBlackRookMoves();
+                        availableCells=new BlackRookMoves(cellFrom,table).getBlackRookMoves();
 
                     }
                     else{
@@ -316,17 +323,17 @@ public class BlackMove extends Move implements Letters {
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
-                doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
+                doPawnChangeBlack(blackPlayerItems, cellTo,table);//do Castling
                 isCompleted=true;
 
             }
             if (isWhiteItem) {
 
-                ChessItem chessItemFrom = table.getAllCells().get(from).getChessItem();
+                ChessItem chessItemFrom = table.getCells().get(from).getChessItem();
                 ChessItem chessItemEmpty = new Empty();
 
-                Cell cellFrom = table.getAllCells().get(from);
-                Cell cellTo = table.getAllCells().get(to);
+                Cell cellFrom = table.getCells().get(from);
+                Cell cellTo = table.getCells().get(to);
 
                 //Get available cells of source <--Begin-->
                 ArrayList<Cell> availableCells=new ArrayList<>();
@@ -334,26 +341,26 @@ public class BlackMove extends Move implements Letters {
                 try {
                     //Conditions
                     if(cellFrom.getChessItem() instanceof BlackBishop){
-                        availableCells=new BlackBishopMoves(cellFrom).getBlackBishopMoves();
+                        availableCells=new BlackBishopMoves(cellFrom,table).getBlackBishopMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKing){
-                        availableCells=new BlackKingMoves(cellFrom).getBlackKingMoves();
+                        availableCells=new BlackKingMoves(cellFrom,table).getBlackKingMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKnight){
-                        availableCells=new BlackKnightMoves(cellFrom).getBlackKnightMoves();
+                        availableCells=new BlackKnightMoves(cellFrom,table).getBlackKnightMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackPawn){
-                        availableCells=new BlackPawnMoves(cellFrom).getBlackPawnMoves();
+                        availableCells=new BlackPawnMoves(cellFrom,table).getBlackPawnMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackQueen){
-                        availableCells=new BlackQueenMoves(cellFrom).getBlackQueenMoves();
+                        availableCells=new BlackQueenMoves(cellFrom,table).getBlackQueenMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackRook){
-                        availableCells=new BlackRookMoves(cellFrom).getBlackRookMoves();
+                        availableCells=new BlackRookMoves(cellFrom,table).getBlackRookMoves();
 
                     }
                     else{
@@ -378,18 +385,18 @@ public class BlackMove extends Move implements Letters {
                             if(cellTo.equals(target)){
                                 //check Black Castling
                                 if (cellFrom.getChessItem() instanceof BlackRook){
-                                    if(cellFrom.equals(Game.TABLE.getCell(A,8)))
+                                    if(cellFrom.equals(table.getCell(A, 8)))
                                     {
                                         countA8++;
                                     }
-                                    if(cellFrom.equals(Game.TABLE.getCell(H,8)))
+                                    if(cellFrom.equals(table.getCell(H,8)))
                                     {
                                         countH8++;
                                     }
 
                                 }
                                 if (cellFrom.getChessItem() instanceof BlackKing){
-                                    if(cellFrom.equals(Game.TABLE.getCell(E,8)))
+                                    if(cellFrom.equals(table.getCell(E,8)))
                                     {
                                         countE8++;
                                     }
@@ -428,7 +435,7 @@ public class BlackMove extends Move implements Letters {
                 }
 
 
-                doPawnChangeBlack(blackPlayerItems, cellTo);//do Castling
+                doPawnChangeBlack(blackPlayerItems, cellTo,table);//do Castling
 
             }
             if (isBlackItem) {

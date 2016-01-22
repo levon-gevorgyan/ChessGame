@@ -3,6 +3,7 @@ package moves.available.black.moves;
 import chessitems.WhiteItem;
 import chessitems.black.BlackKnight;
 import chessitems.empty.Empty;
+import chesstable.Table;
 import chesstable.cells.Cell;
 import exceptions.moves.NoAvailableCells;
 import moves.available.moves.KnightMoves;
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 public class BlackKnightMoves extends KnightMoves{
     private ArrayList<Cell> blackKnightMoves;
 
-    public BlackKnightMoves(Cell cell)
+    public BlackKnightMoves(Cell cell, Table Table)
     {
         ArrayList<Cell> blackKnightMoves=new ArrayList<>();
-        for (Cell knightMove:getKnightMoves(cell))
+        for (Cell knightMove:getKnightMoves(cell, Table))
         {
             if(knightMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
             {

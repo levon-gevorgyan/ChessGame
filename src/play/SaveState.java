@@ -1,81 +1,51 @@
 package play;
 
 import chessitems.ChessItem;
+import chesstable.Table;
 import chesstable.cells.BlackCell;
 import chesstable.cells.Cell;
 import chesstable.cells.WhiteCell;
+import players.BlackPlayer;
+import players.Player;
+import players.WhitePlayer;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-/**
- * Created by Levon on 17.01.2016.
- */
+//Created by Levon on 17.01.2016.
+
+
 public class SaveState {
-    private Map<String, ChessItem> whitePlayerItems;
-    private Map<String, ChessItem> blackPlayerItems;
-    private Cell cellFrom;
-    private Cell cellTo;
+
+    private SortedMap<String,ChessItem> allChessItems=new TreeMap<>();
+
+    private SortedMap<String, ChessItem> whiteChessItems=new TreeMap<>();;
+    private SortedMap<String, ChessItem> blackChessItems=new TreeMap<>();;
 
 
 
-    public SaveState(String string, Map<String, ChessItem> whitePlayerItems,Map<String, ChessItem> blackPlayerItems)
+    public SaveState(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
     {
 
-        String from=Character.toString(string.toCharArray()[0])+Character.toString(string.toCharArray()[1]);
-        String to=Character.toString(string.toCharArray()[2])+Character.toString(string.toCharArray()[3]);
-        Cell cellFrom=Game.getCellByString(from);
-        Cell cellTo=Game.getCellByString(to);
-
-        if (cellFrom instanceof WhiteCell)
+        for (SortedMap.Entry<String,Cell> pair:table.getCells().entrySet())
         {
-            cellFrom=new WhiteCell(from.toCharArray()[0],Character.getNumericValue(from.toCharArray()[1]),
-                            Game.getCellByString(from).getChessItem());
+            this.allChessItems.put(pair.getKey(), pair.getValue().getChessItem());
         }
-        if (cellFrom instanceof BlackCell)
-        {
-            cellFrom=new BlackCell(from.toCharArray()[0],Character.getNumericValue(from.toCharArray()[1]),
-                            Game.getCellByString(from).getChessItem());
-        }
-        if (cellTo instanceof WhiteCell)
-        {
-            cellTo=new WhiteCell(to.toCharArray()[0],Character.getNumericValue(to.toCharArray()[1]),
-                            Game.getCellByString(to).getChessItem());
-        }
-        if (cellTo instanceof BlackCell)
-        {
-            cellTo=new BlackCell(to.toCharArray()[0],Character.getNumericValue(to.toCharArray()[1]),
-                            Game.getCellByString(to).getChessItem());
-        }
-
-        Map<String, ChessItem> whitePlayerItemsSave = new HashMap<>();
-        Map<String, ChessItem> blackPlayerItemsSave = new HashMap<>();
-
-        whitePlayerItemsSave.putAll(whitePlayerItems);
-
-        blackPlayerItemsSave.putAll(blackPlayerItems);
-
-        this.whitePlayerItems=whitePlayerItemsSave;
-        this.blackPlayerItems=blackPlayerItemsSave;
-        this.cellFrom=cellFrom;
-        this.cellTo=cellTo;
+        this.whiteChessItems =  (SortedMap<String,ChessItem>)((TreeMap<String,ChessItem>) whitePlayer.getChessItemsMap()).clone();
+        this.blackChessItems = (SortedMap<String,ChessItem>)((TreeMap<String,ChessItem>) blackPlayer.getChessItemsMap()).clone();
 
     }
 
-    public Map<String, ChessItem> getWhitePlayerItems() {
-        return this.whitePlayerItems;
-    }
-
-    public Map<String, ChessItem> getBlackPlayerItems() {
-        return this.blackPlayerItems;
-    }
-
-    public Cell getCellFrom() {
-        return cellFrom;
-    }
-
-    public Cell getCellTo() {
-        return cellTo;
+    public void undoHere (Table table, Player whitePlayer, Player blackPlayer) {
+        for (SortedMap.Entry<String, Cell> pair : table.getCells().entrySet()) {
+            for (SortedMap.Entry<String, ChessItem> pairSave : allChessItems.entrySet()) {
+                if (pair.getKey().equals(pairSave.getKey())) {
+                    pair.getValue().setChessItem(pairSave.getValue());
+                    break;
+                }
+            }
+        }
+        whitePlayer.setChessItemsMap(this.whiteChessItems);
+        blackPlayer.setChessItemsMap(this.blackChessItems);
     }
 }
