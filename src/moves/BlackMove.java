@@ -68,6 +68,7 @@ public class BlackMove extends Move implements Letters {
             throw new InvalidMoveString("Source & Target are the same");
         }
     }
+
     public BlackMove(String from,String to)
     {
         this.from=from;
@@ -79,9 +80,6 @@ public class BlackMove extends Move implements Letters {
             throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException {
         Map<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
         Map<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
-
-
-
 
         String from=this.from;
         String to=this.to;

@@ -22,32 +22,14 @@ public class Table  implements Letters,Numbers, Colors{
 
     private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the Table
     private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
-    private ArrayList<Cell> rowsCells=new ArrayList<>(); //All Rows of the Table
     private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
-    private ArrayList<Cell> columnsCells=new ArrayList<>(); //All Columns of the Table
     private WhitePlayer whitePlayer;
     private BlackPlayer blackPlayer;
 
-    public ArrayList<Cell> getRowsCells() {
-        return rowsCells;
-    }
-
-    public void setRowsCells(ArrayList<Cell> rowsCells) {
-        this.rowsCells = new ArrayList<>(rowsCells);
-    }
-
-    public ArrayList<Cell> getColumnsCells() {
-        return columnsCells;
-    }
-
-    public void setColumnsCells(ArrayList<Cell> columnsCells) {
-        this.columnsCells = new ArrayList<>(columnsCells);
-    }
-
-    public Table(Table another) {
-        this.cells = (SortedMap<String,Cell>)((TreeMap<String,Cell>)(another.getCells())).clone();
-        this.rows=(ArrayList<ArrayList<Cell>>)(another.getRows()).clone();
-        this.columns=(ArrayList<ArrayList<Cell>>)(another.getColumns()).clone();
+    public Table(Table cloneTable) {
+        this.cells = (SortedMap<String,Cell>)((TreeMap<String,Cell>)(cloneTable.getCells())).clone();
+        this.rows=(ArrayList<ArrayList<Cell>>)(cloneTable.getRows()).clone();
+        this.columns=(ArrayList<ArrayList<Cell>>)(cloneTable.getColumns()).clone();
     }
 
     public WhitePlayer getWhitePlayer() {
@@ -89,24 +71,16 @@ public class Table  implements Letters,Numbers, Colors{
 
     //Create Table
     public Table(SortedMap<String,Cell> cells,
-                 ArrayList<ArrayList<Cell>> rows,ArrayList<Cell> rowsCells,
-                 ArrayList<ArrayList<Cell>> columns,ArrayList<Cell> columnsCells,
+                 ArrayList<ArrayList<Cell>> rows,ArrayList<ArrayList<Cell>> columns,
                  WhitePlayer whitePlayer, BlackPlayer blackPlayer)
-
     {
-
-        cells=createCells(cells);
-        this.cells=cells;
-        this.rowsCells=rowsCells;
-        rows=createRows(rows,rowsCells);
-        this.rows=rows;
-        this.columnsCells=columnsCells;
-        columns = createColumns(columns,columnsCells);
-        this.columns=columns;
         this.whitePlayer=whitePlayer;
         this.blackPlayer=blackPlayer;
-        setAllItems(whitePlayer,blackPlayer);
 
+        this.cells=createCells(cells);
+
+        this.rows=rows(rows);
+        this.columns=columns(columns);
     }
 
     public void setAllItems(WhitePlayer whitePlayer, BlackPlayer blackPlayer){
@@ -535,43 +509,43 @@ public class Table  implements Letters,Numbers, Colors{
         return null;
     }
 
-    //Create the Rows
-    public ArrayList<ArrayList<Cell>> createRows(ArrayList<ArrayList<Cell>> rows,ArrayList<Cell> rowsCells){
+    //Set Up the Rows
+    private ArrayList<ArrayList<Cell>>  rows(ArrayList<ArrayList<Cell>> rows){
         rows=new ArrayList<>();
-        rowsCells=new ArrayList<>();
+
 
         for(int i=1;i<=8;i++)
         {
+            ArrayList<Cell> arrayList=new ArrayList<>();
 
 
-            for(int j=1;j<=8;j++)
-            {
-                rowsCells.add(getCell(LetterList[j],Character.getNumericValue(NumberList[i])));
+            for(int j=1; j <= 8; j++) {
+                arrayList.add(getCell(LetterList[j],Character.getNumericValue(NumberList[i])));
 
             }
-            rows.add(rowsCells);
+            rows.add(arrayList);
         }
 
         return rows;
     }
 
     //Set Up the Columns
-    public ArrayList<ArrayList<Cell>> createColumns(ArrayList<ArrayList<Cell>> columns,ArrayList<Cell> columnsCells){
+    private ArrayList<ArrayList<Cell>> columns(ArrayList<ArrayList<Cell>> columns){
         columns=new ArrayList<>();
-        columnsCells=new ArrayList<>();
+
         for(int i=1;i<=8;i++)
         {
-
+            ArrayList<Cell> arrayList=new ArrayList<>();
 
             for(int j=1;j<=8;j++)
             {
-                columnsCells.add(getCell(LetterList[i],Character.getNumericValue(NumberList[j])));
+                arrayList.add(getCell(LetterList[i],Character.getNumericValue(NumberList[j])));
 
             }
-            columns.add(columnsCells);
+            columns.add(arrayList);
         }
 
-        return columns;
+       return columns;
 
     }
 

@@ -17,33 +17,35 @@ import java.util.*;
 
 public class SaveState {
 
-    private SortedMap<String,Cell> cells;
+    private SortedMap<String,ChessItem> allChessItems=new TreeMap<>();
 
-    private ArrayList<ArrayList<Cell>> rows;
-    private ArrayList<ArrayList<Cell>> columns;
-    private Map<String, ChessItem> whiteItemsMap;
-    private Map<String, ChessItem> blackItemsMap;
+    private SortedMap<String, ChessItem> whiteChessItems=new TreeMap<>();;
+    private SortedMap<String, ChessItem> blackChessItems=new TreeMap<>();;
 
 
 
-    public SaveState(Table table, Player whitePlayer, Player blackPlayer)
+    public SaveState(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
     {
-        this.cells= (SortedMap<String,Cell>)((TreeMap<String,Cell>)table.getCells()).clone();
 
-
-        this.rows=new ArrayList<ArrayList<Cell>>(table.getRows());
-        this.columns=new ArrayList<ArrayList<Cell>>(table.getColumns());
-        this.whiteItemsMap=(Map<String, ChessItem>)((HashMap<String, ChessItem>)whitePlayer.getChessItemsMap()).clone();
-        this.blackItemsMap=(Map<String, ChessItem>)((HashMap<String, ChessItem>)blackPlayer.getChessItemsMap()).clone();
+        for (SortedMap.Entry<String,Cell> pair:table.getCells().entrySet())
+        {
+            this.allChessItems.put(pair.getKey(), pair.getValue().getChessItem());
+        }
+        this.whiteChessItems =  (SortedMap<String,ChessItem>)((TreeMap<String,ChessItem>) whitePlayer.getChessItemsMap()).clone();
+        this.blackChessItems = (SortedMap<String,ChessItem>)((TreeMap<String,ChessItem>) blackPlayer.getChessItemsMap()).clone();
 
     }
 
-    public void returnHere (Table table, Player whitePlayer, Player blackPlayer)
-    {
-        table.setCells(this.cells);
-        table.setRows(this.rows);
-        table.setColumns(this.columns);
-        //whitePlayer.setChessItemsMap(whiteItemsMap);
-        //blackPlayer.setChessItemsMap(blackItemsMap);
+    public void undoHere (Table table, Player whitePlayer, Player blackPlayer) {
+        for (SortedMap.Entry<String, Cell> pair : table.getCells().entrySet()) {
+            for (SortedMap.Entry<String, ChessItem> pairSave : allChessItems.entrySet()) {
+                if (pair.getKey().equals(pairSave.getKey())) {
+                    pair.getValue().setChessItem(pairSave.getValue());
+                    break;
+                }
+            }
+        }
+        whitePlayer.setChessItemsMap(this.whiteChessItems);
+        blackPlayer.setChessItemsMap(this.blackChessItems);
     }
 }

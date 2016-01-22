@@ -15,6 +15,7 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.moves.NoAvailableCells;
 import moves.available.white.moves.*;
+import play.Game;
 import players.BlackPlayer;
 import players.WhitePlayer;
 
