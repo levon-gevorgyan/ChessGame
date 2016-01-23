@@ -1,38 +1,41 @@
 package play;
 
 import chessitems.ChessItem;
-import chessitems.WhiteItem;
-import chessitems.black.BlackKing;
-import chessitems.white.WhiteKing;
+import chessitems.black.*;
+import chessitems.white.*;
+
 import chesstable.cells.Cell;
 import chesstable.Table;
 import chesstable.cells.Letters;
 
+import colors.Black;
 import colors.Colors;
+import colors.White;
+
 import exceptions.cell.EmptySourceCell;
 import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
-import exceptions.cell.NotEmptyCell;
 import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.game.Check;
 import exceptions.game.Mate;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
 import exceptions.moves.NoAvailableCells;
-import exceptions.table.OutOfTable;
+
 import moves.BlackMove;
 import moves.Move;
 import moves.WhiteMove;
-import moves.available.black.moves.BlackKingMoves;
-import moves.available.white.moves.WhiteKingMoves;
+import moves.available.black.moves.*;
+import moves.available.test.move.*;
+import moves.available.white.moves.*;
+
 import players.BlackPlayer;
-import players.Player;
 import players.WhitePlayer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
 import java.io.InputStreamReader;
+
 import java.util.*;
 
 /**
@@ -43,9 +46,6 @@ public class Game implements Letters, Colors{
     public static void main(String[] args) throws IOException {
         ArrayList<SaveState> saveStateArrayList=new ArrayList<>();
         SaveState previousState;
-
-        boolean whiteKingHasNoMoves=false;
-        boolean blackKingHasNoMoves=false;
 
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
 
@@ -116,63 +116,127 @@ public class Game implements Letters, Colors{
 
                     }
                     if (nextToBlack) {
-                        //is Check or not
+                        //is Check or not?
                         Cell kingCell = table.getOpponentKingCell(BLACK, whitePlayer.getChessItemsMap(), blackPlayer.getChessItemsMap(), table);
                         if (Move.isInAllItemsOfAvailableCellListWhite(kingCell, whitePlayer.getChessItemsMap(), table)) {
                             try {
                                 throw new Check();
                             } catch (Check check) {
                                 System.out.println("Check to Black Army");
+                                //is Mate or not?
+                                ArrayList<BlackTestMove> blackTestMoves=new ArrayList<>();
                                 saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
                                 previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
-                                BlackKingMoves kingMoves = new BlackKingMoves(kingCell, table);
-                                ArrayList<Cell> blackNonMateCells = new ArrayList<>();
 
-
-                                try {
-                                    ArrayList<Cell> moves = kingMoves.getBlackKingMoves();
-                                    if (moves.size() > 0) {
-                                        for (Cell cell : moves) {
-                                            new BlackMove(kingCell.toString(), cell.toString()).move(table, whitePlayer, blackPlayer);
-                                            //table.toString();
-                                            if (!(Move.isInAllItemsOfAvailableCellListWhite(cell, whitePlayer.getChessItemsMap(), table))) {
-                                                blackNonMateCells.add(cell);
+                                for(SortedMap.Entry<String,ChessItem> item:blackPlayer.getChessItemsMap().entrySet())
+                                {
+                                    if(item.getValue() instanceof BlackKing)
+                                    {
+                                        try {
+                                            for (Cell cell:new BlackKingMoves(table.getCellByString(item.getKey()), table,true)
+                                                    .getBlackKingMoves())
+                                            {
+                                                blackTestMoves.add(new BlackTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
                                             }
+                                        } catch (NoAvailableCells noAvailableCells) {
 
-                                            previousState.undoHere(table, whitePlayer, blackPlayer);
-                                            //table.toString();
                                         }
-                                        if (blackNonMateCells.size() == 0) {
-                                            throw new NoAvailableCells();
-                                        } else {
-                                            System.out.print("Available Moves for black king are: |");
-                                            for (Cell cell1: blackNonMateCells) {
-                                                System.out.print(cell1 + "|");
+                                    }
+                                    if(item.getValue() instanceof BlackQueen)
+                                    {
+                                        try {
+                                            for (Cell cell:new BlackQueenMoves(table.getCellByString(item.getKey()), table).getBlackQueenMoves())
+                                            {
+                                                blackTestMoves.add(new BlackTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
                                             }
-                                            System.out.println("");
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof BlackBishop)
+                                    {
+                                        try {
+                                            for (Cell cell:new BlackBishopMoves(table.getCellByString(item.getKey()), table).getBlackBishopMoves())
+                                            {
+                                                blackTestMoves.add(new BlackTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof BlackKnight)
+                                    {
+                                        try {
+                                            for (Cell cell:new BlackKnightMoves(table.getCellByString(item.getKey()), table).getBlackKnightMoves())
+                                            {
+                                                blackTestMoves.add(new BlackTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof BlackPawn)
+                                    {
+                                        try {
+                                            for (Cell cell:new BlackPawnMoves(table.getCellByString(item.getKey()), table).getBlackPawnMoves())
+                                            {
+                                                blackTestMoves.add(new BlackTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof BlackRook)
+                                    {
+                                        try {
+                                            for (Cell cell:new BlackRookMoves(table.getCellByString(item.getKey()), table).getBlackRookMoves())
+                                            {
+                                                blackTestMoves.add(new BlackTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                }
+
+
+                                ArrayList<BlackTestMove> availableMoves=new ArrayList<>();
+                                try {
+
+
+                                    if (blackTestMoves.size() > 0) {
+                                        for (BlackTestMove move : blackTestMoves) {
+                                            if(move.getChessItem().equals(Black.KING))
+                                            {
+                                                new BlackMove(move.getSource(),move.getDestination()).move(table, whitePlayer, blackPlayer);
+
+                                                if (!(Move.isInAllItemsOfAvailableCellListWhite(
+                                                        table.getCellByString(move.getDestination()), whitePlayer.getChessItemsMap(), table))) {
+                                                    availableMoves.add(move);
+                                                }
+                                                previousState.undoHere(table, whitePlayer, blackPlayer);
+                                            }
+                                            else
+                                            {
+                                                new BlackMove(move.getSource(),move.getDestination()).move(table, whitePlayer, blackPlayer);
+
+                                                if (!(Move.isInAllItemsOfAvailableCellListWhite(kingCell, whitePlayer.getChessItemsMap(), table))) {
+                                                    availableMoves.add(move);
+                                                }
+                                                previousState.undoHere(table, whitePlayer, blackPlayer);
+                                            }
+
+                                        }
+                                        if (availableMoves.size() == 0) {
+                                            throw new Mate(BLACK);
+                                        } else {
+                                            System.out.println("Available moves for black player are:");
+                                            for(BlackTestMove move:availableMoves){
+                                                System.out.println(move.toString());
+                                            }
                                         }
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
-                                    System.out.print("Is Check-Mate to black? (yes/no): ");
-                                    String answer="";
-
-                                    while (!(answer.toLowerCase().equals("yes"))||answer.toLowerCase().equals("no"))
-                                    {
-                                        answer=reader.readLine();
-                                        if(answer.equals("yes"))
-                                        {
-                                            throw new Mate(BLACK);
-                                        }
-                                        else if(answer.equals("no"))
-                                        {
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            System.out.print("You have mistyped. Try again: ");
-                                        }
-                                    }
-
 
                                 } catch (NoCell noCell) {
 
@@ -194,8 +258,8 @@ public class Game implements Letters, Colors{
                 }
 
 
-                while (!s.equals("exit")) //Black player's turn
-                {
+                //Black player's turn
+                while (!s.equals("exit")) {
                     saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
                     previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
                     boolean nextToWhite;
@@ -217,7 +281,7 @@ public class Game implements Letters, Colors{
                             //Undo Last Move
                             previousState.undoHere(table, whitePlayer, blackPlayer);
                             //Undo Last Move
-
+                            table.toString();
                             throw new Check();
                         }
                         table.toString();
@@ -243,63 +307,127 @@ public class Game implements Letters, Colors{
 
                     }
                     if (nextToWhite) {
-                        //is Check or not
+                        //is Check or not?
                         Cell kingCell = table.getOpponentKingCell(WHITE, whitePlayer.getChessItemsMap(), blackPlayer.getChessItemsMap(), table);
                         if (Move.isInAllItemsOfAvailableCellListBlack(kingCell, blackPlayer.getChessItemsMap(), table)) {
                             try {
                                 throw new Check();
                             } catch (Check check) {
                                 System.out.println("Check to White Army");
+                                //is Mate or not?
+                                ArrayList<WhiteTestMove> whiteTestMoves=new ArrayList<>();
                                 saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
                                 previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
-                                WhiteKingMoves kingMoves = new WhiteKingMoves(kingCell, table);
-                                ArrayList<Cell> whiteNonMateCells = new ArrayList<>();
 
-
-                                try {
-                                    ArrayList<Cell> moves = kingMoves.getWhiteKingMoves();
-                                    if (moves.size() > 0) {
-                                        for (Cell cell : moves) {
-                                            new WhiteMove(kingCell.toString(), cell.toString()).move(table, whitePlayer, blackPlayer);
-                                            //table.toString();
-                                            if (!(Move.isInAllItemsOfAvailableCellListBlack(cell, blackPlayer.getChessItemsMap(), table))) {
-                                                whiteNonMateCells.add(cell);
+                                for(SortedMap.Entry<String,ChessItem> item:whitePlayer.getChessItemsMap().entrySet())
+                                {
+                                    if(item.getValue() instanceof WhiteKing)
+                                    {
+                                        try {
+                                            for (Cell cell:new WhiteKingMoves(table.getCellByString(item.getKey()), table,true)
+                                                    .getWhiteKingMoves())
+                                            {
+                                                whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
                                             }
+                                        } catch (NoAvailableCells noAvailableCells) {
 
-                                            previousState.undoHere(table, whitePlayer, blackPlayer);
-                                            //table.toString();
                                         }
-                                        if (whiteNonMateCells.size() == 0) {
-                                            throw new NoAvailableCells();
-                                        } else {
-                                            System.out.print("Available Moves for white king are: |");
-                                            for (Cell cell1: whiteNonMateCells) {
-                                                System.out.print(cell1 + "|");
+                                    }
+                                    if(item.getValue() instanceof WhiteQueen)
+                                    {
+                                        try {
+                                            for (Cell cell:new WhiteQueenMoves(table.getCellByString(item.getKey()), table).getWhiteQueenMoves())
+                                            {
+                                                whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
                                             }
-                                            System.out.println("");
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof WhiteBishop)
+                                    {
+                                        try {
+                                            for (Cell cell:new WhiteBishopMoves(table.getCellByString(item.getKey()), table).getWhiteBishopMoves())
+                                            {
+                                                whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof WhiteKnight)
+                                    {
+                                        try {
+                                            for (Cell cell:new WhiteKnightMoves(table.getCellByString(item.getKey()), table).getWhiteKnightMoves())
+                                            {
+                                                whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof WhitePawn)
+                                    {
+                                        try {
+                                            for (Cell cell:new WhitePawnMoves(table.getCellByString(item.getKey()), table).getWhitePawnMoves())
+                                            {
+                                                whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                    if(item.getValue() instanceof WhiteRook)
+                                    {
+                                        try {
+                                            for (Cell cell:new WhiteRookMoves(table.getCellByString(item.getKey()), table).getWhiteRookMoves())
+                                            {
+                                                whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                            }
+                                        } catch (NoAvailableCells noAvailableCells) {
+
+                                        }
+                                    }
+                                }
+
+
+                                ArrayList<WhiteTestMove> availableMoves=new ArrayList<>();
+                                try {
+
+
+                                    if (whiteTestMoves.size() > 0) {
+                                        for (WhiteTestMove move : whiteTestMoves) {
+                                            if(move.getChessItem().equals(White.KING))
+                                            {
+                                                new WhiteMove(move.getSource(),move.getDestination()).move(table, whitePlayer, blackPlayer);
+
+                                                if (!(Move.isInAllItemsOfAvailableCellListBlack(
+                                                        table.getCellByString(move.getDestination()), blackPlayer.getChessItemsMap(), table))) {
+                                                    availableMoves.add(move);
+                                                }
+                                                previousState.undoHere(table, whitePlayer, blackPlayer);
+                                            }
+                                            else
+                                            {
+                                                new WhiteMove(move.getSource(),move.getDestination()).move(table, whitePlayer, blackPlayer);
+
+                                                if (!(Move.isInAllItemsOfAvailableCellListBlack(kingCell, blackPlayer.getChessItemsMap(), table))) {
+                                                    availableMoves.add(move);
+                                                }
+                                                previousState.undoHere(table, whitePlayer, blackPlayer);
+                                            }
+
+                                        }
+                                        if (availableMoves.size() == 0) {
+                                            throw new Mate(WHITE);
+                                        } else {
+                                            System.out.println("Available moves for white player are:");
+                                            for(WhiteTestMove move:availableMoves){
+                                                System.out.println(move.toString());
+                                            }
                                         }
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
-                                    System.out.print("Is Check-Mate to white? (yes/no): ");
-                                    String answer="";
-
-                                    while (!(answer.toLowerCase().equals("yes"))||answer.toLowerCase().equals("no"))
-                                    {
-                                        answer=reader.readLine();
-                                        if(answer.equals("yes"))
-                                        {
-                                            throw new Mate(WHITE);
-                                        }
-                                        else if(answer.equals("no"))
-                                        {
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            System.out.print("You have mistyped. Try again: ");
-                                        }
-                                    }
-
 
                                 } catch (NoCell noCell) {
 
@@ -318,7 +446,6 @@ public class Game implements Letters, Colors{
                         table.toString();
                         break;
                     }
-
                 }
 
             }
@@ -332,154 +459,3 @@ public class Game implements Letters, Colors{
 
 
 }
-
-/* TEST
-SortedMap<String,ArrayList<Cell>> otherChessItemsCell=new TreeMap<>();
-                                SortedMap<String,ArrayList<ChessItem>> listSortedMap=new TreeMap<>();
-
-
-                                try {
-                                    if(Move.moveUpUntilNotEmpty(kingCell,table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveUpUntilNotEmpty(kingCell, table));
-                                        if (table.upCell(list.get(list.size()-1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.upCell(list.get(list.size()-1)));
-                                        }
-                                        otherChessItemsCell.put("UP",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                try {
-                                    if(Move.moveDownUntilNotEmpty(kingCell, table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveDownUntilNotEmpty(kingCell, table));
-                                        if (table.downCell(list.get(list.size() - 1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.downCell(list.get(list.size() - 1)));
-                                        }
-                                        otherChessItemsCell.put("DOWN",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                try {
-                                    if(Move.moveLeftUntilNotEmpty(kingCell, table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveLeftUntilNotEmpty(kingCell, table));
-                                        if (table.leftCell(list.get(list.size() - 1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.leftCell(list.get(list.size() - 1)));
-                                        }
-                                        otherChessItemsCell.put("LEFT",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                try {
-                                    if(Move.moveRightUntilNotEmpty(kingCell, table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveRightUntilNotEmpty(kingCell, table));
-                                        if (table.rightCell(list.get(list.size() - 1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.rightCell(list.get(list.size() - 1)));
-                                        }
-                                        otherChessItemsCell.put("RIGHT",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                try {
-                                    if(Move.moveDiagLeftDownUntilNotEmpty(kingCell, table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveDiagLeftDownUntilNotEmpty(kingCell, table));
-                                        if (table.diagonalLeftDownCell(list.get(list.size() - 1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.diagonalLeftDownCell(list.get(list.size() - 1)));
-                                        }
-                                        otherChessItemsCell.put("LEFT-DOWN",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                try {
-                                    if(Move.moveDiagLeftUpUntilNotEmpty(kingCell, table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveDiagLeftUpUntilNotEmpty(kingCell, table));
-                                        if (table.diagonalLeftUpCell(list.get(list.size() - 1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.diagonalLeftUpCell(list.get(list.size() - 1)));
-                                        }
-                                        otherChessItemsCell.put("LEFT-UP",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                try {
-                                    if(Move.moveDiagRightDownUntilNotEmpty(kingCell, table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveDiagRightDownUntilNotEmpty(kingCell, table));
-                                        if (table.diagonalRightDownCell(list.get(list.size() - 1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.diagonalRightDownCell(list.get(list.size() - 1)));
-                                        }
-                                        otherChessItemsCell.put("RIGHT-DOWN",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                try {
-                                    if(Move.moveDiagRightUpUntilNotEmpty(kingCell, table).size()>0)
-                                    {
-                                        ArrayList<Cell> list=new ArrayList<>();
-                                        list.addAll(Move.moveDiagRightUpUntilNotEmpty(kingCell, table));
-                                        if (table.diagonalRightUpCell(list.get(list.size() - 1)).getChessItem() instanceof WhiteItem)
-                                        {
-                                            list.add(table.diagonalRightUpCell(list.get(list.size() - 1)));
-                                        }
-                                        otherChessItemsCell.put("RIGHT-UP",list);
-                                    }
-                                } catch (OutOfTable outOfTable) {
-
-                                } catch (NoCell noCell) {
-
-                                } catch (NotEmptyCell notEmptyCell) {
-
-                                }
-                                */

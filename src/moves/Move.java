@@ -97,8 +97,6 @@ public abstract class Move implements Colors{
                     allAvailableCells.addAll(new WhiteRookMoves(table.getCellByString(pair.getKey()), table).getWhiteRookMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
-                } catch (NoCell noCell) {
-                   
                 }
 
             }
@@ -173,8 +171,6 @@ public abstract class Move implements Colors{
                     allAvailableCells.addAll(new BlackRookMoves(table.getCellByString(pair.getKey()), table).getBlackRookMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
-                } catch (NoCell noCell) {
-                   
                 }
 
             }

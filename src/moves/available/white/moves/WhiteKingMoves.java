@@ -57,5 +57,19 @@ public class WhiteKingMoves extends KingMoves implements Letters {
         else
             throw new NoAvailableCells();
     }
+    public WhiteKingMoves(Cell cell, Table Table,boolean isCheck)
+    {
+        ArrayList<Cell> whiteKingMoves=new ArrayList<>();
+        for (Cell kingMove:getKingMoves(cell, Table))
+        {
+            if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof BlackItem)
+            {
+                whiteKingMoves.add(kingMove);
+            }
+        }
+
+
+        this.whiteKingMoves=whiteKingMoves;
+    }
 
 }

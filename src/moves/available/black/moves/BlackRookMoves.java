@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class BlackRookMoves extends RookMoves {
     private ArrayList<Cell> blackRookMoves;
-    public BlackRookMoves(Cell cell, Table Table) throws NoCell {
+    public BlackRookMoves(Cell cell, Table Table){
 
         try {
             ArrayList<Cell> blackRookMoves = new ArrayList<>();

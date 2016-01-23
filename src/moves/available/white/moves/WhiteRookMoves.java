@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class WhiteRookMoves extends RookMoves {
     private ArrayList<Cell> whiteRookMoves;
-    public WhiteRookMoves(Cell cell, Table Table) throws NoCell {
+    public WhiteRookMoves(Cell cell, Table Table) {
 
         try {
             ArrayList<Cell> whiteRookMoves = new ArrayList<>();

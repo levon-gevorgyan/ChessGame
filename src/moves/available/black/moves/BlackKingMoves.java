@@ -57,5 +57,19 @@ public class BlackKingMoves extends KingMoves implements Letters{
         else
             throw new NoAvailableCells();
     }
+    public BlackKingMoves(Cell cell, Table Table,boolean isCheck)
+    {
+        ArrayList<Cell> blackKingMoves=new ArrayList<>();
+        for (Cell kingMove:getKingMoves(cell,Table))
+        {
+            if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
+            {
+                blackKingMoves.add(kingMove);
+            }
+        }
+
+
+        this.blackKingMoves=blackKingMoves;
+    }
 
 }
