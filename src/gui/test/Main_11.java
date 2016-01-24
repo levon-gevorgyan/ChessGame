@@ -1,23 +1,21 @@
+/*
 package gui.test;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-
+*/
 /**
  * Created by Levon on 1/24/2016, 2:08 AM
- */
-public class Main extends Application{
+ *//*
+
+public class Main_11 extends Application{
 
     Stage window;
     Scene scene;
@@ -76,3 +74,4 @@ public class Main extends Application{
 
 
 }
+*/
