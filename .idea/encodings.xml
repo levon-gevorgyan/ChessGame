@@ -10,6 +10,8 @@
     <file url="file://$PROJECT_DIR$/src/gui/test/t_35/Controller.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/gui/test/t_35/Main.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/gui/test/t_35/sample.fxml" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ui/window/main/Controller.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ui/window/main/Main.java" charset="windows-1251" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
