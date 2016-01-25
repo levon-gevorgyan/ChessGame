@@ -10,8 +10,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public static Rectangle rectangle;
-
 
     public static void main(String[] args) {
         launch(args);
@@ -22,7 +20,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
         primaryStage.setTitle("Play Chess");
         Scene scene=new Scene(root, 800, 600);
-        scene.getStylesheets().add("ui/window/main/test.css");
+        //scene.getStylesheets().add("ui/window/main/test.css");
 
         primaryStage.setScene(scene);
         primaryStage.show();
