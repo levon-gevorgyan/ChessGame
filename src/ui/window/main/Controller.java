@@ -3,6 +3,7 @@ package ui.window.main;
 import chessitems.ChessItem;
 import chessitems.black.*;
 import chessitems.white.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -42,6 +43,15 @@ public class Controller implements Initializable{
         for(SortedMap.Entry<String, ChessItem> pair:blackPlayer.getChessItemsMap().entrySet()){
 
             board.add(new Rectangle(62,62,getUI(pair.getValue())),getGridColumn(pair.getKey()),getGridRow(pair.getKey()));
+        }
+
+        for (int i=0;i<board.getChildren().size();i++)
+        {
+
+
+            board.getChildren().get(i).setOnMouseDragged(event -> {
+                System.out.println("MouseDragged");
+            });
         }
 
 
