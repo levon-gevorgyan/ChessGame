@@ -17,7 +17,17 @@ import java.util.*;
 
 public class SaveState {
 
+    public SortedMap<String, ChessItem> getAllChessItems() {
+        return allChessItems;
+    }
+
     private SortedMap<String,ChessItem> allChessItems=new TreeMap<>();
+
+    public SortedMap<String, Integer> getGridCells() {
+        return gridCells;
+    }
+
+    private SortedMap<String,Integer> gridCells=new TreeMap<>();
 
     private SortedMap<String, ChessItem> whiteChessItems=new TreeMap<>();;
     private SortedMap<String, ChessItem> blackChessItems=new TreeMap<>();;
@@ -33,7 +43,19 @@ public class SaveState {
         }
         this.whiteChessItems =  (SortedMap<String,ChessItem>)((TreeMap<String,ChessItem>) whitePlayer.getChessItemsMap()).clone();
         this.blackChessItems = (SortedMap<String,ChessItem>)((TreeMap<String,ChessItem>) blackPlayer.getChessItemsMap()).clone();
+        this.gridCells=setGridCells(this.allChessItems);
 
+    }
+
+    private SortedMap<String, Integer> setGridCells(SortedMap<String, ChessItem> save) {
+        SortedMap<String,Integer> gridCells=new TreeMap<>();
+        int k=0;
+        for(SortedMap.Entry<String, ChessItem> pair:save.entrySet()){
+            gridCells.put(pair.getKey(), k);
+
+            k++;
+        }
+        return gridCells;
     }
 
     public void undoHere (Table table, Player whitePlayer, Player blackPlayer) {
@@ -48,4 +70,5 @@ public class SaveState {
         whitePlayer.setChessItemsMap(this.whiteChessItems);
         blackPlayer.setChessItemsMap(this.blackChessItems);
     }
+
 }

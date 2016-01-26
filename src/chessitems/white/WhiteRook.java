@@ -5,6 +5,7 @@ import chessitems.WhiteItem;
 import colors.White;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import ui.window.main.MyImage;
 
 /**
  * Created by Levon on 1/9/2016.
@@ -28,9 +29,11 @@ public class WhiteRook extends WhiteItem {
     }
 
     public static ImagePattern getUI(){
-        return new ImagePattern(new Image("/ui/window/main/images/items/WhiteRook.png"));
+        return new ImagePattern(new MyImage("/ui/window/main/images/items/WhiteRook.png"));
     }
-
+    public static String getImageString(){
+        return "/ui/window/main/images/items/WhiteRook.png";
+    }
     @Override
     public String toString() {
         return White.ROOK;

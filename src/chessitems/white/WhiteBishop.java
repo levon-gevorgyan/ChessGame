@@ -5,6 +5,7 @@ import chessitems.WhiteItem;
 import colors.White;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import ui.window.main.MyImage;
 
 /**
  * Created by Levon on 1/9/2016.
@@ -27,7 +28,10 @@ public class WhiteBishop extends WhiteItem implements White{
 
     }
     public static ImagePattern getUI(){
-        return new ImagePattern(new Image("/ui/window/main/images/items/WhiteBishop.png"));
+        return new ImagePattern(new MyImage("/ui/window/main/images/items/WhiteBishop.png"));
+    }
+    public static String getImageString(){
+        return "/ui/window/main/images/items/WhiteBishop.png";
     }
 
     @Override
