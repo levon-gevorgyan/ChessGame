@@ -139,7 +139,8 @@ public class WhiteBishopMoves extends BishopMoves {
         }
 
     }
-    public ArrayList<Cell> getWhiteBishopMoves() throws NoAvailableCells {
+    @Override
+    public ArrayList<Cell> getMoves() throws NoAvailableCells {
         if(whiteBishopMoves.size()>0) {
             return this.whiteBishopMoves;
         }

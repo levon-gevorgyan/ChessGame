@@ -158,26 +158,26 @@ public class BlackMove extends Move implements Letters {
 
                     //Conditions
                     if(cellFrom.getChessItem() instanceof BlackBishop){
-                        availableCells=new BlackBishopMoves(cellFrom,table).getBlackBishopMoves();
+                        availableCells=new BlackBishopMoves(cellFrom,table).getMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKing){
-                        availableCells=new BlackKingMoves(cellFrom,table).getBlackKingMoves();
+                        availableCells=new BlackKingMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKnight){
-                        availableCells=new BlackKnightMoves(cellFrom,table).getBlackKnightMoves();
+                        availableCells=new BlackKnightMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackPawn){
-                        availableCells=new BlackPawnMoves(cellFrom,table).getBlackPawnMoves();
+                        availableCells=new BlackPawnMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackQueen){
-                        availableCells=new BlackQueenMoves(cellFrom,table).getBlackQueenMoves();
+                        availableCells=new BlackQueenMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackRook){
-                        availableCells=new BlackRookMoves(cellFrom,table).getBlackRookMoves();
+                        availableCells=new BlackRookMoves(cellFrom,table).getMoves();
 
                     }
                     else{
@@ -341,26 +341,26 @@ public class BlackMove extends Move implements Letters {
                 try {
                     //Conditions
                     if(cellFrom.getChessItem() instanceof BlackBishop){
-                        availableCells=new BlackBishopMoves(cellFrom,table).getBlackBishopMoves();
+                        availableCells=new BlackBishopMoves(cellFrom,table).getMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKing){
-                        availableCells=new BlackKingMoves(cellFrom,table).getBlackKingMoves();
+                        availableCells=new BlackKingMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackKnight){
-                        availableCells=new BlackKnightMoves(cellFrom,table).getBlackKnightMoves();
+                        availableCells=new BlackKnightMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackPawn){
-                        availableCells=new BlackPawnMoves(cellFrom,table).getBlackPawnMoves();
+                        availableCells=new BlackPawnMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackQueen){
-                        availableCells=new BlackQueenMoves(cellFrom,table).getBlackQueenMoves();
+                        availableCells=new BlackQueenMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof BlackRook){
-                        availableCells=new BlackRookMoves(cellFrom,table).getBlackRookMoves();
+                        availableCells=new BlackRookMoves(cellFrom,table).getMoves();
 
                     }
                     else{

@@ -237,7 +237,8 @@ public class WhiteQueenMoves extends QueenMoves {
         }
 
     }
-    public ArrayList<Cell> getWhiteQueenMoves() throws NoAvailableCells {
+    @Override
+    public ArrayList<Cell> getMoves() throws NoAvailableCells {
         if (whiteQueenMoves.size()>0)
         {
             return this.whiteQueenMoves;

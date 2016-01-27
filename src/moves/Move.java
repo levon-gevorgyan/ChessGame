@@ -22,7 +22,6 @@ import letsnums.LetsNums;
 
 import moves.available.black.moves.*;
 import moves.available.white.moves.*;
-import play.Game;
 import players.BlackPlayer;
 import players.WhitePlayer;
 
@@ -55,14 +54,14 @@ public abstract class Move implements Colors{
             //Conditions
             try {
                 if(pair.getValue() instanceof WhiteBishop){
-                    allAvailableCells.addAll(new WhiteBishopMoves(table.getCellByString(pair.getKey()), table).getWhiteBishopMoves());
+                    allAvailableCells.addAll(new WhiteBishopMoves(table.getCellByString(pair.getKey()), table).getMoves());
                 }
             } catch (NoAvailableCells noAvailableCells) {
                 
             }
             if (pair.getValue() instanceof WhiteKing){
                 try {
-                    allAvailableCells.addAll(new WhiteKingMoves(table.getCellByString(pair.getKey()),table).getWhiteKingMoves());
+                    allAvailableCells.addAll(new WhiteKingMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -70,7 +69,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof WhiteKnight){
                 try {
-                    allAvailableCells.addAll(new WhiteKnightMoves(table.getCellByString(pair.getKey()),table).getWhiteKnightMoves());
+                    allAvailableCells.addAll(new WhiteKnightMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -78,7 +77,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof WhitePawn){
                 try {
-                    allAvailableCells.addAll(new WhitePawnMoves(table.getCellByString(pair.getKey()),table).getWhitePawnMoves());
+                    allAvailableCells.addAll(new WhitePawnMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -86,7 +85,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof WhiteQueen){
                 try {
-                    allAvailableCells.addAll(new WhiteQueenMoves(table.getCellByString(pair.getKey()), table).getWhiteQueenMoves());
+                    allAvailableCells.addAll(new WhiteQueenMoves(table.getCellByString(pair.getKey()), table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -94,7 +93,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof WhiteRook){
                 try {
-                    allAvailableCells.addAll(new WhiteRookMoves(table.getCellByString(pair.getKey()), table).getWhiteRookMoves());
+                    allAvailableCells.addAll(new WhiteRookMoves(table.getCellByString(pair.getKey()), table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -129,14 +128,14 @@ public abstract class Move implements Colors{
             //Conditions
             try {
                 if(pair.getValue() instanceof BlackBishop){
-                    allAvailableCells.addAll(new BlackBishopMoves(table.getCellByString(pair.getKey()),table).getBlackBishopMoves());
+                    allAvailableCells.addAll(new BlackBishopMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 }
             } catch (NoAvailableCells noAvailableCells) {
                 
             }
             if (pair.getValue() instanceof BlackKing){
                 try {
-                    allAvailableCells.addAll(new BlackKingMoves(table.getCellByString(pair.getKey()),table).getBlackKingMoves());
+                    allAvailableCells.addAll(new BlackKingMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -144,7 +143,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof BlackKnight){
                 try {
-                    allAvailableCells.addAll(new BlackKnightMoves(table.getCellByString(pair.getKey()),table).getBlackKnightMoves());
+                    allAvailableCells.addAll(new BlackKnightMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -152,7 +151,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof BlackPawn){
                 try {
-                    allAvailableCells.addAll(new BlackPawnMoves(table.getCellByString(pair.getKey()),table).getBlackPawnMoves());
+                    allAvailableCells.addAll(new BlackPawnMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -160,7 +159,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof BlackQueen){
                 try {
-                    allAvailableCells.addAll(new BlackQueenMoves(table.getCellByString(pair.getKey()),table).getBlackQueenMoves());
+                    allAvailableCells.addAll(new BlackQueenMoves(table.getCellByString(pair.getKey()),table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }
@@ -168,7 +167,7 @@ public abstract class Move implements Colors{
             }
             if (pair.getValue() instanceof BlackRook){
                 try {
-                    allAvailableCells.addAll(new BlackRookMoves(table.getCellByString(pair.getKey()), table).getBlackRookMoves());
+                    allAvailableCells.addAll(new BlackRookMoves(table.getCellByString(pair.getKey()), table).getMoves());
                 } catch (NoAvailableCells noAvailableCells) {
                     
                 }

@@ -29,8 +29,8 @@ public class BlackKnightMoves extends KnightMoves{
         }
         this.blackKnightMoves=blackKnightMoves;
     }
-
-    public ArrayList<Cell> getBlackKnightMoves() throws NoAvailableCells {
+    @Override
+    public ArrayList<Cell> getMoves() throws NoAvailableCells {
         if(blackKnightMoves.size()>0) {
             return this.blackKnightMoves;
         }

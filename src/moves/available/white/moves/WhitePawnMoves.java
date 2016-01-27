@@ -39,8 +39,8 @@ public class WhitePawnMoves extends PawnMoves {
             this.whitePawnMoves = whitePawnMoves;
         }
     }
-
-    public ArrayList<Cell> getWhitePawnMoves() throws NoAvailableCells
+    @Override
+    public ArrayList<Cell> getMoves() throws NoAvailableCells
 
     {
         if(whitePawnMoves.size()>0) {
