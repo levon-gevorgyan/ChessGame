@@ -19,7 +19,7 @@ import java.util.SortedMap;
  * Created by levon.gevorgyan on 27/01/16.
  */
 public abstract class UITurn {
-    protected String getString(SortedMap<String, Integer> map, int i){
+    public static String getString(SortedMap<String, Integer> map, int i){
         for (SortedMap.Entry<String,Integer> pair:map.entrySet())
         {
             if (i==pair.getValue())
@@ -27,7 +27,7 @@ public abstract class UITurn {
         }
         return null;
     }
-    protected ArrayList<Integer> cellToInt (ArrayList<Cell> cells, SaveState save){
+    public static ArrayList<Integer> cellToInt (ArrayList<Cell> cells, SaveState save){
         ArrayList<Integer> list=new ArrayList<>();
         for (Cell cell:cells){
             for (SortedMap.Entry<String,Integer> pair:save.getGridCells().entrySet()){
@@ -45,25 +45,25 @@ public abstract class UITurn {
 
 
 
-    protected String getImageString(Node node){
+    public static String getImageString(Node node){
         Rectangle a=(Rectangle)node;
         ImagePattern b= (ImagePattern) a.getFill();
         MyImage c= (MyImage) b.getImage();
         return c.toString();
     }
-    protected ImagePattern getImagePattern(Node node){
+    public static ImagePattern getImagePattern(Node node){
         Rectangle a=(Rectangle)node;
         return  (ImagePattern) a.getFill();
 
     }
-    protected void setFill(Node nodeS,String string){
+    public static void setFill(Node nodeS,String string){
         Rectangle S=(Rectangle)nodeS;
 
         S.setFill(new ImagePattern(new MyImage(string)));
 
     }
 
-    protected String  getImageString(ChessItem chessItem){
+    public static String  getImageString(ChessItem chessItem){
         if (chessItem instanceof Empty)
             return Empty.getImageString();
         if(chessItem instanceof WhiteBishop)
@@ -96,7 +96,7 @@ public abstract class UITurn {
             return BlackRook.getImageString();
         return null;
     }
-    protected ImagePattern getUI(ChessItem chessItem){
+    public static ImagePattern getUI(ChessItem chessItem){
         if(chessItem instanceof WhiteBishop)
             return WhiteBishop.getUI();
         if(chessItem instanceof WhiteKing)
@@ -130,7 +130,7 @@ public abstract class UITurn {
         return null;
     }
 
-    protected int getGridColumn(String cell){
+    public static int getGridColumn(String cell){
         if(cell.toCharArray()[0]=='a'){
             return 0;
         }
@@ -157,7 +157,7 @@ public abstract class UITurn {
         }
         return Integer.parseInt(null);
     }
-    protected int getGridRow(String cell){
+    public static int getGridRow(String cell){
         if(cell.toCharArray()[1]=='1'){
             return 7;
         }
@@ -187,7 +187,7 @@ public abstract class UITurn {
         return Integer.parseInt(null);
     }
 
-    protected Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+    public static Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
                 return node;
