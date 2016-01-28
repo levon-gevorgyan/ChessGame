@@ -96,18 +96,15 @@ public class Controller implements Initializable{
         final String[] src = new String[1];
         final String[] trg = new String[1];
         final ArrayList<Cell>[] cellArrayList = new ArrayList[]{new ArrayList<Cell>()};
-        final ArrayList[][] srcInt = {new ArrayList[]{previousState.getWhiteOnlyGridCells()}};
-        //final boolean[] whiteMove = {true};
-        //final boolean[] blackMove = {false};
+        final ArrayList<Integer>[] srcInt = new ArrayList[]{previousState.getWhiteOnlyGridCells()};
 
 
 
 
-
-        for (Object i: srcInt[0][0]) {
-            source = board.getChildren().get((Integer) i);
+        for (Integer i: srcInt[0]/*int i=0;i<64;i++*/) {
+            source = board.getChildren().get(i);
             final Node finalSource = source;
-            final int finalI = (int) i;
+            final int finalI = i;
             final SaveState finalPreviousState = previousState;
             final SaveState finalPreviousState1 = previousState;
             source.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -275,10 +272,10 @@ public class Controller implements Initializable{
                 }
             });
 
-            source = board.getChildren().get((Integer) i);
+            source = board.getChildren().get(i);
             final Node finalSource1 = source;
             final SaveState finalPreviousState2 = previousState;
-            final Node finalSource2 = source;
+
             final SaveState finalPreviousState3 = previousState;
             source.setOnDragDone(new EventHandler<DragEvent>() {
                 public void handle(DragEvent event) {
@@ -291,14 +288,23 @@ public class Controller implements Initializable{
                         boolean nextToWhite=false;
                         try {
                             if(table.getCellByString(src[0]).getChessItem()instanceof WhiteItem) {
+                                for (Integer i: srcInt[0]/*int i=0;i<64;i++*/) {
+                                    board.getChildren().get(i).setOnDragDetected(null);
+                                }
+                                for (int i:UITurn.cellToInt(cellArrayList[0], finalPreviousState)) {
+                                    board.getChildren().get(i).setOnDragOver(null);
+                                    board.getChildren().get(i).setOnDragDropped(null);
+                                }
+                                for (Integer i: srcInt[0]/*int i=0;i<64;i++*/) {
+                                    board.getChildren().get(i).setOnDragDone(null);
+                                }
                                 UITurn.setFill(finalSource1, Empty.getImageString());
                                 WhiteTurn whiteTurn = new WhiteTurn();
-                                srcInt[0] = new ArrayList[]{finalPreviousState3.getBlackGridOnlyCells()};
                                 whiteTurn.doMove(src[0] + trg[0], table, whitePlayer, blackPlayer, saveStateArrayList, finalPreviousState2, nextToBlack);
-                                //blackMove[0] =true;
-                                //whiteMove[0] =false;
+                                //doMove(board, table, whitePlayer, blackPlayer, saveStateArrayList, finalPreviousState3);
                                 //new WhiteUITurn(whiteTurn.getSaveState());
-                                //finalSource2.setOnDragDetected(null);
+
+
 
                             }
                             if(table.getCellByString(src[0]).getChessItem()instanceof BlackItem) {
@@ -307,7 +313,7 @@ public class Controller implements Initializable{
                                 blackTurn.doMove(src[0] + trg[0], table, whitePlayer, blackPlayer, saveStateArrayList, finalPreviousState2, nextToWhite);
                                 //new WhiteUITurn(whiteTurn.getSaveState());
                                 //finalSource2.setOnDragDetected(null);
-                                srcInt[0] = new ArrayList[]{finalPreviousState3.getWhiteOnlyGridCells()};
+
                             }
 
 
@@ -324,7 +330,7 @@ public class Controller implements Initializable{
                         }*/
 
                     }
-                    //event.consume();
+                    event.consume();
                     // doMove(board,table,whitePlayer,blackPlayer,saveStateArrayList);
                 }
             });

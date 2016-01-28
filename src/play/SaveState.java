@@ -69,6 +69,7 @@ public class SaveState {
         this.whiteOnlyGridCells=setOnlyGridCells(this.whiteGridCells,this.gridCells);
         this.blackGridOnlyCells=setOnlyGridCells(this.blackGridCells,this.gridCells);
 
+
     }
 
     private SortedMap<String, Integer> setGridCells(SortedMap<String, ChessItem> save) {
