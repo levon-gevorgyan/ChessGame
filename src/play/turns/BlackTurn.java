@@ -33,6 +33,11 @@ import java.util.SortedMap;
  * Created by levon.gevorgyan on 27/01/16.
  */
 public class BlackTurn extends Turn {
+    private SaveState saveState;
+
+    public SaveState getSaveState() {
+        return saveState;
+    }
 
     public BlackTurn() {
 
@@ -48,8 +53,8 @@ public class BlackTurn extends Turn {
 
 
 
-            System.out.print("Black player's turns: ");
-            s = reader.readLine();
+            System.out.println("Black player's turns: ");
+            //s = reader.readLine();
 
             try {
 
@@ -230,5 +235,7 @@ public class BlackTurn extends Turn {
                 break;
             }
         }
+        saveState=new SaveState(table,whitePlayer,blackPlayer);
+
     }
 }

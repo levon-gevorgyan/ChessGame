@@ -1,6 +1,8 @@
 package ui.window.main;
 
+import chessitems.BlackItem;
 import chessitems.ChessItem;
+import chessitems.WhiteItem;
 import chessitems.black.*;
 import chessitems.empty.Empty;
 import chessitems.white.*;
@@ -19,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import moves.available.black.moves.*;
 import moves.available.white.moves.*;
 import play.SaveState;
+import play.turns.BlackTurn;
 import play.turns.WhiteTurn;
 import players.BlackPlayer;
 import players.WhitePlayer;
@@ -46,17 +49,10 @@ public class Controller implements Initializable{
     Table table = new Table(cells, rows, columns, whitePlayer, blackPlayer);
 
 
-    boolean bool=false;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        play();
-        //new WhiteUITurn(previousState).doMove(board, table, whitePlayer, blackPlayer, saveStateArrayList);
-        //new WhiteUITurn(previousState).doMove(board,table,whitePlayer,blackPlayer,saveStateArrayList);
 
-
-    }
-
-    public void play(){
         ArrayList<SaveState> saveStateArrayList = new ArrayList<>();
         SaveState previousState = null;
 
@@ -66,13 +62,10 @@ public class Controller implements Initializable{
         table.setAllItems(whitePlayer, blackPlayer);
         table.toString();
 
-        if (!bool) {
-            doMove(board, table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
-        }
-        if (bool)
-        {
-            doMove(board,table,whitePlayer,blackPlayer,saveStateArrayList,previousState);
-        }
+        doMove(board, table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
+
+
+
     }
 
     public void doMove(GridPane board,Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
@@ -103,15 +96,18 @@ public class Controller implements Initializable{
         final String[] src = new String[1];
         final String[] trg = new String[1];
         final ArrayList<Cell>[] cellArrayList = new ArrayList[]{new ArrayList<Cell>()};
-        final ArrayList<Integer>[] srcInt = new ArrayList[]{previousState.getWhiteOnlyGridCells()};
+        final ArrayList[][] srcInt = {new ArrayList[]{previousState.getWhiteOnlyGridCells()}};
+        //final boolean[] whiteMove = {true};
+        //final boolean[] blackMove = {false};
 
 
 
 
-        for (Integer i: srcInt[0]) {
-            source = board.getChildren().get(i);
+
+        for (Object i: srcInt[0][0]) {
+            source = board.getChildren().get((Integer) i);
             final Node finalSource = source;
-            final int finalI = i;
+            final int finalI = (int) i;
             final SaveState finalPreviousState = previousState;
             final SaveState finalPreviousState1 = previousState;
             source.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -180,6 +176,55 @@ public class Controller implements Initializable{
                             noAvailableCells.printStackTrace();
                         }
                     }
+                    if (table.getCellByString(src[0]).getChessItem() instanceof BlackKing) {
+                        try {
+                            cellArrayList[0] = new BlackKingMoves(table.getCellByString(src[0]), table, false).getMoves();
+                        } catch (NoAvailableCells noAvailableCells) {
+                            noAvailableCells.printStackTrace();
+                        }
+                    }
+
+                    if(table.getCellByString(src[0]).getChessItem() instanceof BlackQueen)
+                    {
+                        try {
+                            cellArrayList[0] = new BlackQueenMoves(table.getCellByString(src[0]), table).getMoves();
+                        } catch (NoAvailableCells noAvailableCells) {
+                            noAvailableCells.printStackTrace();
+                        }
+                    }
+                    if(table.getCellByString(src[0]).getChessItem() instanceof BlackBishop)
+                    {
+                        try {
+                            cellArrayList[0] = new BlackBishopMoves(table.getCellByString(src[0]), table).getMoves();
+                        } catch (NoAvailableCells noAvailableCells) {
+                            noAvailableCells.printStackTrace();
+                        }
+                    }
+                    if(table.getCellByString(src[0]).getChessItem() instanceof BlackKnight)
+                    {
+                        try {
+                            cellArrayList[0] = new BlackKnightMoves(table.getCellByString(src[0]), table).getMoves();
+                        } catch (NoAvailableCells noAvailableCells) {
+                            noAvailableCells.printStackTrace();
+                        }
+                    }
+                    if(table.getCellByString(src[0]).getChessItem() instanceof BlackPawn)
+                    {
+                        try {
+                            cellArrayList[0] = new BlackPawnMoves(table.getCellByString(src[0]), table).getMoves();
+                        } catch (NoAvailableCells noAvailableCells) {
+                            noAvailableCells.printStackTrace();
+                        }
+                    }
+                    if(table.getCellByString(src[0]).getChessItem() instanceof BlackRook)
+                    {
+                        try {
+                            cellArrayList[0] = new BlackRookMoves(table.getCellByString(src[0]), table).getMoves();
+                        } catch (NoAvailableCells noAvailableCells) {
+                            noAvailableCells.printStackTrace();
+                        }
+                    }
+
 
 
                     System.out.println(UITurn.cellToInt(cellArrayList[0], finalPreviousState));
@@ -230,25 +275,42 @@ public class Controller implements Initializable{
                 }
             });
 
-            source = board.getChildren().get(i);
+            source = board.getChildren().get((Integer) i);
             final Node finalSource1 = source;
             final SaveState finalPreviousState2 = previousState;
             final Node finalSource2 = source;
+            final SaveState finalPreviousState3 = previousState;
             source.setOnDragDone(new EventHandler<DragEvent>() {
                 public void handle(DragEvent event) {
                     /* the drag-and-drop gesture ended */
                     System.out.println("onDragDone");
                     /* if the data was successfully moved, clear it */
                     if (event.getTransferMode() == TransferMode.MOVE) {
-                        UITurn.setFill(finalSource1, Empty.getImageString());
+
                         boolean nextToBlack = false;
+                        boolean nextToWhite=false;
                         try {
-                            WhiteTurn whiteTurn=new WhiteTurn();
-                            whiteTurn.doMove(src[0] + trg[0], table, whitePlayer, blackPlayer, saveStateArrayList, finalPreviousState2, nextToBlack);
-                            //new WhiteUITurn(whiteTurn.getSaveState());
-                            //finalSource2.setOnDragDetected(null);
-                            bool=true;
-                            play();
+                            if(table.getCellByString(src[0]).getChessItem()instanceof WhiteItem) {
+                                UITurn.setFill(finalSource1, Empty.getImageString());
+                                WhiteTurn whiteTurn = new WhiteTurn();
+                                srcInt[0] = new ArrayList[]{finalPreviousState3.getBlackGridOnlyCells()};
+                                whiteTurn.doMove(src[0] + trg[0], table, whitePlayer, blackPlayer, saveStateArrayList, finalPreviousState2, nextToBlack);
+                                //blackMove[0] =true;
+                                //whiteMove[0] =false;
+                                //new WhiteUITurn(whiteTurn.getSaveState());
+                                //finalSource2.setOnDragDetected(null);
+
+                            }
+                            if(table.getCellByString(src[0]).getChessItem()instanceof BlackItem) {
+                                UITurn.setFill(finalSource1, Empty.getImageString());
+                                BlackTurn blackTurn = new BlackTurn();
+                                blackTurn.doMove(src[0] + trg[0], table, whitePlayer, blackPlayer, saveStateArrayList, finalPreviousState2, nextToWhite);
+                                //new WhiteUITurn(whiteTurn.getSaveState());
+                                //finalSource2.setOnDragDetected(null);
+                                srcInt[0] = new ArrayList[]{finalPreviousState3.getWhiteOnlyGridCells()};
+                            }
+
+
 
 
 

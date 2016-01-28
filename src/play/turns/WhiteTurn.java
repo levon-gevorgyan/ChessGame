@@ -66,7 +66,6 @@ public class WhiteTurn extends Turn {
                 //is Check to my king?
                 if (Move.isInAllItemsOfAvailableCellListBlack(myKingCell, blackPlayer.getChessItemsMap(), table)) {
                     System.out.println("Black player will Announce you Check and Mate");
-
                     //Undo Last Move
                     previousState.undoHere(table, whitePlayer, blackPlayer);
                     //Undo Last Move
