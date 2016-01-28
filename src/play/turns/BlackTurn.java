@@ -53,7 +53,7 @@ public class BlackTurn extends Turn {
 
 
 
-            System.out.println("Black player's turns: ");
+            System.out.println("Black player moves: "+s);
             //s = reader.readLine();
 
             try {
@@ -72,7 +72,7 @@ public class BlackTurn extends Turn {
                     table.toString();
                     throw new Check();
                 }
-                table.toString();
+                //table.toString();
                 nextToWhite = true;
             } catch (PlayerSameChessItem playerSameChessItem) {
                 System.out.println("Source & Target are the same");
