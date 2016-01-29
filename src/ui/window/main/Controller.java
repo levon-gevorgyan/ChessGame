@@ -43,6 +43,8 @@ import java.util.*;
 public class Controller implements Initializable {
 
     public GridPane board;
+    public Rectangle xAxis;
+    public Rectangle yAxis;
     public TextArea status;
 
     //get All Cells list from FXML
@@ -207,7 +209,8 @@ public class Controller implements Initializable {
         boardCells.add(h6);
         boardCells.add(h7);
         boardCells.add(h8);
-
+        xAxis.setStyle("-fx-fill: url('/ui/window/main/images/xAxis.jpg')");
+        yAxis.setStyle("-fx-fill: url('/ui/window/main/images/yAxis.jpg')");
         ArrayList<BoardItemUI> boardItems = new ArrayList<>();
 
         //Defining variables

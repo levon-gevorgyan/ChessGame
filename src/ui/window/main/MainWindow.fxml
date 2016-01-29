@@ -8,7 +8,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.window.main.Controller">
    <center>
-      <GridPane fx:id="board" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-image: url('/ui/window/main/images/board.jpg')" BorderPane.alignment="CENTER">
+      <GridPane fx:id="board" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="562.5" prefWidth="562.5" style="-fx-background-image: url('/ui/window/main/images/board.jpg')" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -16,8 +16,9 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -25,11 +26,13 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+            <Rectangle fx:id="yAxis" arcHeight="5.0" arcWidth="5.0" fill="black" height="562.0" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP" />
             <Rectangle fx:id="h1" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
             <Rectangle fx:id="h2" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
             <Rectangle fx:id="h3" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
@@ -93,6 +96,7 @@
             <Rectangle fx:id="b7" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Rectangle fx:id="b8" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
 
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" stroke="TRANSPARENT" strokeType="INSIDE" width="562.0" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" fx:id="xAxis" />
             <Rectangle fx:id="a1" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
             <Rectangle fx:id="a2" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
             <Rectangle fx:id="a3" arcHeight="5.0" arcWidth="5.0" fill="black" height="62.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragDropped="#dragDroped" onDragOver="#dragOver" stroke="TRANSPARENT" strokeType="INSIDE" width="62.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
