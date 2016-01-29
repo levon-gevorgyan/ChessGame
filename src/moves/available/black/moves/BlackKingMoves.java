@@ -59,12 +59,40 @@ public class BlackKingMoves extends KingMoves implements Letters{
     }
     public BlackKingMoves(Cell cell, Table Table,boolean isCheck)
     {
-        ArrayList<Cell> blackKingMoves=new ArrayList<>();
-        for (Cell kingMove:getKingMoves(cell,Table))
-        {
-            if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
+        ArrayList<Cell> blackKingMoves = new ArrayList<>();
+        if(isCheck) {
+
+            for (Cell kingMove : getKingMoves(cell, Table)) {
+                if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem) {
+                    blackKingMoves.add(kingMove);
+                }
+            }
+        }
+        if(!isCheck){
+            for (Cell kingMove:getKingMoves(cell,Table))
             {
-                blackKingMoves.add(kingMove);
+                if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
+                {
+                    blackKingMoves.add(kingMove);
+                }
+
+            }
+            if(Table.getCell(B,8).getChessItem() instanceof Empty
+                    && Table.getCell(C,8).getChessItem() instanceof Empty
+                    && Table.getCell(D,8).getChessItem() instanceof Empty)
+            {
+                if(BlackMove.getLeftCastlingStatus())
+                {
+                    blackKingMoves.add(Table.getCell(C,8));
+                }
+            }
+            if(Table.getCell(F,8).getChessItem() instanceof Empty
+                    && Table.getCell(G,8).getChessItem() instanceof Empty)
+            {
+                if(BlackMove.getRightCastlingStatus())
+                {
+                    blackKingMoves.add(Table.getCell(G,8));
+                }
             }
         }
 

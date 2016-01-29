@@ -16,6 +16,7 @@ import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
 import exceptions.cell.NotEmptyCell;
 import exceptions.chessitem.PlayerSameChessItem;
+import exceptions.game.CastlingDone;
 import exceptions.moves.*;
 import exceptions.table.OutOfTable;
 import letsnums.LetsNums;
@@ -41,7 +42,7 @@ public abstract class Move implements Colors{
     
     
     public abstract boolean move(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
-            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException;
+            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException, CastlingDone;
 
     public static boolean isInAllItemsOfAvailableCellListWhite(Cell kingCell, Map<String, ChessItem> playerItems, Table table)
     {

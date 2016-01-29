@@ -9,6 +9,7 @@ import chessitems.white.*;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import com.sun.org.glassfish.gmbal.ParameterNames;
+import exceptions.game.CastlingDone;
 import exceptions.game.CheckIsOpen;
 import exceptions.game.Mate;
 import exceptions.moves.NoAvailableCells;
@@ -28,16 +29,14 @@ import play.turns.WhiteTurn;
 import players.BlackPlayer;
 import players.WhitePlayer;
 import ui.turns.UITurn;
+import ui.window.alerts.Check_MateBox;
 
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.SortedMap;
+import java.util.*;
 
 public class Controller implements Initializable {
 
@@ -293,7 +292,8 @@ public class Controller implements Initializable {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteRook) {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteRookA ||
+                    table.getCellByString(source.getId()).getChessItem() instanceof WhiteRookH) {
                 try {
                     cellArrayList = new WhiteRookMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
@@ -339,7 +339,8 @@ public class Controller implements Initializable {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackRook) {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackRookA ||
+                    table.getCellByString(source.getId()).getChessItem() instanceof BlackRookH) {
                 try {
                     cellArrayList = new BlackRookMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
@@ -422,8 +423,22 @@ public class Controller implements Initializable {
                     WhiteTurn whiteTurn = new WhiteTurn();
 
 
+                    try {
                         whiteTurn.doMove(source.getId() + target.getId(),
                                 table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
+                    } catch (CastlingDone castlingDone) {
+                        if(target.getId().equals("c1")){
+                            UITurn.setFill(a1,Empty.getImageString());
+                            UITurn.setFill(d1,WhiteRook.getImageString());
+                            table.toString();
+                        }
+                        if(target.getId().equals("g1")){
+                            UITurn.setFill(h1,Empty.getImageString());
+                            UITurn.setFill(f1,WhiteRook.getImageString());
+                            table.toString();
+                        }
+
+                    }
 
                     //System.out.println(cellArrayList);
 
@@ -432,12 +447,27 @@ public class Controller implements Initializable {
                     BlackTurn blackTurn = new BlackTurn();
 
 
+                    try {
                         blackTurn.doMove(source.getId() + target.getId(),
                                 table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
+                    } catch (CastlingDone castlingDone) {
+                        if(target.getId().equals("c8")){
+                            UITurn.setFill(a8,Empty.getImageString());
+                            UITurn.setFill(d8,BlackRook.getImageString());
+                            table.toString();
+                        }
+                        if(target.getId().equals("g8")){
+                            UITurn.setFill(h8,Empty.getImageString());
+                            UITurn.setFill(f8,BlackRook.getImageString());
+                            table.toString();
+                        }
+
+                    }
 
 
                 }
                 saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
+                cellArrayList.clear();
                 if (whitePlayerTurn && !blackPlayerTurn) {
                     whitePlayerTurn = false;
                     blackPlayerTurn = true;
@@ -452,7 +482,10 @@ public class Controller implements Initializable {
             } catch (IOException e) {
                 //e.printStackTrace();
             } catch (Mate mate) {
-                //mate.printStackTrace();
+                Check_MateBox.display("Game is over",mate.getBoxMessage(mate.getMessage()));
+                Main.getPrimaryStage().close();
+
+
             } catch (CheckIsOpen checkIsOpen) {
                 System.out.println("Check is Open");
                 UITurn.setFill(source,tempSource);
