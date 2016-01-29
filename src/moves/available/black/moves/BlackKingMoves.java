@@ -49,8 +49,8 @@ public class BlackKingMoves extends KingMoves implements Letters{
 
         this.blackKingMoves=blackKingMoves;
     }
-
-    public ArrayList<Cell> getBlackKingMoves() throws NoAvailableCells {
+    @Override
+    public ArrayList<Cell> getMoves() throws NoAvailableCells {
         if(blackKingMoves.size()>0){
             return this.blackKingMoves;
         }

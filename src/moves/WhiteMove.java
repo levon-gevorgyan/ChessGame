@@ -15,7 +15,6 @@ import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
 import exceptions.moves.NoAvailableCells;
 import moves.available.white.moves.*;
-import play.Game;
 import players.BlackPlayer;
 import players.WhitePlayer;
 
@@ -159,26 +158,26 @@ public class WhiteMove extends Move implements Letters{
 
                     //Conditions
                     if(cellFrom.getChessItem() instanceof WhiteBishop){
-                        availableCells=new WhiteBishopMoves(cellFrom,table).getWhiteBishopMoves();
+                        availableCells=new WhiteBishopMoves(cellFrom,table).getMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKing){
-                        availableCells=new WhiteKingMoves(cellFrom,table).getWhiteKingMoves();
+                        availableCells=new WhiteKingMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKnight){
-                        availableCells=new WhiteKnightMoves(cellFrom,table).getWhiteKnightMoves();
+                        availableCells=new WhiteKnightMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhitePawn){
-                        availableCells=new WhitePawnMoves(cellFrom,table).getWhitePawnMoves();
+                        availableCells=new WhitePawnMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteQueen){
-                        availableCells=new WhiteQueenMoves(cellFrom,table).getWhiteQueenMoves();
+                        availableCells=new WhiteQueenMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom,table).getWhiteRookMoves();
+                        availableCells=new WhiteRookMoves(cellFrom,table).getMoves();
 
                     }
                     else{
@@ -343,26 +342,26 @@ public class WhiteMove extends Move implements Letters{
                 try {
                     //Conditions
                     if(cellFrom.getChessItem() instanceof WhiteBishop){
-                        availableCells=new WhiteBishopMoves(cellFrom,table).getWhiteBishopMoves();
+                        availableCells=new WhiteBishopMoves(cellFrom,table).getMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKing){
-                        availableCells=new WhiteKingMoves(cellFrom,table).getWhiteKingMoves();
+                        availableCells=new WhiteKingMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKnight){
-                        availableCells=new WhiteKnightMoves(cellFrom,table).getWhiteKnightMoves();
+                        availableCells=new WhiteKnightMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhitePawn){
-                        availableCells=new WhitePawnMoves(cellFrom,table).getWhitePawnMoves();
+                        availableCells=new WhitePawnMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteQueen){
-                        availableCells=new WhiteQueenMoves(cellFrom,table).getWhiteQueenMoves();
+                        availableCells=new WhiteQueenMoves(cellFrom,table).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom,table).getWhiteRookMoves();
+                        availableCells=new WhiteRookMoves(cellFrom,table).getMoves();
 
                     }
                     else{

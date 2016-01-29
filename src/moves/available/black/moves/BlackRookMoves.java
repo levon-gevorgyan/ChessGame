@@ -139,7 +139,8 @@ public class BlackRookMoves extends RookMoves {
         }
 
     }
-    public ArrayList<Cell> getBlackRookMoves() throws NoAvailableCells {
+    @Override
+    public ArrayList<Cell> getMoves() throws NoAvailableCells {
         if(blackRookMoves.size()>0){
             return this.blackRookMoves;
         }

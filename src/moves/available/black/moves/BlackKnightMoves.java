@@ -21,7 +21,7 @@ public class BlackKnightMoves extends KnightMoves{
         ArrayList<Cell> blackKnightMoves=new ArrayList<>();
         for (Cell knightMove:getKnightMoves(cell, Table))
         {
-            if(knightMove.getChessItem() instanceof Empty || knightMove.getChessItem() instanceof WhiteItem)
+            if(knightMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
             {
                 blackKnightMoves.add(knightMove);
             }
@@ -29,8 +29,8 @@ public class BlackKnightMoves extends KnightMoves{
         }
         this.blackKnightMoves=blackKnightMoves;
     }
-
-    public ArrayList<Cell> getBlackKnightMoves() throws NoAvailableCells {
+    @Override
+    public ArrayList<Cell> getMoves() throws NoAvailableCells {
         if(blackKnightMoves.size()>0) {
             return this.blackKnightMoves;
         }
