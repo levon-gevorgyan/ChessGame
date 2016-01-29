@@ -17,6 +17,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -41,6 +43,7 @@ import java.util.*;
 public class Controller implements Initializable {
 
     public GridPane board;
+    public TextArea status;
 
     //get All Cells list from FXML
     public Rectangle a1;
@@ -130,6 +133,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        status.appendText("Welcome to chess by Levon \n \n White player's turn:"); //first
         //create Cells list from FXML
 
         boardCells.add(a1);
@@ -425,7 +429,7 @@ public class Controller implements Initializable {
 
                     try {
                         whiteTurn.doMove(source.getId() + target.getId(),
-                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
+                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState,status);
                     } catch (CastlingDone castlingDone) {
                         if(target.getId().equals("c1")){
                             UITurn.setFill(a1,Empty.getImageString());
@@ -449,7 +453,7 @@ public class Controller implements Initializable {
 
                     try {
                         blackTurn.doMove(source.getId() + target.getId(),
-                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
+                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState,status);
                     } catch (CastlingDone castlingDone) {
                         if(target.getId().equals("c8")){
                             UITurn.setFill(a8,Empty.getImageString());
@@ -471,12 +475,14 @@ public class Controller implements Initializable {
                 if (whitePlayerTurn && !blackPlayerTurn) {
                     whitePlayerTurn = false;
                     blackPlayerTurn = true;
-                    System.out.println("Black player's turn");
+                    status.appendText(this.source.getId()+target.getId()+"\n");
+                    status.appendText("Black player's turn:");
 
                 } else if (!whitePlayerTurn && blackPlayerTurn) {
                     whitePlayerTurn = true;
                     blackPlayerTurn = false;
-                    System.out.println("White player's turn");
+                    status.appendText(this.source.getId() + target.getId() + "\n");
+                    status.appendText("White player's turn:");
                 }
 
             } catch (IOException e) {

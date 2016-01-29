@@ -107,7 +107,11 @@
    <right>
       <VBox prefHeight="600.0" prefWidth="239.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField prefHeight="550.0" prefWidth="239.0" />
+            <TextArea fx:id="status" editable="false" maxHeight="625.0" maxWidth="239.0" prefHeight="625.0" prefWidth="239.0" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextArea>
          </children>
       </VBox>
    </right>
