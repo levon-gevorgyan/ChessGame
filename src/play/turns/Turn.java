@@ -2,6 +2,7 @@ package play.turns;
 
 import chesstable.Table;
 import colors.Colors;
+import exceptions.game.CheckIsOpen;
 import exceptions.game.Mate;
 import play.SaveState;
 import players.BlackPlayer;
@@ -15,6 +16,6 @@ import java.util.ArrayList;
  */
 public abstract class Turn implements Colors{
     public abstract void doMove(String s, Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
-                                ArrayList<SaveState> saveStateArrayList, SaveState previousState, boolean nextTurn) throws IOException, Mate;
+                                ArrayList<SaveState> saveStateArrayList, SaveState previousState) throws IOException, Mate, CheckIsOpen;
 
 }

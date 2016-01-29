@@ -10,6 +10,7 @@ import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
 import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.game.Check;
+import exceptions.game.CheckIsOpen;
 import exceptions.game.Mate;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
@@ -45,12 +46,12 @@ public class BlackTurn extends Turn {
 
     @Override
     public void doMove(String s, Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
-                       ArrayList<SaveState> saveStateArrayList, SaveState previousState, boolean nextToWhite) throws IOException, Mate {
+                       ArrayList<SaveState> saveStateArrayList, SaveState previousState) throws IOException, Mate, CheckIsOpen {
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
         while (!s.equals("exit")) {
             saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
             previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
-
+            boolean nextToWhite=false;
 
 
             System.out.println("Black player moves: "+s);
@@ -70,7 +71,7 @@ public class BlackTurn extends Turn {
                     previousState.undoHere(table, whitePlayer, blackPlayer);
                     //Undo Last Move
                     table.toString();
-                    throw new Check();
+                    throw new CheckIsOpen();
                 }
                 //table.toString();
                 nextToWhite = true;
@@ -91,9 +92,9 @@ public class BlackTurn extends Turn {
 
             } catch (NoAvailableCells noAvailableCells) {
                 System.out.println("No Available Cells");
-            } catch (Check check) {
+            } /*catch (Check check) {
 
-            }
+            }*/
             if (nextToWhite) {
                 //is Check or not?
                 Cell kingCell = table.getOpponentKingCell(WHITE, whitePlayer.getChessItemsMap(), blackPlayer.getChessItemsMap(), table);
@@ -230,12 +231,12 @@ public class BlackTurn extends Turn {
                         }
                     }
                 }
-
+                saveState=new SaveState(table,whitePlayer,blackPlayer);
                 table.toString();
                 break;
             }
         }
-        saveState=new SaveState(table,whitePlayer,blackPlayer);
+
 
     }
 }

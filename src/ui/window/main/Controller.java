@@ -9,6 +9,7 @@ import chessitems.white.*;
 import chesstable.Table;
 import chesstable.cells.Cell;
 import com.sun.org.glassfish.gmbal.ParameterNames;
+import exceptions.game.CheckIsOpen;
 import exceptions.game.Mate;
 import exceptions.moves.NoAvailableCells;
 import javafx.event.EventHandler;
@@ -38,7 +39,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.SortedMap;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 
     public GridPane board;
 
@@ -51,7 +52,7 @@ public class Controller implements Initializable{
     public Rectangle a6;
     public Rectangle a7;
     public Rectangle a8;
-    
+
     public Rectangle b1;
     public Rectangle b2;
     public Rectangle b3;
@@ -60,7 +61,7 @@ public class Controller implements Initializable{
     public Rectangle b6;
     public Rectangle b7;
     public Rectangle b8;
-    
+
     public Rectangle c1;
     public Rectangle c2;
     public Rectangle c3;
@@ -69,7 +70,7 @@ public class Controller implements Initializable{
     public Rectangle c6;
     public Rectangle c7;
     public Rectangle c8;
-    
+
     public Rectangle d1;
     public Rectangle d2;
     public Rectangle d3;
@@ -78,7 +79,7 @@ public class Controller implements Initializable{
     public Rectangle d6;
     public Rectangle d7;
     public Rectangle d8;
-    
+
     public Rectangle e1;
     public Rectangle e2;
     public Rectangle e3;
@@ -87,7 +88,7 @@ public class Controller implements Initializable{
     public Rectangle e6;
     public Rectangle e7;
     public Rectangle e8;
-    
+
     public Rectangle f1;
     public Rectangle f2;
     public Rectangle f3;
@@ -96,7 +97,7 @@ public class Controller implements Initializable{
     public Rectangle f6;
     public Rectangle f7;
     public Rectangle f8;
-    
+
     public Rectangle g1;
     public Rectangle g2;
     public Rectangle g3;
@@ -105,7 +106,7 @@ public class Controller implements Initializable{
     public Rectangle g6;
     public Rectangle g7;
     public Rectangle g8;
-    
+
     public Rectangle h1;
     public Rectangle h2;
     public Rectangle h3;
@@ -114,8 +115,8 @@ public class Controller implements Initializable{
     public Rectangle h6;
     public Rectangle h7;
     public Rectangle h8;
-    
-    
+
+
     SortedMap<String, Cell> cells = null;
     ArrayList<ArrayList<Cell>> rows = null;
     ArrayList<ArrayList<Cell>> columns = null;
@@ -124,7 +125,7 @@ public class Controller implements Initializable{
 
     //Creating table
     Table table = new Table(cells, rows, columns, whitePlayer, blackPlayer);
-    ArrayList<Rectangle> boardCells=new ArrayList<>();
+    ArrayList<Rectangle> boardCells = new ArrayList<>();
 
 
     @Override
@@ -204,51 +205,41 @@ public class Controller implements Initializable{
         boardCells.add(h7);
         boardCells.add(h8);
 
-        ArrayList<BoardItemUI> boardItems=new ArrayList<>();
+        ArrayList<BoardItemUI> boardItems = new ArrayList<>();
 
         //Defining variables
         table.setAllItems(whitePlayer, blackPlayer);
         table.toString();
 
-        for (Rectangle cell:boardCells){
-            for(SortedMap.Entry<String,Cell> pair:table.getCells().entrySet()){
-                if(cell.getId().equals(pair.getKey())){
-                    cell.setStyle("-fx-fill: url('"+UITurn.getImageString(pair.getValue().getChessItem())+"')");
+        for (Rectangle cell : boardCells) {
+            for (SortedMap.Entry<String, Cell> pair : table.getCells().entrySet()) {
+                if (cell.getId().equals(pair.getKey())) {
+                    cell.setStyle("-fx-fill: url('" + UITurn.getImageString(pair.getValue().getChessItem()) + "')");
                 }
             }
         }
 
-
-
-/*
-
-        ArrayList<SaveState> saveStateArrayList = new ArrayList<>();
-        SaveState previousState = null;
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        //Defining variables
-        table.setAllItems(whitePlayer, blackPlayer);
-        table.toString();
-
-        doMove(board, table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
-*/
     }
 
 
-    boolean whitePlayerTurn=true;
-    boolean blackPlayerTurn=false;
+    boolean whitePlayerTurn = true;
+    boolean blackPlayerTurn = false;
 
-    ArrayList<SaveState> saveStateArrayList=new ArrayList<>();
+    ArrayList<SaveState> saveStateArrayList = new ArrayList<>();
     SaveState previousState;
-    ArrayList<Cell> cellArrayList=new ArrayList<>();
+    ArrayList<Cell> cellArrayList = new ArrayList<>();
+
+    Rectangle source;
+    String tempSource;
 
     @FXML
-    void dragDetected(MouseEvent event){
+    void dragDetected(MouseEvent event) {
 
         saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
         previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
-        Rectangle source= (Rectangle) event.getSource();
+        source = (Rectangle) event.getSource();
+        tempSource=UITurn.getImageString(table.getCellByString(source.getId()).getChessItem());
+
 
 
                 /* allow any transfer mode */
@@ -256,11 +247,11 @@ public class Controller implements Initializable{
 
                 /* put a string on dragboard */
         ClipboardContent content = new ClipboardContent();
-        String s=UITurn.getImageString(table.getCellByString(source.getId()).getChessItem());
+        String s = UITurn.getImageString(table.getCellByString(source.getId()).getChessItem());
         content.putString(s);
         //System.out.println(s);
         db.setContent(content);
-        if(whitePlayerTurn && !blackPlayerTurn) {
+        if (whitePlayerTurn && !blackPlayerTurn) {
 
             if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteKing) {
                 try {
@@ -286,6 +277,11 @@ public class Controller implements Initializable{
             if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteKnight) {
                 try {
                     cellArrayList = new WhiteKnightMoves(table.getCellByString(source.getId()), table).getMoves();
+                    /*for (SortedMap.Entry<String,Cell> pair:table.getCells().entrySet()){
+                        System.out.print(pair.getKey() +" "+pair.getValue().getChessItem()+"\n");
+                    }
+                    System.out.println(source.getId());
+                    System.out.println(cellArrayList);*/
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
@@ -306,7 +302,7 @@ public class Controller implements Initializable{
             }
         }
 
-        if(!whitePlayerTurn && blackPlayerTurn) {
+        if (!whitePlayerTurn && blackPlayerTurn) {
             if (table.getCellByString(source.getId()).getChessItem() instanceof BlackKing) {
                 try {
                     cellArrayList = new BlackKingMoves(table.getCellByString(source.getId()), table, false).getMoves();
@@ -315,40 +311,35 @@ public class Controller implements Initializable{
                 }
             }
 
-            if(table.getCellByString(source.getId()).getChessItem() instanceof BlackQueen)
-            {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackQueen) {
                 try {
                     cellArrayList = new BlackQueenMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if(table.getCellByString(source.getId()).getChessItem() instanceof BlackBishop)
-            {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackBishop) {
                 try {
                     cellArrayList = new BlackBishopMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if(table.getCellByString(source.getId()).getChessItem() instanceof BlackKnight)
-            {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackKnight) {
                 try {
                     cellArrayList = new BlackKnightMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if(table.getCellByString(source.getId()).getChessItem() instanceof BlackPawn)
-            {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackPawn) {
                 try {
                     cellArrayList = new BlackPawnMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if(table.getCellByString(source.getId()).getChessItem() instanceof BlackRook)
-            {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackRook) {
                 try {
                     cellArrayList = new BlackRookMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
@@ -362,10 +353,10 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    void dragOver(DragEvent event){
-        Rectangle cell= (Rectangle) event.getSource();
-        for (Cell item:cellArrayList){
-            if (item.toString().equals(cell.getId())){
+    void dragOver(DragEvent event) {
+        Rectangle cell = (Rectangle) event.getSource();
+        for (Cell item : cellArrayList) {
+            if (item.toString().equals(cell.getId())) {
                 /* data is dragged over the target */
                 //System.out.println("onDragOver");
                                 /* accept it only if it is  not dragged from the same node
@@ -381,12 +372,16 @@ public class Controller implements Initializable{
 
 
     }
+
     Rectangle target;
+    String tempTarget;
+
     @FXML
-    void dragDroped(DragEvent event){
-        Rectangle cell= (Rectangle) event.getSource();
-        for (Cell item:cellArrayList){
-            if (item.toString().equals(cell.getId())){
+    void dragDroped(DragEvent event) {
+        Rectangle cell = (Rectangle) event.getSource();
+        tempTarget=UITurn.getImageString(table.getCellByString(cell.getId()).getChessItem());
+        for (Cell item : cellArrayList) {
+            if (item.toString().equals(cell.getId())) {
 
                  /* data dropped */
                 //System.out.println("onDragDropped");
@@ -397,24 +392,22 @@ public class Controller implements Initializable{
                     UITurn.setFill(cell, db.getString());
                     success = true;
 
-                   // System.out.println(cell.getId());
+                    // System.out.println(cell.getId());
 
                 }
                                 /* let the source know whether the string was successfully
                                  * transferred and used */
                 event.setDropCompleted(success);
-                target=cell;
+                target = cell;
                 event.consume();
             }
         }
 
 
-
-
-
     }
+
     @FXML
-    void dragDone(DragEvent event){
+    void dragDone(DragEvent event) {
         /* the drag-and-drop gesture ended */
         //System.out.println("onDragDone");
                     /* if the data was successfully moved, clear it */
@@ -422,36 +415,56 @@ public class Controller implements Initializable{
 
 
             try {
-                Rectangle source= (Rectangle) event.getSource();
+                Rectangle source = (Rectangle) event.getSource();
 
                 UITurn.setFill(((Rectangle) event.getSource()), Empty.getImageString());
-                if(whitePlayerTurn) {
+                if (whitePlayerTurn) {
                     WhiteTurn whiteTurn = new WhiteTurn();
-                    whiteTurn.doMove(source.getId() + target.getId(),
-                            table, whitePlayer, blackPlayer, saveStateArrayList, previousState, false);
-                }
-                if(blackPlayerTurn){
-                    BlackTurn blackTurn = new BlackTurn();
-                    blackTurn.doMove(source.getId() + target.getId(),
-                            table, whitePlayer, blackPlayer, saveStateArrayList, previousState, false);
-                }
-                saveStateArrayList.add(new SaveState(table,whitePlayer,blackPlayer));
-                if(whitePlayerTurn && !blackPlayerTurn) {
-                    whitePlayerTurn=false;
-                    blackPlayerTurn=true;
-                    System.out.println("Black player's turn");
+
+
+                        whiteTurn.doMove(source.getId() + target.getId(),
+                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
+
+                    //System.out.println(cellArrayList);
 
                 }
-                else if(!whitePlayerTurn && blackPlayerTurn) {
-                    whitePlayerTurn=true;
-                    blackPlayerTurn=false;
+                if (blackPlayerTurn) {
+                    BlackTurn blackTurn = new BlackTurn();
+
+
+                        blackTurn.doMove(source.getId() + target.getId(),
+                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState);
+
+
+                }
+                saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
+                if (whitePlayerTurn && !blackPlayerTurn) {
+                    whitePlayerTurn = false;
+                    blackPlayerTurn = true;
+                    System.out.println("Black player's turn");
+
+                } else if (!whitePlayerTurn && blackPlayerTurn) {
+                    whitePlayerTurn = true;
+                    blackPlayerTurn = false;
                     System.out.println("White player's turn");
                 }
 
             } catch (IOException e) {
                 //e.printStackTrace();
             } catch (Mate mate) {
-                mate.printStackTrace();
+                //mate.printStackTrace();
+            } catch (CheckIsOpen checkIsOpen) {
+                System.out.println("Check is Open");
+                UITurn.setFill(source,tempSource);
+                UITurn.setFill(target,tempTarget);
+                if (whitePlayerTurn && !blackPlayerTurn) {
+
+                    System.out.println("Still white player's turn");
+
+                } else if (!whitePlayerTurn && blackPlayerTurn) {
+
+                    System.out.println("Still black player's turn");
+                }
             }
                         /*for (Integer i: srcInt[0]) {
                             board.getChildren().get(i).setOnDragDetected(null);
@@ -461,93 +474,4 @@ public class Controller implements Initializable{
         event.consume();
 
     }
-
-   /* private ArrayList<Rectangle> getRectangleListByCell(ArrayList<Cell> cellList){
-        ArrayList<Rectangle> list=new ArrayList<>();
-        for (Cell cell:cellList){
-            for (Rectangle rectangle:boardCells){
-                if(cell.toString().equals(rectangle.getId())){
-                    list.add(rectangle);
-                }
-            }
-        }
-        return list;
-    }*/
-
 }
-/*final Rectangle[] target = {null};
-        for (Rectangle cell:getRectangleListByCell(cellArrayList)){
-
-            cell.setOnDragOver(new EventHandler<DragEvent>() {
-                public void handle(DragEvent event) {
-                                *//* data is dragged over the target *//*
-                    //System.out.println("onDragOver");
-                                *//* accept it only if it is  not dragged from the same node
-                                * and if it has a string data *//*
-                    if (event.getGestureSource() != cell &&
-                            event.getDragboard().hasString()) {
-                                    *//* allow for both copying and moving, whatever user chooses *//*
-                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-                    }
-                    //event.consume();
-                }
-            });
-
-            cell.setOnDragDropped(new EventHandler<DragEvent>() {
-                public void handle(DragEvent event) {
-                                *//* data dropped *//*
-                    System.out.println("onDragDropped");
-                                *//* if there is a string data on dragboard, read it and use it *//*
-                    Dragboard db = event.getDragboard();
-                    boolean success = false;
-                    if (db.hasString()) {
-                        UITurn.setFill(cell, db.getString());
-                        success = true;
-
-                        System.out.println(cell.getId());
-
-                    }
-                                *//* let the source know whether the string was successfully
-                                 * transferred and used *//*
-                    event.setDropCompleted(success);
-
-
-                    event.consume();
-                    target[0] = cell;
-                }
-            });
-
-        }
-        source.setOnDragDone(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                    *//* the drag-and-drop gesture ended *//*
-                System.out.println("onDragDone");
-                    *//* if the data was successfully moved, clear it *//*
-                if (event.getTransferMode() == TransferMode.MOVE) {
-
-
-                    try {
-
-                        UITurn.setFill(source, Empty.getImageString());
-                        WhiteTurn whiteTurn = new WhiteTurn();
-                        whiteTurn.doMove(source.getId()+target[0].getId(),
-                                table, whitePlayer, blackPlayer, saveStateArrayList,previousState , false);
-                        saveStateArrayList.add(new SaveState(table,whitePlayer,blackPlayer));
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Mate mate) {
-                        mate.printStackTrace();
-                    }
-                        *//*for (Integer i: srcInt[0]) {
-                            board.getChildren().get(i).setOnDragDetected(null);
-                        }*//*
-
-                }
-                event.consume();
-                // doMove(board,table,whitePlayer,blackPlayer,saveStateArrayList);
-            }
-        });
-
-
-*/
