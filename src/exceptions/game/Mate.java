@@ -10,7 +10,15 @@ public class Mate extends Exception implements Colors {
         super();
     }
 
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    private String message;
+
     public Mate(String message){
+        this.message=message;
         if(message.equals(WHITE))
         {
             System.out.println("Check-Mate to White");
@@ -20,6 +28,21 @@ public class Mate extends Exception implements Colors {
             System.out.println("Check-Mate to Black");
         }
     }
+
+    public String getBoxMessage(String message){
+
+        if(message.equals(WHITE))
+        {
+            return "Check-Mate to White";
+        }
+        if(message.equals(BLACK))
+        {
+            return "Check-Mate to Black";
+        }
+        return null;
+    }
+
+
  }
 
 

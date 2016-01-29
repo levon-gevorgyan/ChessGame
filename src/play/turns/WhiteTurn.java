@@ -9,11 +9,11 @@ import exceptions.cell.EmptySourceCell;
 import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
 import exceptions.chessitem.PlayerSameChessItem;
-import exceptions.game.Check;
-import exceptions.game.Mate;
+import exceptions.game.*;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
 import exceptions.moves.NoAvailableCells;
+import javafx.scene.control.TextArea;
 import moves.BlackMove;
 import moves.Move;
 import moves.WhiteMove;
@@ -45,15 +45,17 @@ public class WhiteTurn extends Turn {
 
     @Override
     public void doMove(String s, Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
-                       ArrayList<SaveState> saveStateArrayList, SaveState previousState,boolean nextToBlack) throws IOException, Mate {
-        BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+                       ArrayList<SaveState> saveStateArrayList, SaveState previousState,TextArea status)
+            throws IOException, Mate, CheckIsOpen, CastlingDone, ChangePawn {
+
+        //BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
         while (!s.equals("exit")) {
             saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
             previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
+            boolean nextToBlack=false;
 
 
-
-            System.out.println("White player's turns: "+s);
+            System.out.println("White player moves: "+s);
             //s = reader.readLine();
 
             try {
@@ -70,9 +72,9 @@ public class WhiteTurn extends Turn {
                     previousState.undoHere(table, whitePlayer, blackPlayer);
                     //Undo Last Move
                     table.toString();
-                    throw new Check();
+                    throw new CheckIsOpen();
                 }
-                table.toString();
+                //table.toString();
                 nextToBlack = true;
             } catch (PlayerSameChessItem playerSameChessItem) {
                 System.out.println("Source & Target are the same");
@@ -91,9 +93,9 @@ public class WhiteTurn extends Turn {
 
             } catch (NoAvailableCells noAvailableCells) {
                 System.out.println("No Available Cells");
-            } catch (Check check) {
+            } /*catch (Check check) {
 
-            }
+            }*/
             if (nextToBlack) {
                 //is Check or not?
                 Cell kingCell = table.getOpponentKingCell(BLACK, whitePlayer.getChessItemsMap(), blackPlayer.getChessItemsMap(), table);
@@ -209,8 +211,10 @@ public class WhiteTurn extends Turn {
                                 if (availableMoves.size() == 0) {
                                     throw new Mate(BLACK);
                                 } else {
+                                    status.appendText("Available moves for black player are:\n");
                                     System.out.println("Available moves for black player are:");
                                     for(BlackTestMove move:availableMoves){
+                                        status.appendText(move.toString() + "\n");
                                         System.out.println(move.toString());
                                     }
                                 }
@@ -230,12 +234,12 @@ public class WhiteTurn extends Turn {
                         }
                     }
                 }
-
+                saveState=new SaveState(table,whitePlayer,blackPlayer);
                 table.toString();
                 break;
             }
         }
-        saveState=new SaveState(table,whitePlayer,blackPlayer);
+
 
     }
 }

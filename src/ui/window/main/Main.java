@@ -8,6 +8,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    private static Stage primaryStage;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -16,11 +23,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
         primaryStage.setTitle("Play Chess");
-        Scene scene=new Scene(root, 800, 600);
-        //scene.getStylesheets().add("ui/window/main/test.css");
+        Scene scene=new Scene(root, 1000, 650);
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setResizable(false);
+        this.primaryStage=primaryStage;
     }
 
 
