@@ -20,6 +20,7 @@ public class Check_MateBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
+        window.setMinHeight(150);
 
         Label label=new Label();
         label.setText(message);
@@ -27,11 +28,12 @@ public class Check_MateBox {
         Button closeButton=new Button("OK");
         closeButton.setOnAction(e -> window.close());
 
-        VBox layout=new VBox();
+        VBox layout=new VBox(10);
         layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
         Scene scene=new Scene(layout);
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
 
 

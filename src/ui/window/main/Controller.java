@@ -10,6 +10,7 @@ import chesstable.Table;
 import chesstable.cells.Cell;
 import com.sun.org.glassfish.gmbal.ParameterNames;
 import exceptions.game.CastlingDone;
+import exceptions.game.ChangePawn;
 import exceptions.game.CheckIsOpen;
 import exceptions.game.Mate;
 import exceptions.moves.NoAvailableCells;
@@ -299,8 +300,7 @@ public class Controller implements Initializable {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteRookA ||
-                    table.getCellByString(source.getId()).getChessItem() instanceof WhiteRookH) {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteRook) {
                 try {
                     cellArrayList = new WhiteRookMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
@@ -346,8 +346,7 @@ public class Controller implements Initializable {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackRookA ||
-                    table.getCellByString(source.getId()).getChessItem() instanceof BlackRookH) {
+            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackRook) {
                 try {
                     cellArrayList = new BlackRookMoves(table.getCellByString(source.getId()), table).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
@@ -445,6 +444,9 @@ public class Controller implements Initializable {
                             table.toString();
                         }
 
+                    } catch (ChangePawn changePawn) {
+                        target.setStyle("-fx-fill: url('"+changePawn.getItem()+"')");
+                        table.toString();
                     }
 
                     //System.out.println(cellArrayList);
@@ -469,6 +471,9 @@ public class Controller implements Initializable {
                             table.toString();
                         }
 
+                    } catch (ChangePawn changePawn) {
+                        target.setStyle("-fx-fill: url('"+changePawn.getItem()+"')");
+                        table.toString();
                     }
 
 
@@ -479,17 +484,17 @@ public class Controller implements Initializable {
                     whitePlayerTurn = false;
                     blackPlayerTurn = true;
                     status.appendText(this.source.getId()+target.getId()+"\n");
-                    status.appendText("Black player's turn:");
+                    status.appendText("Black player's turn: ");
 
                 } else if (!whitePlayerTurn && blackPlayerTurn) {
                     whitePlayerTurn = true;
                     blackPlayerTurn = false;
                     status.appendText(this.source.getId() + target.getId() + "\n");
-                    status.appendText("White player's turn:");
+                    status.appendText("White player's turn: ");
                 }
 
             } catch (IOException e) {
-                //e.printStackTrace();
+
             } catch (Mate mate) {
                 Check_MateBox.display("Game is over",mate.getBoxMessage(mate.getMessage()));
                 Main.getPrimaryStage().close();
@@ -508,9 +513,6 @@ public class Controller implements Initializable {
                     System.out.println("Still black player's turn");
                 }
             }
-                        /*for (Integer i: srcInt[0]) {
-                            board.getChildren().get(i).setOnDragDetected(null);
-                        }*/
 
         }
         event.consume();

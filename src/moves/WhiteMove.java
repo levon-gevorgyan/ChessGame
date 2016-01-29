@@ -11,6 +11,7 @@ import exceptions.cell.EmptySourceCell;
 import exceptions.cell.NoCell;
 import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.game.CastlingDone;
+import exceptions.game.ChangePawn;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
 import exceptions.cell.InvalidSource;
@@ -81,7 +82,7 @@ public class WhiteMove extends Move implements Letters{
 
     @Override
     public boolean move(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
-            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException, CastlingDone {
+            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException, CastlingDone, ChangePawn {
         Map<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
         Map<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
 
@@ -440,7 +441,7 @@ public class WhiteMove extends Move implements Letters{
                 }
 
 
-                doPawnChangeWhite(whitePlayerItems,cellTo,table);//do Castling
+                doPawnChangeWhite(whitePlayerItems,cellTo,table);//do do Pawn Change
 
             }
             if (isWhiteItem) {

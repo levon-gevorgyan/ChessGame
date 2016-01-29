@@ -9,10 +9,7 @@ import exceptions.cell.EmptySourceCell;
 import exceptions.cell.InvalidSource;
 import exceptions.cell.NoCell;
 import exceptions.chessitem.PlayerSameChessItem;
-import exceptions.game.CastlingDone;
-import exceptions.game.Check;
-import exceptions.game.CheckIsOpen;
-import exceptions.game.Mate;
+import exceptions.game.*;
 import exceptions.moves.InvalidMove;
 import exceptions.moves.InvalidMoveString;
 import exceptions.moves.NoAvailableCells;
@@ -49,7 +46,7 @@ public class WhiteTurn extends Turn {
     @Override
     public void doMove(String s, Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
                        ArrayList<SaveState> saveStateArrayList, SaveState previousState,TextArea status)
-            throws IOException, Mate, CheckIsOpen, CastlingDone {
+            throws IOException, Mate, CheckIsOpen, CastlingDone, ChangePawn {
 
         //BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
         while (!s.equals("exit")) {

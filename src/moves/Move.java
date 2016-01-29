@@ -17,6 +17,7 @@ import exceptions.cell.NoCell;
 import exceptions.cell.NotEmptyCell;
 import exceptions.chessitem.PlayerSameChessItem;
 import exceptions.game.CastlingDone;
+import exceptions.game.ChangePawn;
 import exceptions.moves.*;
 import exceptions.table.OutOfTable;
 import letsnums.LetsNums;
@@ -25,6 +26,7 @@ import moves.available.black.moves.*;
 import moves.available.white.moves.*;
 import players.BlackPlayer;
 import players.WhitePlayer;
+import ui.window.alerts.ChangePawnBox;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,7 +44,7 @@ public abstract class Move implements Colors{
     
     
     public abstract boolean move(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
-            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException, CastlingDone;
+            throws PlayerSameChessItem, EmptySourceCell, InvalidSource, OutOfTable, NoCell, InvalidMove, NoAvailableCells, IOException, CastlingDone, ChangePawn;
 
     public static boolean isInAllItemsOfAvailableCellListWhite(Cell kingCell, Map<String, ChessItem> playerItems, Table table)
     {
@@ -227,12 +229,11 @@ public abstract class Move implements Colors{
     }
 
     //Change White Pawn
-    protected void doPawnChangeWhite(Map<String, ChessItem> whitePlayerItems,Cell cell, Table Table) throws IOException {
+    protected void doPawnChangeWhite(Map<String, ChessItem> whitePlayerItems,Cell cell, Table Table) throws IOException, ChangePawn {
         if(pawnChangeWhite(cell.getChessItem(),Table)) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
             boolean isDone = false;
-            String string;
+            String string = null;
 
             while (!isDone) {
                 System.out.println("Choose one of following white items:");
@@ -241,13 +242,15 @@ public abstract class Move implements Colors{
                 System.out.println("bishop");
                 System.out.println("knight");
                 System.out.print("Your decision is: ");
-                string = reader.readLine();
+                string = ChangePawnBox.display(WHITE);
+                System.out.println(string);
 
                 try {
                     WhiteItem newPawn = whitePawnChangeTo(string);
                     whitePlayerItems.put(cell.toString(), newPawn);
                     cell.setChessItem(newPawn);
                     isDone = true;
+                    throw new ChangePawn(WHITE,string);
                 } catch (InvalidChangeItem invalidChangeItem) {
                     System.out.print("Wrong White Item. Try again: ");
                 }
@@ -256,9 +259,8 @@ public abstract class Move implements Colors{
     }
 
     //Change Black Pawn
-    protected void doPawnChangeBlack(Map<String, ChessItem> blackPlayerItems,Cell cell,Table Table) throws IOException {
+    protected void doPawnChangeBlack(Map<String, ChessItem> blackPlayerItems,Cell cell,Table Table) throws IOException, ChangePawn {
         if(pawnChangeBlack(cell.getChessItem(),Table)) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
             boolean isDone = false;
             String string;
@@ -270,13 +272,15 @@ public abstract class Move implements Colors{
                 System.out.println("bishop");
                 System.out.println("knight");
                 System.out.print("Your decision is: ");
-                string = reader.readLine();
+                string = ChangePawnBox.display(BLACK);
+                System.out.println(string);
 
                 try {
                     BlackItem newPawn = blackPawnChangeTo(string);
                     blackPlayerItems.put(cell.toString(), newPawn);
                     cell.setChessItem(newPawn);
                     isDone = true;
+                    throw new ChangePawn(BLACK,string);
                 } catch (InvalidChangeItem invalidChangeItem) {
                     System.out.print("Wrong White Item. Try again: ");
                 }
