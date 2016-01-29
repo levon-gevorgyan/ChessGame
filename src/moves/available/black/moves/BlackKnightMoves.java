@@ -21,7 +21,7 @@ public class BlackKnightMoves extends KnightMoves{
         ArrayList<Cell> blackKnightMoves=new ArrayList<>();
         for (Cell knightMove:getKnightMoves(cell, Table))
         {
-            if(knightMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
+            if(knightMove.getChessItem() instanceof Empty || knightMove.getChessItem() instanceof WhiteItem)
             {
                 blackKnightMoves.add(knightMove);
             }

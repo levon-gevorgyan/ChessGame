@@ -66,29 +66,29 @@ public class Game implements Letters, Colors{
 
         //Start play.Game
         String s = "";
-        try {
+        //try {
 
             while (!s.equals("exit")) {
 
                 //White player's turns
                 boolean nextToBlack;
                 nextToBlack = false;
-                new WhiteTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToBlack);
+                //new WhiteTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToBlack);
 
 
                 //Black player's turns
                 boolean nextToWhite;
                 nextToWhite = false;
-                new BlackTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToWhite);
+                //new BlackTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToWhite);
 
                 }
 
 
-        }
+       /* }
         catch (Mate mate)
         {
             System.out.println("Game is over");
-        }
+        }*/
     }
 
 

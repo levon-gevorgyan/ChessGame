@@ -80,6 +80,8 @@ public abstract class UITurn {
             return WhiteRook.getImageString();
         if(chessItem instanceof WhiteRookH)
             return WhiteRook.getImageString();
+        if(chessItem instanceof WhiteRook)
+            return WhiteRook.getImageString();
         if(chessItem instanceof BlackBishop)
             return BlackBishop.getImageString();
         if(chessItem instanceof BlackKing)
@@ -93,6 +95,8 @@ public abstract class UITurn {
         if(chessItem instanceof BlackRookA)
             return BlackRook.getImageString();
         if(chessItem instanceof BlackRookH)
+            return BlackRook.getImageString();
+        if(chessItem instanceof BlackRook)
             return BlackRook.getImageString();
         return null;
     }
@@ -111,6 +115,8 @@ public abstract class UITurn {
             return WhiteRook.getUI();
         if(chessItem instanceof WhiteRookH)
             return WhiteRook.getUI();
+        if(chessItem instanceof WhiteRook)
+            return WhiteRook.getUI();
         if(chessItem instanceof BlackBishop)
             return BlackBishop.getUI();
         if(chessItem instanceof BlackKing)
@@ -124,6 +130,8 @@ public abstract class UITurn {
         if(chessItem instanceof BlackRookA)
             return BlackRook.getUI();
         if(chessItem instanceof BlackRookH)
+            return BlackRook.getUI();
+        if(chessItem instanceof BlackRook)
             return BlackRook.getUI();
         if (chessItem instanceof Empty)
             return Empty.getUI();
