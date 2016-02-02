@@ -1,5 +1,9 @@
-# Play Chess UI 2.0.0 (former Chess Game in Java Console)
-JDK 1.8.0_72
+# Play Chess UI 2.0.1 (former Chess Game in Java Console)
+Requirements: JDK 1.8.0_72
+
+Release 2.0.1 (has UI)
+-fixed bug: King's available moves
+-Exported file path: ChessGame\Export JAR\ChessGame 2.0.1.jar
 
 Release 2.0.0 (has UI)
 -firstly released with User Interface
