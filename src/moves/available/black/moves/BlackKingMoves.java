@@ -23,7 +23,7 @@ public class BlackKingMoves extends KingMoves implements Letters{
         ArrayList<Cell> blackKingMoves=new ArrayList<>();
         for (Cell kingMove:getKingMoves(cell,Table))
         {
-            if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
+            if (kingMove.getChessItem() instanceof Empty || kingMove.getChessItem() instanceof WhiteItem)
             {
                 blackKingMoves.add(kingMove);
             }
@@ -63,7 +63,7 @@ public class BlackKingMoves extends KingMoves implements Letters{
         if(isCheck) {
 
             for (Cell kingMove : getKingMoves(cell, Table)) {
-                if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem) {
+                if (kingMove.getChessItem() instanceof Empty || kingMove.getChessItem() instanceof WhiteItem) {
                     blackKingMoves.add(kingMove);
                 }
             }
@@ -71,7 +71,7 @@ public class BlackKingMoves extends KingMoves implements Letters{
         if(!isCheck){
             for (Cell kingMove:getKingMoves(cell,Table))
             {
-                if (kingMove.getChessItem() instanceof Empty || cell.getChessItem() instanceof WhiteItem)
+                if (kingMove.getChessItem() instanceof Empty || kingMove.getChessItem() instanceof WhiteItem)
                 {
                     blackKingMoves.add(kingMove);
                 }

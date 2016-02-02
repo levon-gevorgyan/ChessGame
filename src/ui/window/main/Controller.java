@@ -136,7 +136,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        status.appendText("Welcome to chess by Levon \n \n White player's turn:"); //first
+        status.appendText("Welcome to chess by Levon \n \nWhite player's turn\n"); //first
         //create Cells list from FXML
 
         boardCells.add(a1);
@@ -483,14 +483,14 @@ public class Controller implements Initializable {
                 if (whitePlayerTurn && !blackPlayerTurn) {
                     whitePlayerTurn = false;
                     blackPlayerTurn = true;
-                    status.appendText(this.source.getId()+target.getId()+"\n");
-                    status.appendText("Black player's turn: ");
+                    status.appendText("White player makes move:"+this.source.getId()+target.getId()+"\n\n");
+                    status.appendText("Black player's turn\n");
 
                 } else if (!whitePlayerTurn && blackPlayerTurn) {
                     whitePlayerTurn = true;
                     blackPlayerTurn = false;
-                    status.appendText(this.source.getId() + target.getId() + "\n");
-                    status.appendText("White player's turn: ");
+                    status.appendText("Black player makes move:"+this.source.getId() + target.getId() + "\n\n");
+                    status.appendText("White player's turn\n");
                 }
 
             } catch (IOException e) {
