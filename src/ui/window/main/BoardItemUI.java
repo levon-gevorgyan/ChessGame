@@ -1,8 +1,8 @@
 package ui.window.main;
 
-import chessitems.ChessItem;
-import chessitems.black.*;
-import chessitems.white.*;
+import api.chessitems.ChessItem;
+import api.chessitems.black.*;
+import api.chessitems.white.*;
 
 /**
  * Created by Levon on 1/26/2016, 11:19 PM

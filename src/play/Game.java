@@ -1,38 +1,14 @@
 package play;
 
-import chessitems.ChessItem;
-import chessitems.black.*;
-import chessitems.white.*;
+import api.chesstable.cells.Cell;
+import api.chesstable.Table;
+import api.chesstable.cells.Letters;
 
-import chesstable.cells.Cell;
-import chesstable.Table;
-import chesstable.cells.Letters;
+import api.colors.Colors;
 
-import colors.Black;
-import colors.Colors;
-import colors.White;
-
-import exceptions.cell.EmptySourceCell;
-import exceptions.cell.InvalidSource;
-import exceptions.cell.NoCell;
-import exceptions.chessitem.PlayerSameChessItem;
-import exceptions.game.Check;
-import exceptions.game.Mate;
-import exceptions.moves.InvalidMove;
-import exceptions.moves.InvalidMoveString;
-import exceptions.moves.NoAvailableCells;
-
-import moves.BlackMove;
-import moves.Move;
-import moves.WhiteMove;
-import moves.available.black.moves.*;
-import moves.available.test.move.*;
-import moves.available.white.moves.*;
-
-import play.turns.BlackTurn;
-import play.turns.WhiteTurn;
-import players.BlackPlayer;
-import players.WhitePlayer;
+import api.players.BlackPlayer;
+import api.players.WhitePlayer;
+import api.turns.SaveState;
 
 
 import java.io.BufferedReader;

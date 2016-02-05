@@ -1,15 +1,15 @@
 package ui.turns;
 
-import chessitems.ChessItem;
-import chessitems.black.*;
-import chessitems.empty.Empty;
-import chessitems.white.*;
-import chesstable.cells.Cell;
+import api.chessitems.ChessItem;
+import api.chessitems.black.*;
+import api.chessitems.empty.Empty;
+import api.chessitems.white.*;
+import api.chesstable.cells.Cell;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import play.SaveState;
+import api.turns.SaveState;
 import ui.window.main.MyImage;
 
 import java.util.ArrayList;
