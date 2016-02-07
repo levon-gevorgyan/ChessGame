@@ -2,31 +2,36 @@
  * Created by Levon on 2/6/2016.
  */
 
-/*$(document).ready(function(){
-    $("#div1").on("dragover",function(e){
-        e.preventDefault();
-    });
-    $("#drag1").on("dragstart",function(e){
-        e.originalEvent.dataTransfer.setData("Text",e.target.id);
-    });
-    $("#div1").on("drop",function(e){
-        e.preventDefault();
-        var data=e.originalEvent.dataTransfer.getData("Text");
-        e.target.appendChild(document.getElementById(data));
-    });
-});*/
-/*
-function allowDrop(event) {
-    event.preventDefault();
+function dragStart(ev) {
+    ev.dataTransfer.effectAllowed='move';
+
+    ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
+    //Source=ev.target.getAttribute('id');
+
+    //ev.dataTransfer.setDragImage(ev.target,0,0);
+
+    return true;
 }
 
-function drag(event) {
-    event.dataTransfer.setData("text", event.target.id);
+function dragEnter(ev) {
+    event.preventDefault();
+    return true;
 }
 
-function drop(event) {
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.getElementById(data));
+function dragOver(ev) {
+    return false;
 }
-*/
+
+function dragDrop(ev) {
+
+    //ev.target.appendChild(document.getElementById(src));
+    //Target=ev.target.getAttribute('id');
+    if($('#'+ev.dataTransfer.getData("Text")).attr('draggable')=='true'){
+        console.log(ev.dataTransfer.getData("Text"));
+        $('#'+ev.target.getAttribute('id')).attr("src","images/items/BlackRook.png");
+        $('#'+ev.dataTransfer.getData("Text")).attr("src","images/items/Empty.png");
+
+    }
+    ev.stopPropagation();
+    return false;
+}

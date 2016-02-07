@@ -6,12 +6,12 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-    <servlet>
+    <!--<servlet>
         <servlet-name>xmlServlet</servlet-name>
         <servlet-class>servlets.XmlServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>xmlServlet</servlet-name>
         <url-pattern>/xml</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 </web-app>
