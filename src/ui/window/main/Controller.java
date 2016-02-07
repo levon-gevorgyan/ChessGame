@@ -23,7 +23,7 @@ import api.turns.BlackTurn;
 import api.turns.WhiteTurn;
 import api.players.BlackPlayer;
 import api.players.WhitePlayer;
-import ui.turns.UITurn;
+import api.turns.UITurn;
 import ui.window.alerts.Check_MateBox;
 
 

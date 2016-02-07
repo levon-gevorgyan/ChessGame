@@ -12,7 +12,7 @@ public class Empty extends ChessItem {
         return new ImagePattern(new MyImage("/ui/window/main/images/items/Empty.png"));
     }
     public static String getImageString(){
-        return "/ui/window/main/images/items/Empty.png";
+        return "images/items/Empty.png";
     }
     @Override
     public String toString() {

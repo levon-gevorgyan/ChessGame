@@ -1,4 +1,4 @@
-package ui.turns;
+package api.turns;
 
 import api.chessitems.ChessItem;
 import api.chessitems.black.*;

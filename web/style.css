@@ -8,13 +8,15 @@ table{
 }
 
 img{
-    height: 62px;
-    width: 62px;
+    height: 58px;
+    width: 58px;
 }
 
 td{
     height: 62px;
     width: 62px;
+    text-align: center;
+    vertical-align: middle;
 }
 tr{
     height: 62px;

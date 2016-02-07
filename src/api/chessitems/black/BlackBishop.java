@@ -31,7 +31,7 @@ public class BlackBishop extends BlackItem {
         return new ImagePattern(new MyImage("/ui/window/main/images/items/BlackBishop.png"));
     }
     public static String getImageString(){
-        return "/ui/window/main/images/items/BlackBishop.png";
+        return "images/items/BlackBishop.png";
     }
 
     @Override

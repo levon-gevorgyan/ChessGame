@@ -29,7 +29,7 @@ public class WhiteBishop extends WhiteItem implements White{
         return new ImagePattern(new MyImage("/ui/window/main/images/items/WhiteBishop.png"));
     }
     public static String getImageString(){
-        return "/ui/window/main/images/items/WhiteBishop.png";
+        return "images/items/WhiteBishop.png";
     }
 
     @Override

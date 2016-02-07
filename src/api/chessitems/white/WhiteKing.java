@@ -29,7 +29,7 @@ public class WhiteKing extends WhiteItem {
         return new ImagePattern(new MyImage("/ui/window/main/images/items/WhiteKing.png"));
     }
     public static String getImageString(){
-        return "/ui/window/main/images/items/WhiteKing.png";
+        return "images/items/WhiteKing.png";
     }
 
     @Override

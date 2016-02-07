@@ -30,7 +30,7 @@ public class WhiteRook extends WhiteItem {
         return new ImagePattern(new MyImage("/ui/window/main/images/items/WhiteRook.png"));
     }
     public static String getImageString(){
-        return "/ui/window/main/images/items/WhiteRook.png";
+        return "images/items/WhiteRook.png";
     }
     @Override
     public String toString() {

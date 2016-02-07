@@ -29,7 +29,7 @@ public class BlackQueen extends BlackItem {
         return new ImagePattern(new MyImage("/ui/window/main/images/items/BlackQueen.png"));
     }
     public static String getImageString(){
-        return "/ui/window/main/images/items/BlackQueen.png";
+        return "images/items/BlackQueen.png";
     }
     @Override
     public String toString() {

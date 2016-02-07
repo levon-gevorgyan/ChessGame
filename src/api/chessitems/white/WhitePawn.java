@@ -30,7 +30,7 @@ public class WhitePawn extends WhiteItem {
         return new ImagePattern(new MyImage("/ui/window/main/images/items/WhitePawn.png"));
     }
     public static String getImageString(){
-        return "/ui/window/main/images/items/WhitePawn.png";
+        return "images/items/WhitePawn.png";
     }
     @Override
     public String toString() {
