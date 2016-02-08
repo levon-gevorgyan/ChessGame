@@ -1,7 +1,7 @@
 package api.moves.available.moves;
 
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
 import api.exceptions.cell.NoCell;
 import api.exceptions.cell.NotEmptyCell;
 import api.exceptions.table.OutOfTable;
@@ -13,11 +13,11 @@ import java.util.ArrayList;
  * Created by levon.gevorgyan on 12/01/16.
  */
 public abstract class RookMoves extends AvailableMoves {
-    public ArrayList<Cell> rookMovesLeft(Cell cell, Table Table) {
+    public ArrayList<Cell> rookMovesLeft(Cell cell, ChessBoard ChessBoard) {
         ArrayList<Cell> rookMovesLeft = new ArrayList<>();
         try {
 
-            rookMovesLeft.addAll(Move.moveLeftUntilNotEmpty(cell,Table));
+            rookMovesLeft.addAll(Move.moveLeftUntilNotEmpty(cell, ChessBoard));
 
 
         } catch (NoCell noCell) {
@@ -31,12 +31,12 @@ public abstract class RookMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> rookMovesRight(Cell cell, Table Table) {
+    public ArrayList<Cell> rookMovesRight(Cell cell, ChessBoard ChessBoard) {
         ArrayList<Cell> rookMovesRight = new ArrayList<>();
         try {
 
 
-            rookMovesRight.addAll(Move.moveRightUntilNotEmpty(cell,Table));
+            rookMovesRight.addAll(Move.moveRightUntilNotEmpty(cell, ChessBoard));
 
 
         } catch (NoCell noCell) {
@@ -50,12 +50,12 @@ public abstract class RookMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> rookMovesUp(Cell cell, Table Table) {
+    public ArrayList<Cell> rookMovesUp(Cell cell, ChessBoard ChessBoard) {
         ArrayList<Cell> rookMovesUp = new ArrayList<>();
         try {
 
 
-            rookMovesUp.addAll(Move.moveUpUntilNotEmpty(cell,Table));
+            rookMovesUp.addAll(Move.moveUpUntilNotEmpty(cell, ChessBoard));
 
 
         } catch (NoCell noCell) {
@@ -69,12 +69,12 @@ public abstract class RookMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> rookMovesDown(Cell cell, Table Table) {
+    public ArrayList<Cell> rookMovesDown(Cell cell, ChessBoard ChessBoard) {
         ArrayList<Cell> rookMovesDown = new ArrayList<>();
         try {
 
 
-            rookMovesDown.addAll(Move.moveDownUntilNotEmpty(cell,Table));
+            rookMovesDown.addAll(Move.moveDownUntilNotEmpty(cell, ChessBoard));
 
         } catch (NoCell noCell) {
 

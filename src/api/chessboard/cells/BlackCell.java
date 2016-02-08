@@ -1,8 +1,8 @@
-package api.chesstable.cells;
+package api.chessboard.cells;
 
 import api.chessitems.ChessItem;
 import api.chessitems.empty.Empty;
-import api.chesstable.cells.color.BlackC;
+import api.chessboard.cells.color.BlackC;
 
 
 /**

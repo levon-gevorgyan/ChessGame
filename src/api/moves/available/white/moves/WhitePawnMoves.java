@@ -1,9 +1,9 @@
 package api.moves.available.white.moves;
 
+import api.chessboard.ChessBoard;
 import api.chessitems.BlackItem;
 import api.chessitems.empty.Empty;
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.cells.Cell;
 import api.exceptions.moves.NoAvailableCells;
 import api.moves.available.moves.PawnMoves;
 
@@ -15,21 +15,21 @@ import java.util.ArrayList;
 public class WhitePawnMoves extends PawnMoves {
     private ArrayList<Cell> whitePawnMoves;
 
-    public WhitePawnMoves(Cell cell, Table Table) {
+    public WhitePawnMoves(Cell cell, ChessBoard ChessBoard) {
         ArrayList<Cell> whitePawnMoves = new ArrayList<>();
 
-        if (getWhitePawnMove(cell, Table).size() > 0) {
-            if (getWhitePawnMove(cell, Table).get(0).getChessItem() instanceof Empty) {
-                whitePawnMoves.add(getWhitePawnMove(cell, Table).get(0));
+        if (getWhitePawnMove(cell, ChessBoard).size() > 0) {
+            if (getWhitePawnMove(cell, ChessBoard).get(0).getChessItem() instanceof Empty) {
+                whitePawnMoves.add(getWhitePawnMove(cell, ChessBoard).get(0));
             }
         }
-        if (getWhitePawnMove2(cell, Table).size() > 0) {
-            if (getWhitePawnMove2(cell, Table).get(0).getChessItem() instanceof Empty) {
-                whitePawnMoves.add(getWhitePawnMove2(cell, Table).get(0));
+        if (getWhitePawnMove2(cell, ChessBoard).size() > 0) {
+            if (getWhitePawnMove2(cell, ChessBoard).get(0).getChessItem() instanceof Empty) {
+                whitePawnMoves.add(getWhitePawnMove2(cell, ChessBoard).get(0));
             }
         }
-        if (getWhitePawnEatMoves(cell, Table).size() > 0) {
-            for (Cell eaten : getWhitePawnEatMoves(cell, Table)) {
+        if (getWhitePawnEatMoves(cell, ChessBoard).size() > 0) {
+            for (Cell eaten : getWhitePawnEatMoves(cell, ChessBoard)) {
                 if (eaten.getChessItem() instanceof BlackItem) {
                     whitePawnMoves.add(eaten);
                 }

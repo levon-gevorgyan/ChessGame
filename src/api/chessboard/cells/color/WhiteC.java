@@ -1,4 +1,4 @@
-package api.chesstable.cells.color;
+package api.chessboard.cells.color;
 
 /**
  * Created by Levon on 1/10/2016.

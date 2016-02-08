@@ -1,9 +1,9 @@
 package api.moves.available.black.moves;
 
+import api.chessboard.ChessBoard;
 import api.chessitems.WhiteItem;
 import api.chessitems.empty.Empty;
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.cells.Cell;
 import api.exceptions.moves.NoAvailableCells;
 import api.moves.available.moves.KnightMoves;
 
@@ -15,10 +15,10 @@ import java.util.ArrayList;
 public class BlackKnightMoves extends KnightMoves{
     private ArrayList<Cell> blackKnightMoves;
 
-    public BlackKnightMoves(Cell cell, Table Table)
+    public BlackKnightMoves(Cell cell, ChessBoard ChessBoard)
     {
         ArrayList<Cell> blackKnightMoves=new ArrayList<>();
-        for (Cell knightMove:getKnightMoves(cell, Table))
+        for (Cell knightMove:getKnightMoves(cell, ChessBoard))
         {
             if(knightMove.getChessItem() instanceof Empty || knightMove.getChessItem() instanceof WhiteItem)
             {

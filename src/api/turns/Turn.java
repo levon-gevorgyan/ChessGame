@@ -1,6 +1,6 @@
 package api.turns;
 
-import api.chesstable.Table;
+import api.chessboard.ChessBoard;
 import api.colors.Colors;
 import api.exceptions.game.CastlingDone;
 import api.exceptions.game.ChangePawn;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by levon.gevorgyan on 27/01/16.
  */
 public abstract class Turn implements Colors{
-    public abstract void doMove(String s, Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
+    public abstract void doMove(String s, ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
                                 ArrayList<SaveState> saveStateArrayList, SaveState previousState,TextArea status)
             throws IOException, Mate, CheckIsOpen, CastlingDone, ChangePawn;
 

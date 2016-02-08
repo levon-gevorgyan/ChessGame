@@ -1,4 +1,4 @@
-package api.chesstable.cells;
+package api.chessboard.cells;
 
 /**
  * Created by Levon on 1/10/2016.

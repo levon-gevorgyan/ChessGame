@@ -1,8 +1,8 @@
 package api.moves.available.moves;
 
 
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
 
 import api.exceptions.cell.NoCell;
 import api.exceptions.cell.NotEmptyCell;
@@ -16,11 +16,11 @@ import java.util.ArrayList;
  */
 public abstract class BishopMoves extends AvailableMoves {
 
-    public ArrayList<Cell> bishopMovesDiagLeftUp(Cell cell, Table table) {
+    public ArrayList<Cell> bishopMovesDiagLeftUp(Cell cell, ChessBoard chessBoard) {
         ArrayList<Cell> bishopMovesDiagLeftUp = new ArrayList<>();
         try {
 
-            bishopMovesDiagLeftUp.addAll(Move.moveDiagLeftUpUntilNotEmpty(cell,table));
+            bishopMovesDiagLeftUp.addAll(Move.moveDiagLeftUpUntilNotEmpty(cell, chessBoard));
 
 
         } catch (NoCell noCell) {
@@ -34,12 +34,12 @@ public abstract class BishopMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> bishopMovesDiagLeftDown(Cell cell, Table table) {
+    public ArrayList<Cell> bishopMovesDiagLeftDown(Cell cell, ChessBoard chessBoard) {
         ArrayList<Cell> bishopMovesDiagLeftDown = new ArrayList<>();
         try {
 
 
-            bishopMovesDiagLeftDown.addAll(Move.moveDiagLeftDownUntilNotEmpty(cell,table));
+            bishopMovesDiagLeftDown.addAll(Move.moveDiagLeftDownUntilNotEmpty(cell, chessBoard));
 
 
         } catch (NoCell noCell) {
@@ -53,12 +53,12 @@ public abstract class BishopMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> bishopMovesDiagRightUp(Cell cell, Table table) {
+    public ArrayList<Cell> bishopMovesDiagRightUp(Cell cell, ChessBoard chessBoard) {
         ArrayList<Cell> bishopMovesDiagRightUp = new ArrayList<>();
         try {
 
 
-            bishopMovesDiagRightUp.addAll(Move.moveDiagRightUpUntilNotEmpty(cell,table));
+            bishopMovesDiagRightUp.addAll(Move.moveDiagRightUpUntilNotEmpty(cell, chessBoard));
 
 
         } catch (NoCell noCell) {
@@ -72,12 +72,12 @@ public abstract class BishopMoves extends AvailableMoves {
 
     }
 
-    public ArrayList<Cell> bishopMovesDiagRightDown(Cell cell, Table table) {
+    public ArrayList<Cell> bishopMovesDiagRightDown(Cell cell, ChessBoard chessBoard) {
         ArrayList<Cell> bishopMovesDiagRightDown = new ArrayList<>();
         try {
 
 
-            bishopMovesDiagRightDown.addAll(Move.moveDiagRightDownUntilNotEmpty(cell,table));
+            bishopMovesDiagRightDown.addAll(Move.moveDiagRightDownUntilNotEmpty(cell, chessBoard));
 
         } catch (NoCell noCell) {
 

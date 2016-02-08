@@ -22,7 +22,7 @@ public class BlackPlayer extends Player {
         this.chessItemsMap.put("f8",new BlackBishop());
         this.chessItemsMap.put("g8",new BlackKnight());
         this.chessItemsMap.put("h8",new BlackRookH());
-        this.chessItemsMap.put("a7",new BlackPawn());
+        //this.chessItemsMap.put("a7",new BlackPawn());
         this.chessItemsMap.put("b7",new BlackPawn());
         this.chessItemsMap.put("c7",new BlackPawn());
         this.chessItemsMap.put("d7",new BlackPawn());
@@ -60,7 +60,6 @@ public class BlackPlayer extends Player {
 
     @Override
     public void setChessItemsMap(SortedMap<String, ChessItem> chessItemsMap) {
-        this.chessItemsMap = new TreeMap<String, ChessItem>(chessItemsMap) {
-        };
+        this.chessItemsMap = new TreeMap<String, ChessItem>(chessItemsMap);
     }
 }

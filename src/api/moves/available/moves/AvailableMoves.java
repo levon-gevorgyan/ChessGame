@@ -1,6 +1,6 @@
 package api.moves.available.moves;
 
-import api.chesstable.cells.Cell;
+import api.chessboard.cells.Cell;
 import api.exceptions.moves.NoAvailableCells;
 
 import java.util.ArrayList;

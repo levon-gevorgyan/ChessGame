@@ -1,4 +1,4 @@
-package api.chesstable.cells;
+package api.chessboard.cells;
 
 import api.chessitems.ChessItem;
 

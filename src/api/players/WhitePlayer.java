@@ -61,7 +61,6 @@ public class WhitePlayer extends Player {
 
     @Override
     public void setChessItemsMap(SortedMap<String, ChessItem> chessItemsMap) {
-        this.chessItemsMap = new TreeMap<String, ChessItem>(chessItemsMap) {
-        };
+        this.chessItemsMap = new TreeMap<String, ChessItem>(chessItemsMap);
     }
 }

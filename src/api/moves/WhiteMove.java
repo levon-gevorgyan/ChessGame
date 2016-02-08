@@ -1,12 +1,12 @@
 package api.moves;
 
+import api.chessboard.ChessBoard;
 import api.chessitems.BlackItem;
 import api.chessitems.ChessItem;
 import api.chessitems.empty.Empty;
 import api.chessitems.white.*;
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
-import api.chesstable.cells.Letters;
+import api.chessboard.cells.Cell;
+import api.chessboard.cells.Letters;
 import api.exceptions.cell.EmptySourceCell;
 import api.exceptions.cell.NoCell;
 import api.exceptions.chessitem.PlayerSameChessItem;
@@ -81,7 +81,7 @@ public class WhiteMove extends Move implements Letters{
     }
 
     @Override
-    public boolean move(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
+    public boolean move(ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
             throws PlayerSameChessItem, EmptySourceCell, InvalidSource, NoCell, InvalidMove, NoAvailableCells, IOException, CastlingDone, ChangePawn {
         Map<String, ChessItem> whitePlayerItems=whitePlayer.getChessItemsMap();
         Map<String, ChessItem> blackPlayerItems=blackPlayer.getChessItemsMap();
@@ -101,7 +101,7 @@ public class WhiteMove extends Move implements Letters{
         {
             if(from.equals(item.getKey()))
             {
-                for (SortedMap.Entry<String, Cell> cell:table.getCells().entrySet())
+                for (SortedMap.Entry<String, Cell> cell: chessBoard.getCells().entrySet())
                 {
                     if(cell.getKey().equals(to))
                     {
@@ -116,18 +116,18 @@ public class WhiteMove extends Move implements Letters{
             }
         }
 
-        if (table.getCells().get(from).getChessItem() instanceof Empty) {
+        if (chessBoard.getCells().get(from).getChessItem() instanceof Empty) {
             throw new EmptySourceCell(); //Empty Source
-        }else if(table.getCells().get(from).getChessItem() instanceof BlackItem)
+        }else if(chessBoard.getCells().get(from).getChessItem() instanceof BlackItem)
             {
                 throw new InvalidSource(); //Invalid Source
             }
         else {
 
-            for (SortedMap.Entry<String, Cell> cell : table.getCells().entrySet()) {
+            for (SortedMap.Entry<String, Cell> cell : chessBoard.getCells().entrySet()) {
                 if (cell.getKey().equals(to)) {
                     if (isTargetCell && isTargetString) {
-                        if (table.getCells().get(to).getChessItem() instanceof Empty) {
+                        if (chessBoard.getCells().get(to).getChessItem() instanceof Empty) {
                             isEmpty = true;
                             isWhiteItem = false;
                             break;
@@ -135,10 +135,10 @@ public class WhiteMove extends Move implements Letters{
                     }
                 }
             }
-            for (SortedMap.Entry<String, Cell> cell : table.getCells().entrySet()) {
+            for (SortedMap.Entry<String, Cell> cell : chessBoard.getCells().entrySet()) {
                 if (cell.getKey().equals(to)) {
                     if (isTargetCell && isTargetString) {
-                        if (table.getCells().get(to).getChessItem() instanceof BlackItem) {
+                        if (chessBoard.getCells().get(to).getChessItem() instanceof BlackItem) {
                             isBlackItem = true;
                             isWhiteItem = false;
                             break;
@@ -148,11 +148,11 @@ public class WhiteMove extends Move implements Letters{
             }
             if (isEmpty) {
 
-                ChessItem chessItemFrom = table.getCells().get(from).getChessItem();
-                ChessItem chessItemTo = table.getCells().get(to).getChessItem();
+                ChessItem chessItemFrom = chessBoard.getCells().get(from).getChessItem();
+                ChessItem chessItemTo = chessBoard.getCells().get(to).getChessItem();
 
-                Cell cellFrom = table.getCells().get(from);
-                Cell cellTo = table.getCells().get(to);
+                Cell cellFrom = chessBoard.getCells().get(from);
+                Cell cellTo = chessBoard.getCells().get(to);
 
                 //Get available cells of source <--Begin-->
                 ArrayList<Cell> availableCells=new ArrayList<>();
@@ -160,26 +160,26 @@ public class WhiteMove extends Move implements Letters{
 
                     //Conditions
                     if(cellFrom.getChessItem() instanceof WhiteBishop){
-                        availableCells=new WhiteBishopMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteBishopMoves(cellFrom, chessBoard).getMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKing){
-                        availableCells=new WhiteKingMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteKingMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKnight){
-                        availableCells=new WhiteKnightMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteKnightMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhitePawn){
-                        availableCells=new WhitePawnMoves(cellFrom,table).getMoves();
+                        availableCells=new WhitePawnMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteQueen){
-                        availableCells=new WhiteQueenMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteQueenMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteRookMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else{
@@ -203,7 +203,7 @@ public class WhiteMove extends Move implements Letters{
                                 {
                                     if(cellFrom.getChessItem() instanceof WhiteKing)
                                     {
-                                        if (cellTo.equals(table.getCell(C, 1))) {
+                                        if (cellTo.equals(chessBoard.getCell(C, 1))) {
                                             if(getLeftCastlingStatus())
                                             {
                                                 cellFrom.setChessItem(chessItemTo);
@@ -211,11 +211,11 @@ public class WhiteMove extends Move implements Letters{
 
                                                 String rookCellFrom = "a1";
                                                 String rookCellTo = "d1";
-                                                ChessItem rookItemFrom = table.getCell(A, 1).getChessItem();
-                                                ChessItem rookItemTo = table.getCell(D, 1).getChessItem();
+                                                ChessItem rookItemFrom = chessBoard.getCell(A, 1).getChessItem();
+                                                ChessItem rookItemTo = chessBoard.getCell(D, 1).getChessItem();
 
-                                                table.getCell(A, 1).setChessItem(rookItemTo);
-                                                table.getCell(D, 1).setChessItem(rookItemFrom);
+                                                chessBoard.getCell(A, 1).setChessItem(rookItemTo);
+                                                chessBoard.getCell(D, 1).setChessItem(rookItemFrom);
 
                                                 whitePlayerItems.put(to, chessItemFrom);
                                                 whitePlayerItems.remove(from);
@@ -227,18 +227,18 @@ public class WhiteMove extends Move implements Letters{
                                                 throw new CastlingDone();
                                             }
                                         }
-                                        else if (cellTo.equals(table.getCell(G, 1))) {
+                                        else if (cellTo.equals(chessBoard.getCell(G, 1))) {
                                             if (getRightCastlingStatus()) {
                                                 cellFrom.setChessItem(chessItemTo);
                                                 cellTo.setChessItem(chessItemFrom);
 
                                                 String rookCellFrom = "h1";
                                                 String rookCellTo = "f1";
-                                                ChessItem rookItemFrom = table.getCell(H, 1).getChessItem();
-                                                ChessItem rookItemTo = table.getCell(F, 1).getChessItem();
+                                                ChessItem rookItemFrom = chessBoard.getCell(H, 1).getChessItem();
+                                                ChessItem rookItemTo = chessBoard.getCell(F, 1).getChessItem();
 
-                                                table.getCell(H, 1).setChessItem(rookItemTo);
-                                                table.getCell(F, 1).setChessItem(rookItemFrom);
+                                                chessBoard.getCell(H, 1).setChessItem(rookItemTo);
+                                                chessBoard.getCell(F, 1).setChessItem(rookItemFrom);
 
                                                 whitePlayerItems.put(to, chessItemFrom);
                                                 whitePlayerItems.remove(from);
@@ -329,17 +329,17 @@ public class WhiteMove extends Move implements Letters{
                     throw new InvalidMove();
                 }
                 //Get available cells of source <--End-->
-                doPawnChangeWhite(whitePlayerItems,cellTo,table);//do Castling
+                doPawnChangeWhite(whitePlayerItems,cellTo, chessBoard);//do Castling
                 isCompleted=true;
 
             }
             if (isBlackItem) {
 
-                ChessItem chessItemFrom = table.getCells().get(from).getChessItem();
+                ChessItem chessItemFrom = chessBoard.getCells().get(from).getChessItem();
                 ChessItem chessItemEmpty = new Empty();
 
-                Cell cellFrom = table.getCells().get(from);
-                Cell cellTo = table.getCells().get(to);
+                Cell cellFrom = chessBoard.getCells().get(from);
+                Cell cellTo = chessBoard.getCells().get(to);
 
                 //Get available cells of source <--Begin-->
                 ArrayList<Cell> availableCells=new ArrayList<>();
@@ -347,26 +347,26 @@ public class WhiteMove extends Move implements Letters{
                 try {
                     //Conditions
                     if(cellFrom.getChessItem() instanceof WhiteBishop){
-                        availableCells=new WhiteBishopMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteBishopMoves(cellFrom, chessBoard).getMoves();
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKing){
-                        availableCells=new WhiteKingMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteKingMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteKnight){
-                        availableCells=new WhiteKnightMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteKnightMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhitePawn){
-                        availableCells=new WhitePawnMoves(cellFrom,table).getMoves();
+                        availableCells=new WhitePawnMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteQueen){
-                        availableCells=new WhiteQueenMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteQueenMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else if (cellFrom.getChessItem() instanceof WhiteRook){
-                        availableCells=new WhiteRookMoves(cellFrom,table).getMoves();
+                        availableCells=new WhiteRookMoves(cellFrom, chessBoard).getMoves();
 
                     }
                     else{
@@ -391,18 +391,18 @@ public class WhiteMove extends Move implements Letters{
                             if(cellTo.equals(target)){
                                 //check White Castling
                                 if (cellFrom.getChessItem() instanceof WhiteRook){
-                                    if(cellFrom.equals(table.getCell(A,1)))
+                                    if(cellFrom.equals(chessBoard.getCell(A,1)))
                                     {
                                         countA1++;
                                     }
-                                    if(cellFrom.equals(table.getCell(H,1)))
+                                    if(cellFrom.equals(chessBoard.getCell(H,1)))
                                     {
                                         countH1++;
                                     }
 
                                 }
                                 if (cellFrom.getChessItem() instanceof WhiteKing){
-                                    if(cellFrom.equals(table.getCell(E,1)))
+                                    if(cellFrom.equals(chessBoard.getCell(E,1)))
                                     {
                                         countE1++;
                                     }
@@ -441,7 +441,7 @@ public class WhiteMove extends Move implements Letters{
                 }
 
 
-                doPawnChangeWhite(whitePlayerItems,cellTo,table);//do do Pawn Change
+                doPawnChangeWhite(whitePlayerItems,cellTo, chessBoard);//do do Pawn Change
 
             }
             if (isWhiteItem) {

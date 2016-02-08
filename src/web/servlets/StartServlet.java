@@ -1,11 +1,10 @@
 package web.servlets;
 
 
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
 import api.players.BlackPlayer;
 import api.players.WhitePlayer;
-import api.turns.UITurn;
 import web.WebMethods;
 
 
@@ -38,11 +37,11 @@ public class StartServlet extends HttpServlet {
         BlackPlayer blackPlayer = new BlackPlayer();
 
         //Creating table
-        Table board = new Table(cells, rows, columns, whitePlayer, blackPlayer);
-        board.setAllItems(whitePlayer, blackPlayer);
-        board.toString();
+        ChessBoard chessBoard = new ChessBoard(cells, rows, columns, whitePlayer, blackPlayer);
+        chessBoard.setAllItems(whitePlayer, blackPlayer);
+        chessBoard.toString();
 
-        String responseCells= WebMethods.parseBoardToJSON(board);
+        String responseCells= WebMethods.parseBoardToJSON(chessBoard);
 
 
         /*responseCells=responseCells.substring(0,responseCells.length()-1);

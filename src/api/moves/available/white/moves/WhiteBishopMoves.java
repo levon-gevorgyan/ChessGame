@@ -1,8 +1,8 @@
 package api.moves.available.white.moves;
 
+import api.chessboard.ChessBoard;
 import api.chessitems.BlackItem;
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.cells.Cell;
 import api.exceptions.cell.NoCell;
 import api.exceptions.moves.NoAvailableCells;
 import api.exceptions.table.OutOfTable;
@@ -15,23 +15,23 @@ import java.util.ArrayList;
  */
 public class WhiteBishopMoves extends BishopMoves {
     private ArrayList<Cell> whiteBishopMoves;
-    public WhiteBishopMoves(Cell cell, Table Table)  {
+    public WhiteBishopMoves(Cell cell, ChessBoard ChessBoard)  {
 
         try {
             ArrayList<Cell> whiteBishopMoves = new ArrayList<>();
 
 
-            ArrayList<Cell> leftUp = bishopMovesDiagLeftUp(cell,Table);
-            ArrayList<Cell> leftDown = bishopMovesDiagLeftDown(cell,Table);
-            ArrayList<Cell> rightUp = bishopMovesDiagRightUp(cell,Table);
-            ArrayList<Cell> rightDown = bishopMovesDiagRightDown(cell,Table);
+            ArrayList<Cell> leftUp = bishopMovesDiagLeftUp(cell, ChessBoard);
+            ArrayList<Cell> leftDown = bishopMovesDiagLeftDown(cell, ChessBoard);
+            ArrayList<Cell> rightUp = bishopMovesDiagRightUp(cell, ChessBoard);
+            ArrayList<Cell> rightDown = bishopMovesDiagRightDown(cell, ChessBoard);
 
             Cell lastLeftUpCell = cell;
             if (leftUp.size() > 0) {
                 lastLeftUpCell = leftUp.get(leftUp.size() - 1);
                 try {
-                    if (Table.diagonalLeftUpCell(lastLeftUpCell).getChessItem() instanceof BlackItem) {
-                        leftUp.add(Table.diagonalLeftUpCell(lastLeftUpCell));
+                    if (ChessBoard.diagonalLeftUpCell(lastLeftUpCell).getChessItem() instanceof BlackItem) {
+                        leftUp.add(ChessBoard.diagonalLeftUpCell(lastLeftUpCell));
                     }
                 } catch (NoCell noCell) {
 
@@ -40,8 +40,8 @@ public class WhiteBishopMoves extends BishopMoves {
             }
             else {
                 try {
-                    if (Table.diagonalLeftUpCell(lastLeftUpCell).getChessItem() instanceof BlackItem) {
-                        leftUp.add(Table.diagonalLeftUpCell(lastLeftUpCell));
+                    if (ChessBoard.diagonalLeftUpCell(lastLeftUpCell).getChessItem() instanceof BlackItem) {
+                        leftUp.add(ChessBoard.diagonalLeftUpCell(lastLeftUpCell));
                     }
                 } catch (NoCell noCell) {
 
@@ -51,8 +51,8 @@ public class WhiteBishopMoves extends BishopMoves {
             if (leftDown.size() > 0) {
                 lastLeftDownCell = leftDown.get(leftDown.size() - 1);
                 try {
-                    if (Table.diagonalLeftDownCell(lastLeftDownCell).getChessItem() instanceof BlackItem) {
-                        leftDown.add(Table.diagonalLeftDownCell(lastLeftDownCell));
+                    if (ChessBoard.diagonalLeftDownCell(lastLeftDownCell).getChessItem() instanceof BlackItem) {
+                        leftDown.add(ChessBoard.diagonalLeftDownCell(lastLeftDownCell));
                     }
                 } catch (NoCell noCell) {
 
@@ -61,8 +61,8 @@ public class WhiteBishopMoves extends BishopMoves {
             }
             else {
                 try {
-                    if (Table.diagonalLeftDownCell(lastLeftDownCell).getChessItem() instanceof BlackItem) {
-                        leftDown.add(Table.diagonalLeftDownCell(lastLeftDownCell));
+                    if (ChessBoard.diagonalLeftDownCell(lastLeftDownCell).getChessItem() instanceof BlackItem) {
+                        leftDown.add(ChessBoard.diagonalLeftDownCell(lastLeftDownCell));
                     }
                 } catch (NoCell noCell) {
 
@@ -72,8 +72,8 @@ public class WhiteBishopMoves extends BishopMoves {
             if (rightUp.size() > 0) {
                 lastRightUpCell = rightUp.get(rightUp.size() - 1);
                 try {
-                    if (Table.diagonalRightUpCell(lastRightUpCell).getChessItem() instanceof BlackItem) {
-                        rightUp.add(Table.diagonalRightUpCell(lastRightUpCell));
+                    if (ChessBoard.diagonalRightUpCell(lastRightUpCell).getChessItem() instanceof BlackItem) {
+                        rightUp.add(ChessBoard.diagonalRightUpCell(lastRightUpCell));
                     }
                 } catch (NoCell noCell) {
 
@@ -81,8 +81,8 @@ public class WhiteBishopMoves extends BishopMoves {
             }
             else {
                 try {
-                    if (Table.diagonalRightUpCell(lastRightUpCell).getChessItem() instanceof BlackItem) {
-                        rightUp.add(Table.diagonalRightUpCell(lastRightUpCell));
+                    if (ChessBoard.diagonalRightUpCell(lastRightUpCell).getChessItem() instanceof BlackItem) {
+                        rightUp.add(ChessBoard.diagonalRightUpCell(lastRightUpCell));
                     }
                 } catch (NoCell noCell) {
 
@@ -92,8 +92,8 @@ public class WhiteBishopMoves extends BishopMoves {
             if (rightDown.size() > 0) {
                 lastRightDownCell = rightDown.get(rightDown.size() - 1);
                 try {
-                    if (Table.diagonalRightDownCell(lastRightDownCell).getChessItem() instanceof BlackItem) {
-                        rightDown.add(Table.diagonalRightDownCell(lastRightDownCell));
+                    if (ChessBoard.diagonalRightDownCell(lastRightDownCell).getChessItem() instanceof BlackItem) {
+                        rightDown.add(ChessBoard.diagonalRightDownCell(lastRightDownCell));
 
 
                     }
@@ -103,8 +103,8 @@ public class WhiteBishopMoves extends BishopMoves {
             }
             else {
                 try {
-                    if (Table.diagonalRightDownCell(lastRightDownCell).getChessItem() instanceof BlackItem) {
-                        rightDown.add(Table.diagonalRightDownCell(lastRightDownCell));
+                    if (ChessBoard.diagonalRightDownCell(lastRightDownCell).getChessItem() instanceof BlackItem) {
+                        rightDown.add(ChessBoard.diagonalRightDownCell(lastRightDownCell));
                     }
                 } catch (NoCell noCell) {
 

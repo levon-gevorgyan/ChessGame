@@ -1,8 +1,8 @@
 package api.turns;
 
 import api.chessitems.ChessItem;
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
 import api.players.BlackPlayer;
 import api.players.Player;
 import api.players.WhitePlayer;
@@ -52,10 +52,10 @@ public class SaveState {
 
 
 
-    public SaveState(Table table, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
+    public SaveState(ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
     {
 
-        for (SortedMap.Entry<String,Cell> pair:table.getCells().entrySet())
+        for (SortedMap.Entry<String,Cell> pair: chessBoard.getCells().entrySet())
         {
             this.allChessItems.put(pair.getKey(), pair.getValue().getChessItem());
         }
@@ -100,8 +100,8 @@ public class SaveState {
         return blackChessItems;
     }
 
-    public void undoHere (Table table, Player whitePlayer, Player blackPlayer) {
-        for (SortedMap.Entry<String, Cell> pair : table.getCells().entrySet()) {
+    public void undoHere (ChessBoard chessBoard, Player whitePlayer, Player blackPlayer) {
+        for (SortedMap.Entry<String, Cell> pair : chessBoard.getCells().entrySet()) {
             for (SortedMap.Entry<String, ChessItem> pairSave : allChessItems.entrySet()) {
                 if (pair.getKey().equals(pairSave.getKey())) {
                     pair.getValue().setChessItem(pairSave.getValue());

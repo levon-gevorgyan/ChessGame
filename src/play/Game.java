@@ -1,8 +1,8 @@
 package play;
 
-import api.chesstable.cells.Cell;
-import api.chesstable.Table;
-import api.chesstable.cells.Letters;
+import api.chessboard.cells.Cell;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Letters;
 
 import api.colors.Colors;
 
@@ -35,10 +35,10 @@ public class Game implements Letters, Colors{
         WhitePlayer whitePlayer = new WhitePlayer();
         BlackPlayer blackPlayer = new BlackPlayer();
 
-        //Creating table
-        Table table=new Table(cells,rows,columns,whitePlayer,blackPlayer);
-        table.setAllItems(whitePlayer, blackPlayer);
-        table.toString();
+        //Creating chessBoard
+        ChessBoard chessBoard =new ChessBoard(cells,rows,columns,whitePlayer,blackPlayer);
+        chessBoard.setAllItems(whitePlayer, blackPlayer);
+        chessBoard.toString();
 
         //Start play.Game
         String s = "";
@@ -49,13 +49,13 @@ public class Game implements Letters, Colors{
                 //White player's turns
                 boolean nextToBlack;
                 nextToBlack = false;
-                //new WhiteTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToBlack);
+                //new WhiteTurn().doMove(s,chessBoard,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToBlack);
 
 
                 //Black player's turns
                 boolean nextToWhite;
                 nextToWhite = false;
-                //new BlackTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToWhite);
+                //new BlackTurn().doMove(s,chessBoard,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToWhite);
 
                 }
 

@@ -1,11 +1,11 @@
-package api.chesstable;
+package api.chessboard;
 
 import api.chessitems.ChessItem;
 import api.chessitems.black.BlackKing;
 import api.chessitems.empty.Empty;
 
 import api.chessitems.white.WhiteKing;
-import api.chesstable.cells.*;
+import api.chessboard.cells.*;
 import api.colors.Colors;
 import api.exceptions.cell.NoCell;
 import api.exceptions.table.OutOfTable;
@@ -18,18 +18,18 @@ import java.util.*;
 /**
  * Created by Levon on 1/9/2016.
  */
-public class Table  implements Letters,Numbers, Colors{
+public class ChessBoard implements Letters,Numbers, Colors{
 
-    private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the Table
-    private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the Table
-    private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the Table
+    private SortedMap<String,Cell> cells=new TreeMap<String,Cell>(); //All Cells of the ChessBoard
+    private ArrayList<ArrayList<Cell>> rows=new ArrayList<>(); //All Rows of the ChessBoard
+    private ArrayList<ArrayList<Cell>> columns=new ArrayList<>(); //All Columns of the ChessBoard
     private WhitePlayer whitePlayer;
     private BlackPlayer blackPlayer;
 
-    public Table(Table cloneTable) {
-        this.cells = (SortedMap<String,Cell>)((TreeMap<String,Cell>)(cloneTable.getCells())).clone();
-        this.rows=(ArrayList<ArrayList<Cell>>)(cloneTable.getRows()).clone();
-        this.columns=(ArrayList<ArrayList<Cell>>)(cloneTable.getColumns()).clone();
+    public ChessBoard(ChessBoard cloneChessBoard) {
+        this.cells = (SortedMap<String,Cell>)((TreeMap<String,Cell>)(cloneChessBoard.getCells())).clone();
+        this.rows=(ArrayList<ArrayList<Cell>>)(cloneChessBoard.getRows()).clone();
+        this.columns=(ArrayList<ArrayList<Cell>>)(cloneChessBoard.getColumns()).clone();
     }
 
     public WhitePlayer getWhitePlayer() {
@@ -69,10 +69,10 @@ public class Table  implements Letters,Numbers, Colors{
         this.columns = new ArrayList<ArrayList<Cell>>(columns);
     }
 
-    //Create Table
-    public Table(SortedMap<String,Cell> cells,
-                 ArrayList<ArrayList<Cell>> rows,ArrayList<ArrayList<Cell>> columns,
-                 WhitePlayer whitePlayer, BlackPlayer blackPlayer)
+    //Create ChessBoard
+    public ChessBoard(SortedMap<String, Cell> cells,
+                      ArrayList<ArrayList<Cell>> rows, ArrayList<ArrayList<Cell>> columns,
+                      WhitePlayer whitePlayer, BlackPlayer blackPlayer)
     {
         this.whitePlayer=whitePlayer;
         this.blackPlayer=blackPlayer;
@@ -557,7 +557,7 @@ public class Table  implements Letters,Numbers, Colors{
         return cells.get(id);
     }
 
-    //Receive All Cells of the Table
+    //Receive All Cells of the ChessBoard
     public SortedMap<String,Cell> getCells()
     {
         return this.cells;
@@ -568,7 +568,7 @@ public class Table  implements Letters,Numbers, Colors{
         return this.cells.get(Character.toString(x) + y);
     }
 
-    //Get Table on Screen
+    //Get ChessBoard on Screen
     public String toString()
     {
         System.out.println("  A  B  C  D  E  F  G  H");
@@ -642,14 +642,14 @@ public class Table  implements Letters,Numbers, Colors{
 
 
     //get Opponent's King's location
-    public Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer,Table table)
+    public Cell getOpponentKingCell(String playerColor, Map<String, ChessItem> whitePlayer, Map<String, ChessItem> blackPlayer,ChessBoard chessBoard)
     {
         if(playerColor.equals(BLACK))
         {
             for(Map.Entry<String,ChessItem> pair:blackPlayer.entrySet())
             {
                 if(pair.getValue() instanceof BlackKing)
-                    return table.getCellByString(pair.getKey());
+                    return chessBoard.getCellByString(pair.getKey());
             }
         }
         if(playerColor.equals(WHITE))
@@ -657,7 +657,7 @@ public class Table  implements Letters,Numbers, Colors{
             for(Map.Entry<String,ChessItem> pair:whitePlayer.entrySet())
             {
                 if(pair.getValue() instanceof WhiteKing)
-                    return table.getCellByString(pair.getKey());
+                    return chessBoard.getCellByString(pair.getKey());
             }
         }
         return null;

@@ -1,7 +1,7 @@
 package api.moves.available.moves;
 
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
 import api.exceptions.cell.NoCell;
 import api.exceptions.table.OutOfTable;
 
@@ -12,11 +12,11 @@ import java.util.ArrayList;
  */
 public abstract class KnightMoves extends AvailableMoves {
 
-    public ArrayList<Cell> getKnightMoves(Cell cell, Table Table)
+    public ArrayList<Cell> getKnightMoves(Cell cell, ChessBoard ChessBoard)
     {
         ArrayList<Cell> knightMoves=new ArrayList<>();
         try {
-            knightMoves.add(Table.upUpLeft(cell));
+            knightMoves.add(ChessBoard.upUpLeft(cell));
             
         } catch (OutOfTable outOfTable) {
 
@@ -25,49 +25,49 @@ public abstract class KnightMoves extends AvailableMoves {
         }
 
         try {
-            knightMoves.add(Table.upUpRight(cell));
+            knightMoves.add(ChessBoard.upUpRight(cell));
         } catch (OutOfTable outOfTable) {
             
         } catch (NoCell noCell) {
             
         }
         try {
-            knightMoves.add(Table.downDownLeft(cell));
+            knightMoves.add(ChessBoard.downDownLeft(cell));
         } catch (OutOfTable outOfTable) {
             
         } catch (NoCell noCell) {
             
         }
         try {
-            knightMoves.add(Table.downDownRight(cell));
+            knightMoves.add(ChessBoard.downDownRight(cell));
         } catch (OutOfTable outOfTable) {
             
         } catch (NoCell noCell) {
             
         }
         try {
-            knightMoves.add(Table.leftLeftUp(cell));
+            knightMoves.add(ChessBoard.leftLeftUp(cell));
         } catch (OutOfTable outOfTable) {
             
         } catch (NoCell noCell) {
             
         }
         try {
-            knightMoves.add(Table.leftLeftDown(cell));
+            knightMoves.add(ChessBoard.leftLeftDown(cell));
         } catch (OutOfTable outOfTable) {
             
         } catch (NoCell noCell) {
             
         }
         try {
-            knightMoves.add(Table.rightRightUp(cell));
+            knightMoves.add(ChessBoard.rightRightUp(cell));
         } catch (OutOfTable outOfTable) {
             
         } catch (NoCell noCell) {
             
         }
         try {
-            knightMoves.add(Table.rightRightDown(cell));
+            knightMoves.add(ChessBoard.rightRightDown(cell));
         } catch (OutOfTable outOfTable) {
             
         } catch (NoCell noCell) {

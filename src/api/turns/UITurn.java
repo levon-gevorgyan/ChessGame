@@ -4,12 +4,11 @@ import api.chessitems.ChessItem;
 import api.chessitems.black.*;
 import api.chessitems.empty.Empty;
 import api.chessitems.white.*;
-import api.chesstable.cells.Cell;
+import api.chessboard.cells.Cell;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import api.turns.SaveState;
 import ui.window.main.MyImage;
 
 import java.util.ArrayList;

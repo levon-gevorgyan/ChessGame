@@ -2,9 +2,9 @@ package api.moves.available.white.moves;
 
 import api.chessitems.BlackItem;
 import api.chessitems.empty.Empty;
-import api.chesstable.Table;
-import api.chesstable.cells.Cell;
-import api.chesstable.cells.Letters;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
+import api.chessboard.cells.Letters;
 import api.exceptions.moves.NoAvailableCells;
 import api.moves.WhiteMove;
 import api.moves.available.moves.KingMoves;
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public class WhiteKingMoves extends KingMoves implements Letters {
     private ArrayList<Cell> whiteKingMoves;
 
-    public WhiteKingMoves(Cell cell, Table Table)
+    public WhiteKingMoves(Cell cell, ChessBoard ChessBoard)
     {
         ArrayList<Cell> whiteKingMoves=new ArrayList<>();
-        for (Cell kingMove:getKingMoves(cell, Table))
+        for (Cell kingMove:getKingMoves(cell, ChessBoard))
         {
             if (kingMove.getChessItem() instanceof Empty || kingMove.getChessItem() instanceof BlackItem)
             {
@@ -28,21 +28,21 @@ public class WhiteKingMoves extends KingMoves implements Letters {
             }
 
         }
-        if(Table.getCell(B, 1).getChessItem() instanceof Empty
-                && Table.getCell(C,1).getChessItem() instanceof Empty
-                && Table.getCell(D,1).getChessItem() instanceof Empty)
+        if(ChessBoard.getCell(B, 1).getChessItem() instanceof Empty
+                && ChessBoard.getCell(C,1).getChessItem() instanceof Empty
+                && ChessBoard.getCell(D,1).getChessItem() instanceof Empty)
         {
             if(WhiteMove.getLeftCastlingStatus())
             {
-                whiteKingMoves.add(Table.getCell(C,1));
+                whiteKingMoves.add(ChessBoard.getCell(C,1));
             }
         }
-        if(Table.getCell(F,1).getChessItem() instanceof Empty
-                && Table.getCell(G,1).getChessItem() instanceof Empty)
+        if(ChessBoard.getCell(F,1).getChessItem() instanceof Empty
+                && ChessBoard.getCell(G,1).getChessItem() instanceof Empty)
         {
             if(WhiteMove.getRightCastlingStatus())
             {
-                whiteKingMoves.add(Table.getCell(G,1));
+                whiteKingMoves.add(ChessBoard.getCell(G,1));
             }
         }
 
@@ -56,19 +56,19 @@ public class WhiteKingMoves extends KingMoves implements Letters {
         else
             throw new NoAvailableCells();
     }
-    public WhiteKingMoves(Cell cell, Table Table,boolean isCheck)
+    public WhiteKingMoves(Cell cell, ChessBoard ChessBoard,boolean isCheck)
     {
         ArrayList<Cell> whiteKingMoves = new ArrayList<>();
         if(isCheck) {
 
-            for (Cell kingMove : getKingMoves(cell, Table)) {
+            for (Cell kingMove : getKingMoves(cell, ChessBoard)) {
                 if (kingMove.getChessItem() instanceof Empty || kingMove.getChessItem() instanceof BlackItem) {
                     whiteKingMoves.add(kingMove);
                 }
             }
         }
         if (!isCheck){
-                        for (Cell kingMove:getKingMoves(cell, Table))
+                        for (Cell kingMove:getKingMoves(cell, ChessBoard))
             {
                 if (kingMove.getChessItem() instanceof Empty || kingMove.getChessItem() instanceof BlackItem)
                 {
@@ -76,21 +76,21 @@ public class WhiteKingMoves extends KingMoves implements Letters {
                 }
 
             }
-            if(Table.getCell(B, 1).getChessItem() instanceof Empty
-                    && Table.getCell(C,1).getChessItem() instanceof Empty
-                    && Table.getCell(D,1).getChessItem() instanceof Empty)
+            if(ChessBoard.getCell(B, 1).getChessItem() instanceof Empty
+                    && ChessBoard.getCell(C,1).getChessItem() instanceof Empty
+                    && ChessBoard.getCell(D,1).getChessItem() instanceof Empty)
             {
                 if(WhiteMove.getLeftCastlingStatus())
                 {
-                    whiteKingMoves.add(Table.getCell(C,1));
+                    whiteKingMoves.add(ChessBoard.getCell(C,1));
                 }
             }
-            if(Table.getCell(F,1).getChessItem() instanceof Empty
-                    && Table.getCell(G,1).getChessItem() instanceof Empty)
+            if(ChessBoard.getCell(F,1).getChessItem() instanceof Empty
+                    && ChessBoard.getCell(G,1).getChessItem() instanceof Empty)
             {
                 if(WhiteMove.getRightCastlingStatus())
                 {
-                    whiteKingMoves.add(Table.getCell(G,1));
+                    whiteKingMoves.add(ChessBoard.getCell(G,1));
                 }
             }
         }

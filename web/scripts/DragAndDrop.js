@@ -2,36 +2,65 @@
  * Created by Levon on 2/6/2016.
  */
 
-function dragStart(ev) {
-    ev.dataTransfer.effectAllowed='move';
+//$(document).ready(function() {
 
-    ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
-    //Source=ev.target.getAttribute('id');
 
-    //ev.dataTransfer.setDragImage(ev.target,0,0);
 
-    return true;
-}
+    function dragStart(ev) {
 
-function dragEnter(ev) {
-    event.preventDefault();
-    return true;
-}
+        ev.dataTransfer.effectAllowed = 'move';
+        var availableCells;
 
-function dragOver(ev) {
-    return false;
-}
+        ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
 
-function dragDrop(ev) {
+            $('.cell').attr("ondragenter","");
+            $('.cell').attr("ondrop","");
+            $('.cell').attr("ondragover","");
 
-    //ev.target.appendChild(document.getElementById(src));
-    //Target=ev.target.getAttribute('id');
-    if($('#'+ev.dataTransfer.getData("Text")).attr('draggable')=='true'){
-        console.log(ev.dataTransfer.getData("Text"));
-        $('#'+ev.target.getAttribute('id')).attr("src","images/items/BlackRook.png");
-        $('#'+ev.dataTransfer.getData("Text")).attr("src","images/items/Empty.png");
+        $.get("on-drag-start", {
+            board: board,
+            src:ev.target.getAttribute('id')
+        }, function (response) {
+            availableCells= $.parseJSON(response);
+            if(availableCells.length===0){
+                alert("has no moves");
 
+            }else{
+                for(var i=0;i<availableCells.length;i++){
+                    $('#'+availableCells[i]).attr("ondragenter","return dragEnter(event)");
+                    $('#'+availableCells[i]).attr("ondrop","return dragDrop(event)");
+                    $('#'+availableCells[i]).attr("ondragover","return dragOver(event)");
+                }
+                console.log(availableCells);
+            }
+
+        });
+
+        //ev.dataTransfer.setDragImage(ev.target,0,0);
+
+        return true;
     }
-    ev.stopPropagation();
-    return false;
-}
+
+    function dragEnter(ev) {
+        event.preventDefault();
+        return true;
+    }
+
+    function dragOver(ev) {
+        return false;
+    }
+
+    function dragDrop(ev) {
+
+        //ev.target.appendChild(document.getElementById(src));
+        //Target=ev.target.getAttribute('id');
+        if ($('#' + ev.dataTransfer.getData("Text")).attr('draggable') == 'true') {
+            console.log(ev.dataTransfer.getData("Text"));
+            $('#' + ev.target.getAttribute('id')).attr("src", "images/items/BlackRook.png");
+            $('#' + ev.dataTransfer.getData("Text")).attr("src", "images/items/Empty.png");
+
+        }
+        ev.stopPropagation();
+        return false;
+    }
+//});

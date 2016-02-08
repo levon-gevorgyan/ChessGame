@@ -31,6 +31,6 @@ public class OutOfTable extends Exception {
     }*/
 
     /*public String toString(){
-        return "is Out of Table";
+        return "is Out of ChessBoard";
     }*/
 }

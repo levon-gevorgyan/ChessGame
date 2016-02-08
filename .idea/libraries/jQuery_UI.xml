@@ -8,7 +8,7 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/web/scripts/jquery-ui-1.11.4.js" />
+      <root url="file://$PROJECT_DIR$/web/scripts/lib/jquery-ui-1.11.4.js" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

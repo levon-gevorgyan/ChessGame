@@ -1,7 +1,7 @@
 package api.letsnums;
 
-import api.chesstable.cells.Letters;
-import api.chesstable.cells.Numbers;
+import api.chessboard.cells.Letters;
+import api.chessboard.cells.Numbers;
 
 import api.exceptions.moves.WrongLetter;
 import api.exceptions.moves.WrongNumber;
