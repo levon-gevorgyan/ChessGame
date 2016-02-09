@@ -1,0 +1,23 @@
+table{
+    background-image: url("images/board.jpg");
+    border: none;
+    border-spacing: 0px;
+    padding: 0px;
+    width: 500px;
+    height: 500px;
+}
+
+img{
+    height: 58px;
+    width: 58px;
+}
+
+td{
+    height: 62px;
+    width: 62px;
+    text-align: center;
+    vertical-align: middle;
+}
+tr{
+    height: 62px;
+}

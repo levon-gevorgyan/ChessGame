@@ -1,38 +1,14 @@
 package play;
 
-import chessitems.ChessItem;
-import chessitems.black.*;
-import chessitems.white.*;
+import api.chessboard.cells.Cell;
+import api.chessboard.ChessBoard;
+import api.chessboard.cells.Letters;
 
-import chesstable.cells.Cell;
-import chesstable.Table;
-import chesstable.cells.Letters;
+import api.colors.Colors;
 
-import colors.Black;
-import colors.Colors;
-import colors.White;
-
-import exceptions.cell.EmptySourceCell;
-import exceptions.cell.InvalidSource;
-import exceptions.cell.NoCell;
-import exceptions.chessitem.PlayerSameChessItem;
-import exceptions.game.Check;
-import exceptions.game.Mate;
-import exceptions.moves.InvalidMove;
-import exceptions.moves.InvalidMoveString;
-import exceptions.moves.NoAvailableCells;
-
-import moves.BlackMove;
-import moves.Move;
-import moves.WhiteMove;
-import moves.available.black.moves.*;
-import moves.available.test.move.*;
-import moves.available.white.moves.*;
-
-import play.turns.BlackTurn;
-import play.turns.WhiteTurn;
-import players.BlackPlayer;
-import players.WhitePlayer;
+import api.players.BlackPlayer;
+import api.players.WhitePlayer;
+import api.turns.SaveState;
 
 
 import java.io.BufferedReader;
@@ -59,10 +35,10 @@ public class Game implements Letters, Colors{
         WhitePlayer whitePlayer = new WhitePlayer();
         BlackPlayer blackPlayer = new BlackPlayer();
 
-        //Creating table
-        Table table=new Table(cells,rows,columns,whitePlayer,blackPlayer);
-        table.setAllItems(whitePlayer, blackPlayer);
-        table.toString();
+        //Creating chessBoard
+        ChessBoard chessBoard =new ChessBoard(cells,rows,columns,whitePlayer,blackPlayer);
+        chessBoard.setAllItems(whitePlayer, blackPlayer);
+        chessBoard.toString();
 
         //Start play.Game
         String s = "";
@@ -73,13 +49,13 @@ public class Game implements Letters, Colors{
                 //White player's turns
                 boolean nextToBlack;
                 nextToBlack = false;
-                //new WhiteTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToBlack);
+                //new WhiteTurn().doMove(s,chessBoard,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToBlack);
 
 
                 //Black player's turns
                 boolean nextToWhite;
                 nextToWhite = false;
-                //new BlackTurn().doMove(s,table,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToWhite);
+                //new BlackTurn().doMove(s,chessBoard,whitePlayer,blackPlayer,saveStateArrayList,previousState,nextToWhite);
 
                 }
 

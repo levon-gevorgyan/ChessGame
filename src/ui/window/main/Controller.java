@@ -1,43 +1,33 @@
 package ui.window.main;
 
-import chessitems.BlackItem;
-import chessitems.ChessItem;
-import chessitems.WhiteItem;
-import chessitems.black.*;
-import chessitems.empty.Empty;
-import chessitems.white.*;
-import chesstable.Table;
-import chesstable.cells.Cell;
-import com.sun.org.glassfish.gmbal.ParameterNames;
-import exceptions.game.CastlingDone;
-import exceptions.game.ChangePawn;
-import exceptions.game.CheckIsOpen;
-import exceptions.game.Mate;
-import exceptions.moves.NoAvailableCells;
-import javafx.event.EventHandler;
+import api.chessboard.ChessBoard;
+import api.chessitems.black.*;
+import api.chessitems.empty.Empty;
+import api.chessitems.white.*;
+import api.chessboard.cells.Cell;
+import api.exceptions.game.CastlingDone;
+import api.exceptions.game.ChangePawn;
+import api.exceptions.game.CheckIsOpen;
+import api.exceptions.game.Mate;
+import api.exceptions.moves.NoAvailableCells;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import moves.available.black.moves.*;
-import moves.available.white.moves.*;
-import play.SaveState;
-import play.turns.BlackTurn;
-import play.turns.WhiteTurn;
-import players.BlackPlayer;
-import players.WhitePlayer;
-import ui.turns.UITurn;
+import api.moves.available.black.moves.*;
+import api.moves.available.white.moves.*;
+import api.turns.SaveState;
+import api.turns.BlackTurn;
+import api.turns.WhiteTurn;
+import api.players.BlackPlayer;
+import api.players.WhitePlayer;
+import api.turns.UITurn;
 import ui.window.alerts.Check_MateBox;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
 
@@ -128,8 +118,8 @@ public class Controller implements Initializable {
     WhitePlayer whitePlayer = new WhitePlayer();
     BlackPlayer blackPlayer = new BlackPlayer();
 
-    //Creating table
-    Table table = new Table(cells, rows, columns, whitePlayer, blackPlayer);
+    //Creating chessBoard
+    ChessBoard chessBoard = new ChessBoard(cells, rows, columns, whitePlayer, blackPlayer);
     ArrayList<Rectangle> boardCells = new ArrayList<>();
 
 
@@ -215,11 +205,11 @@ public class Controller implements Initializable {
         ArrayList<BoardItemUI> boardItems = new ArrayList<>();
 
         //Defining variables
-        table.setAllItems(whitePlayer, blackPlayer);
-        table.toString();
+        chessBoard.setAllItems(whitePlayer, blackPlayer);
+        chessBoard.toString();
 
         for (Rectangle cell : boardCells) {
-            for (SortedMap.Entry<String, Cell> pair : table.getCells().entrySet()) {
+            for (SortedMap.Entry<String, Cell> pair : chessBoard.getCells().entrySet()) {
                 if (cell.getId().equals(pair.getKey())) {
                     cell.setStyle("-fx-fill: url('" + UITurn.getImageString(pair.getValue().getChessItem()) + "')");
                 }
@@ -242,10 +232,10 @@ public class Controller implements Initializable {
     @FXML
     void dragDetected(MouseEvent event) {
 
-        saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
+        saveStateArrayList.add(new SaveState(chessBoard, whitePlayer, blackPlayer));
         previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
         source = (Rectangle) event.getSource();
-        tempSource=UITurn.getImageString(table.getCellByString(source.getId()).getChessItem());
+        tempSource=UITurn.getImageString(chessBoard.getCellByString(source.getId()).getChessItem());
 
 
 
@@ -254,37 +244,37 @@ public class Controller implements Initializable {
 
                 /* put a string on dragboard */
         ClipboardContent content = new ClipboardContent();
-        String s = UITurn.getImageString(table.getCellByString(source.getId()).getChessItem());
+        String s = UITurn.getImageString(chessBoard.getCellByString(source.getId()).getChessItem());
         content.putString(s);
         //System.out.println(s);
         db.setContent(content);
         if (whitePlayerTurn && !blackPlayerTurn) {
 
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteKing) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof WhiteKing) {
                 try {
-                    cellArrayList = new WhiteKingMoves(table.getCellByString(source.getId()), table, false).getMoves();
+                    cellArrayList = new WhiteKingMoves(chessBoard.getCellByString(source.getId()), chessBoard, false).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteQueen) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof WhiteQueen) {
                 try {
-                    cellArrayList = new WhiteQueenMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new WhiteQueenMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteBishop) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof WhiteBishop) {
                 try {
-                    cellArrayList = new WhiteBishopMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new WhiteBishopMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteKnight) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof WhiteKnight) {
                 try {
-                    cellArrayList = new WhiteKnightMoves(table.getCellByString(source.getId()), table).getMoves();
-                    /*for (SortedMap.Entry<String,Cell> pair:table.getCells().entrySet()){
+                    cellArrayList = new WhiteKnightMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
+                    /*for (SortedMap.Entry<String,Cell> pair:chessBoard.getCells().entrySet()){
                         System.out.print(pair.getKey() +" "+pair.getValue().getChessItem()+"\n");
                     }
                     System.out.println(source.getId());
@@ -293,16 +283,16 @@ public class Controller implements Initializable {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhitePawn) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof WhitePawn) {
                 try {
-                    cellArrayList = new WhitePawnMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new WhitePawnMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof WhiteRook) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof WhiteRook) {
                 try {
-                    cellArrayList = new WhiteRookMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new WhiteRookMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
@@ -310,45 +300,45 @@ public class Controller implements Initializable {
         }
 
         if (!whitePlayerTurn && blackPlayerTurn) {
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackKing) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof BlackKing) {
                 try {
-                    cellArrayList = new BlackKingMoves(table.getCellByString(source.getId()), table, false).getMoves();
+                    cellArrayList = new BlackKingMoves(chessBoard.getCellByString(source.getId()), chessBoard, false).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
 
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackQueen) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof BlackQueen) {
                 try {
-                    cellArrayList = new BlackQueenMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new BlackQueenMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackBishop) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof BlackBishop) {
                 try {
-                    cellArrayList = new BlackBishopMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new BlackBishopMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackKnight) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof BlackKnight) {
                 try {
-                    cellArrayList = new BlackKnightMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new BlackKnightMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackPawn) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof BlackPawn) {
                 try {
-                    cellArrayList = new BlackPawnMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new BlackPawnMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
             }
-            if (table.getCellByString(source.getId()).getChessItem() instanceof BlackRook) {
+            if (chessBoard.getCellByString(source.getId()).getChessItem() instanceof BlackRook) {
                 try {
-                    cellArrayList = new BlackRookMoves(table.getCellByString(source.getId()), table).getMoves();
+                    cellArrayList = new BlackRookMoves(chessBoard.getCellByString(source.getId()), chessBoard).getMoves();
                 } catch (NoAvailableCells noAvailableCells) {
                     //noAvailableCells.printStackTrace();
                 }
@@ -386,7 +376,7 @@ public class Controller implements Initializable {
     @FXML
     void dragDroped(DragEvent event) {
         Rectangle cell = (Rectangle) event.getSource();
-        tempTarget=UITurn.getImageString(table.getCellByString(cell.getId()).getChessItem());
+        tempTarget=UITurn.getImageString(chessBoard.getCellByString(cell.getId()).getChessItem());
         for (Cell item : cellArrayList) {
             if (item.toString().equals(cell.getId())) {
 
@@ -431,22 +421,22 @@ public class Controller implements Initializable {
 
                     try {
                         whiteTurn.doMove(source.getId() + target.getId(),
-                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState,status);
+                                chessBoard, whitePlayer, blackPlayer, saveStateArrayList, previousState,status);
                     } catch (CastlingDone castlingDone) {
                         if(target.getId().equals("c1")){
                             UITurn.setFill(a1,Empty.getImageString());
                             UITurn.setFill(d1,WhiteRook.getImageString());
-                            table.toString();
+                            chessBoard.toString();
                         }
                         if(target.getId().equals("g1")){
                             UITurn.setFill(h1,Empty.getImageString());
                             UITurn.setFill(f1,WhiteRook.getImageString());
-                            table.toString();
+                            chessBoard.toString();
                         }
 
                     } catch (ChangePawn changePawn) {
                         target.setStyle("-fx-fill: url('"+changePawn.getItem()+"')");
-                        table.toString();
+                        chessBoard.toString();
                     }
 
                     //System.out.println(cellArrayList);
@@ -458,27 +448,27 @@ public class Controller implements Initializable {
 
                     try {
                         blackTurn.doMove(source.getId() + target.getId(),
-                                table, whitePlayer, blackPlayer, saveStateArrayList, previousState,status);
+                                chessBoard, whitePlayer, blackPlayer, saveStateArrayList, previousState,status);
                     } catch (CastlingDone castlingDone) {
                         if(target.getId().equals("c8")){
                             UITurn.setFill(a8,Empty.getImageString());
                             UITurn.setFill(d8,BlackRook.getImageString());
-                            table.toString();
+                            chessBoard.toString();
                         }
                         if(target.getId().equals("g8")){
                             UITurn.setFill(h8,Empty.getImageString());
                             UITurn.setFill(f8,BlackRook.getImageString());
-                            table.toString();
+                            chessBoard.toString();
                         }
 
                     } catch (ChangePawn changePawn) {
                         target.setStyle("-fx-fill: url('"+changePawn.getItem()+"')");
-                        table.toString();
+                        chessBoard.toString();
                     }
 
 
                 }
-                saveStateArrayList.add(new SaveState(table, whitePlayer, blackPlayer));
+                saveStateArrayList.add(new SaveState(chessBoard, whitePlayer, blackPlayer));
                 cellArrayList.clear();
                 if (whitePlayerTurn && !blackPlayerTurn) {
                     whitePlayerTurn = false;
