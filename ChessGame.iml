@@ -20,9 +20,10 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="jQuery UI" level="project" />
     <orderEntry type="library" name="json-20151123" level="project" />
     <orderEntry type="library" name="gson-2.5" level="project" />
+    <orderEntry type="library" name="jetty" level="project" />
+    <orderEntry type="library" name="websocket" level="project" />
   </component>
 </module>

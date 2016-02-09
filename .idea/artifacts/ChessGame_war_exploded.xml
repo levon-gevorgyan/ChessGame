@@ -10,6 +10,7 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="json-20151123" />
           <element id="library" level="project" name="gson-2.5" />
+          <element id="library" level="project" name="websocket" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="ChessGame/web/Web" />

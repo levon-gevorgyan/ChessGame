@@ -6,12 +6,36 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-    <!--<servlet>
-        <servlet-name>xmlServlet</servlet-name>
-        <servlet-class>servlets.XmlServlet</servlet-class>
+    <servlet>
+        <servlet-name>StartServlet</servlet-name>
+        <servlet-class>web.servlets.StartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>xmlServlet</servlet-name>
-        <url-pattern>/xml</url-pattern>
-    </servlet-mapping>-->
+        <servlet-name>StartServlet</servlet-name>
+        <url-pattern>/start</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TurnServlet</servlet-name>
+        <servlet-class>web.servlets.TurnServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TurnServlet</servlet-name>
+        <url-pattern>/turn</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DragStartServlet</servlet-name>
+        <servlet-class>web.servlets.DragStartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DragStartServlet</servlet-name>
+        <url-pattern>/on-drag-start</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DragDroppedServlet</servlet-name>
+        <servlet-class>web.servlets.DragDroppedServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DragDroppedServlet</servlet-name>
+        <url-pattern>/drop</url-pattern>
+    </servlet-mapping>
 </web-app>
