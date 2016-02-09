@@ -37,6 +37,8 @@ public class DragStartServlet extends HttpServlet implements Colors {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String board = request.getParameter("board");
         String source=request.getParameter("src");
+
+        //Parse JSON board to ChessBoard object
         SortedMap<String, Cell> cells;
         JSONObject obj = new JSONObject(board);
         JSONArray jsonBoard = obj.getJSONArray("board");
@@ -45,9 +47,10 @@ public class DragStartServlet extends HttpServlet implements Colors {
         whitePlayer.setChessItemsMap(WebMethods.playerItems(cells, WHITE));
         BlackPlayer blackPlayer=new BlackPlayer();
         blackPlayer.setChessItemsMap(WebMethods.playerItems(cells, BLACK));
-        //System.out.println(cells);
         ChessBoard chessBoard=new ChessBoard(cells,null,null,whitePlayer,blackPlayer);
         chessBoard.setAllItems(whitePlayer,blackPlayer);
+
+
         ArrayList<Cell> cellArrayList = new ArrayList<>();
         if (chessBoard.getCellByString(source).getChessItem() instanceof WhiteKing) {
             try {

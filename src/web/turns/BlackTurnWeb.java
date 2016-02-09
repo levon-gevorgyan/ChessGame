@@ -1,9 +1,9 @@
-package api.turns;
+package web.turns;
 
 import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
 import api.chessitems.ChessItem;
 import api.chessitems.white.*;
-import api.chessboard.cells.Cell;
 import api.colors.White;
 import api.exceptions.cell.EmptySourceCell;
 import api.exceptions.cell.InvalidSource;
@@ -13,7 +13,6 @@ import api.exceptions.game.*;
 import api.exceptions.moves.InvalidMove;
 import api.exceptions.moves.InvalidMoveString;
 import api.exceptions.moves.NoAvailableCells;
-import javafx.scene.control.TextArea;
 import api.moves.BlackMove;
 import api.moves.Move;
 import api.moves.WhiteMove;
@@ -21,37 +20,32 @@ import api.moves.available.test.move.WhiteTestMove;
 import api.moves.available.white.moves.*;
 import api.players.BlackPlayer;
 import api.players.WhitePlayer;
+import api.turns.BlackTurn;
+import api.turns.SaveState;
+import javafx.scene.control.TextArea;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.SortedMap;
 
 /**
- * Created by levon.gevorgyan on 27/01/16.
+ * Created by levon.gevorgyan on 09/02/16.
  */
-public class BlackTurn extends Turn {
-    protected SaveState saveState;
-
-    public SaveState getSaveState() {
-        return saveState;
+public class BlackTurnWeb extends BlackTurn {
+    public BlackTurnWeb() {
     }
-
-    public BlackTurn() {
-
-    }
-
-    @Override
-    public void doMove(String s, ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
-                       ArrayList<SaveState> saveStateArrayList, SaveState previousState,TextArea status)
+    public void doMove(String s, ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
             throws IOException, Mate, CheckIsOpen, CastlingDone, ChangePawn {
+        ArrayList<SaveState> saveStateArrayList=new ArrayList<>();
+
         //BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
         while (!s.equals("exit")) {
             saveStateArrayList.add(new SaveState(chessBoard, whitePlayer, blackPlayer));
-            previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
-            boolean nextToWhite=false;
+            SaveState previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
+            boolean nextToWhite = false;
 
 
-            System.out.println("Black player moves: "+s);
+            System.out.println("Black player moves: " + s);
             //s = reader.readLine();
 
             try {
@@ -101,74 +95,61 @@ public class BlackTurn extends Turn {
                     } catch (Check check) {
                         System.out.println("Check to White Army");
                         //is Mate or not?
-                        ArrayList<WhiteTestMove> whiteTestMoves=new ArrayList<>();
+                        ArrayList<WhiteTestMove> whiteTestMoves = new ArrayList<>();
                         saveStateArrayList.add(new SaveState(chessBoard, whitePlayer, blackPlayer));
                         previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
 
-                        for(SortedMap.Entry<String, ChessItem> item:whitePlayer.getChessItemsMap().entrySet())
-                        {
-                            if(item.getValue() instanceof WhiteKing)
-                            {
+                        for (SortedMap.Entry<String, ChessItem> item : whitePlayer.getChessItemsMap().entrySet()) {
+                            if (item.getValue() instanceof WhiteKing) {
                                 try {
-                                    for (Cell cell:new WhiteKingMoves(chessBoard.getCellByString(item.getKey()), chessBoard,true)
-                                            .getMoves())
-                                    {
-                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                    for (Cell cell : new WhiteKingMoves(chessBoard.getCellByString(item.getKey()), chessBoard, true)
+                                            .getMoves()) {
+                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(), item.getKey(), cell.toString()));
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
 
                                 }
                             }
-                            if(item.getValue() instanceof WhiteQueen)
-                            {
+                            if (item.getValue() instanceof WhiteQueen) {
                                 try {
-                                    for (Cell cell:new WhiteQueenMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves())
-                                    {
-                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                    for (Cell cell : new WhiteQueenMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves()) {
+                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(), item.getKey(), cell.toString()));
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
 
                                 }
                             }
-                            if(item.getValue() instanceof WhiteBishop)
-                            {
+                            if (item.getValue() instanceof WhiteBishop) {
                                 try {
-                                    for (Cell cell:new WhiteBishopMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves())
-                                    {
-                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                    for (Cell cell : new WhiteBishopMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves()) {
+                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(), item.getKey(), cell.toString()));
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
 
                                 }
                             }
-                            if(item.getValue() instanceof WhiteKnight)
-                            {
+                            if (item.getValue() instanceof WhiteKnight) {
                                 try {
-                                    for (Cell cell:new WhiteKnightMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves())
-                                    {
-                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                    for (Cell cell : new WhiteKnightMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves()) {
+                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(), item.getKey(), cell.toString()));
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
 
                                 }
                             }
-                            if(item.getValue() instanceof WhitePawn)
-                            {
+                            if (item.getValue() instanceof WhitePawn) {
                                 try {
-                                    for (Cell cell:new WhitePawnMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves())
-                                    {
-                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                    for (Cell cell : new WhitePawnMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves()) {
+                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(), item.getKey(), cell.toString()));
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
 
                                 }
                             }
-                            if(item.getValue() instanceof WhiteRook)
-                            {
+                            if (item.getValue() instanceof WhiteRook) {
                                 try {
-                                    for (Cell cell:new WhiteRookMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves())
-                                    {
-                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(),item.getKey(),cell.toString()));
+                                    for (Cell cell : new WhiteRookMoves(chessBoard.getCellByString(item.getKey()), chessBoard).getMoves()) {
+                                        whiteTestMoves.add(new WhiteTestMove(item.getValue().toString(), item.getKey(), cell.toString()));
                                     }
                                 } catch (NoAvailableCells noAvailableCells) {
 
@@ -177,25 +158,22 @@ public class BlackTurn extends Turn {
                         }
 
 
-                        ArrayList<WhiteTestMove> availableMoves=new ArrayList<>();
+                        ArrayList<WhiteTestMove> availableMoves = new ArrayList<>();
                         try {
 
 
                             if (whiteTestMoves.size() > 0) {
                                 for (WhiteTestMove move : whiteTestMoves) {
-                                    if(move.getChessItem().equals(White.KING))
-                                    {
-                                        new WhiteMove(move.getSource(),move.getDestination()).move(chessBoard, whitePlayer, blackPlayer);
+                                    if (move.getChessItem().equals(White.KING)) {
+                                        new WhiteMove(move.getSource(), move.getDestination()).move(chessBoard, whitePlayer, blackPlayer);
 
                                         if (!(Move.isInAllItemsOfAvailableCellListBlack(
                                                 chessBoard.getCellByString(move.getDestination()), blackPlayer.getChessItemsMap(), chessBoard))) {
                                             availableMoves.add(move);
                                         }
                                         previousState.undoHere(chessBoard, whitePlayer, blackPlayer);
-                                    }
-                                    else
-                                    {
-                                        new WhiteMove(move.getSource(),move.getDestination()).move(chessBoard, whitePlayer, blackPlayer);
+                                    } else {
+                                        new WhiteMove(move.getSource(), move.getDestination()).move(chessBoard, whitePlayer, blackPlayer);
 
                                         if (!(Move.isInAllItemsOfAvailableCellListBlack(kingCell, blackPlayer.getChessItemsMap(), chessBoard))) {
                                             availableMoves.add(move);
@@ -207,10 +185,10 @@ public class BlackTurn extends Turn {
                                 if (availableMoves.size() == 0) {
                                     throw new Mate(WHITE);
                                 } else {
-                                    status.appendText("Available moves for white player are:\n");
+
                                     System.out.println("Available moves for white player are:");
-                                    for(WhiteTestMove move:availableMoves){
-                                        status.appendText(move.toString() + "\n");
+                                    for (WhiteTestMove move : availableMoves) {
+
                                         System.out.println(move.toString());
                                     }
                                 }
@@ -230,12 +208,10 @@ public class BlackTurn extends Turn {
                         }
                     }
                 }
-                saveState=new SaveState(chessBoard,whitePlayer,blackPlayer);
+                saveState = new SaveState(chessBoard, whitePlayer, blackPlayer);
                 chessBoard.toString();
                 break;
             }
         }
-
-
     }
 }

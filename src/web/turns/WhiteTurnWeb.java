@@ -1,9 +1,9 @@
-package api.turns;
+package web.turns;
 
 import api.chessboard.ChessBoard;
+import api.chessboard.cells.Cell;
 import api.chessitems.ChessItem;
 import api.chessitems.black.*;
-import api.chessboard.cells.Cell;
 import api.colors.Black;
 import api.exceptions.cell.EmptySourceCell;
 import api.exceptions.cell.InvalidSource;
@@ -13,7 +13,6 @@ import api.exceptions.game.*;
 import api.exceptions.moves.InvalidMove;
 import api.exceptions.moves.InvalidMoveString;
 import api.exceptions.moves.NoAvailableCells;
-import javafx.scene.control.TextArea;
 import api.moves.BlackMove;
 import api.moves.Move;
 import api.moves.WhiteMove;
@@ -21,34 +20,29 @@ import api.moves.available.black.moves.*;
 import api.moves.available.test.move.BlackTestMove;
 import api.players.BlackPlayer;
 import api.players.WhitePlayer;
+import api.turns.SaveState;
+import api.turns.WhiteTurn;
+import javafx.scene.control.TextArea;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.SortedMap;
 
 /**
- * Created by levon.gevorgyan on 27/01/16.
+ * Created by levon.gevorgyan on 09/02/16.
  */
-public class WhiteTurn extends Turn {
-    protected SaveState saveState;
-
-    public SaveState getSaveState() {
-        return saveState;
+public class WhiteTurnWeb extends WhiteTurn {
+    public WhiteTurnWeb() {
     }
 
-    public WhiteTurn() {
-
-    }
-
-    @Override
-    public void doMove(String s, ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer,
-                       ArrayList<SaveState> saveStateArrayList, SaveState previousState,TextArea status)
+    public void doMove(String s, ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
             throws IOException, Mate, CheckIsOpen, CastlingDone, ChangePawn {
+        ArrayList<SaveState> saveStateArrayList=new ArrayList<>();
 
         //BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
         while (!s.equals("exit")) {
             saveStateArrayList.add(new SaveState(chessBoard, whitePlayer, blackPlayer));
-            previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
+            SaveState previousState = saveStateArrayList.get(saveStateArrayList.size() - 1);
             boolean nextToBlack=false;
 
 
@@ -208,10 +202,10 @@ public class WhiteTurn extends Turn {
                                 if (availableMoves.size() == 0) {
                                     throw new Mate(BLACK);
                                 } else {
-                                    status.appendText("Available moves for black player are:\n");
+
                                     System.out.println("Available moves for black player are:");
                                     for(BlackTestMove move:availableMoves){
-                                        status.appendText(move.toString() + "\n");
+
                                         System.out.println(move.toString());
                                     }
                                 }

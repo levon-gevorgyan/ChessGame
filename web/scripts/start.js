@@ -14,7 +14,7 @@ $(document).ready(function() {
 
         }, function( response ) {
             board= $.parseJSON(response);
-            console.log(board);
+            //console.log(board);
             for(var i=0;i<64;i++){
                 $('#'+board.board[i].cell).attr("src",board.board[i].img);
             };
