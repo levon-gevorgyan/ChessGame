@@ -1,23 +1,40 @@
-table{
-    background-image: url("images/board.jpg");
-    border: none;
-    border-spacing: 0px;
-    padding: 0px;
-    width: 500px;
-    height: 500px;
-}
-
 img{
-    height: 58px;
-    width: 58px;
+    height: 60px;
+    width: 60px;
+    vertical-align: top;
 }
+img[src=""] {
+    display: none;
+}
+.x-axis,.y-axis{
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
 
-td{
-    height: 62px;
-    width: 62px;
+}
+.white-cell,.black-cell,.x-axis,.y-axis{
+    display: table-cell;
+    height: 60px;
+    width: 60px;
+    border: none;
     text-align: center;
     vertical-align: middle;
 }
-tr{
-    height: 62px;
+.white-cell{
+    background-color: white;
+}
+.black-cell{
+    background-color: #80807f ;
+}
+.row{
+    display: table-row;
+}
+
+#checker-board,#status{
+    display: table-cell;
+    padding: 10px;
+}
+
+#status,#checker-board{
+    background-color:darkslategray;
 }

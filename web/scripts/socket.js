@@ -2,13 +2,13 @@
  * Created by levon.gevorgyan on 10/02/16.
  */
 var ws;
-/*if(userip=="37.157.220.37") {
+if(myip=="37.157.220.37") {
  ws = new WebSocket("ws://192.168.1.100:1337/");
  }else{
  ws = new WebSocket("ws://100.82.31.187:1337/");
- }*/
+ }
 
-ws = new WebSocket("ws://it-pc:1337/");
+//ws = new WebSocket("ws://it-pc:1337/");
 //ws.onopen;
 ws.onmessage = function (evt) {
     move = evt.data;

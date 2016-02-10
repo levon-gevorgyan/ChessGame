@@ -7,7 +7,7 @@ console.log(player);
 
 $(document).ready(function() {
 
-    //$('#start').click(function(){
+    $('#start').click(function(){
 
 
 
@@ -38,7 +38,7 @@ $(document).ready(function() {
 
         });
 
-    //});
+    });
 
 
 });
