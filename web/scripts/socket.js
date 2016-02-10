@@ -15,6 +15,8 @@ ws.onmessage = function (evt) {
     console.log(move);
     src=move.substring(0,2);
     trg=move.substring(2,4);
+    $('.white-cell').css("border","solid thin black");
+    $('.black-cell').css("border","solid thin black");
 
 
     //ev.target.appendChild(document.getElementById(src));
@@ -23,6 +25,7 @@ ws.onmessage = function (evt) {
         console.log(src);
         $('#' + trg).attr("src", cellItemImg(src));
         $('#' + src).attr("src", "images/items/Empty.png");
+
     }
     $.get("drop", {
         board: board,
@@ -31,9 +34,9 @@ ws.onmessage = function (evt) {
     }, function (response) {
         board = response;
         $('#' + src).attr('draggable', 'false');
-        $('#' + trg).attr('draggable', 'true');
+        $('#' + trg).attr('draggable', 'false');
         $('#' + src).attr("ondragstart", "");
-        $('#' + trg).attr("ondragstart", "return dragStart(event)");
+        $('#' + trg).attr("ondragstart", "");
     });
 
     if (player === "W") {

@@ -2,63 +2,64 @@ package web.socket;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
+import web.WebMethods;
+import web.game.Room;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+
 
 /**
  * Created by levon.gevorgyan on 10/02/16.
  */
 @WebSocket
 public class PlayChessSocket {
-    static ScheduledExecutorService timer =
-            Executors.newSingleThreadScheduledExecutor();
 
-    private static SortedMap<String,Session> allSessions=new TreeMap<>();
-
-
-    /*public static ArrayList<Session> allSessions;
-    DateTimeFormatter timeFormatter =
-            DateTimeFormatter.ofPattern("HH:mm:ss");
-    private String s=String.valueOf(Math.random());
-
-    private Session session;*/
-    private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    private static ArrayList<Room> rooms=new ArrayList<>();
 
     // called when the socket connection with the browser is established
     @OnWebSocketConnect
     public void handleConnect(Session session) {
         //this.session=session;
-        allSessions.put(session.getRemoteAddress().getHostString()+":"+session.getRemoteAddress().getPort(), session);
-        for(SortedMap.Entry<String,Session> pair:allSessions.entrySet()){
-            System.out.println(pair.getValue().getRemoteAddress().getAddress()+":"+pair.getValue().getRemoteAddress().getPort());
+        if(rooms.size()==0){
+            Room room=new Room(rooms.size()+1,session,null);
+            rooms.add(room);
+        }
+        else if(rooms.get(rooms.size()-1).getWhite()!=null && rooms.get(rooms.size()-1).getBlack()==null){
+            rooms.get(rooms.size()-1).setBlack(session);
+        }
+        else {
+            Room room=new Room(rooms.size()+1,session,null);
+            rooms.add(room);
+        }
+        for (Room x:rooms){
+            System.out.println(x.toString());
         }
     }
 
     // called when the connection closed
     @OnWebSocketClose
     public void handleClose(int statusCode, String reason) {
-        for(SortedMap.Entry<String,Session> pair:allSessions.entrySet()){
-            //System.out.println(pair.getValue().getRemoteAddress());
-        }
 
-        /*System.out.println("Connection closed with statusCode="
-                + statusCode + ", reason=" + reason);*/
     }
 
     // called when a message received from the browser
-
     @OnWebSocketMessage
-    public void handleMessage(String message) {
-        System.out.println("Socket: "+message);
-        for(SortedMap.Entry<String,Session> pair:allSessions.entrySet()){
-            //System.out.println(message+""+pair.getValue().getRemoteAddress());
-            send(message,pair.getValue());
-
+    public void handleMessage(Session session,String message) {
+        for (Room x:rooms){
+            System.out.println(x.toString());
         }
+        Room getSessionCurrentRoom= WebMethods.getCurrentRoom(session,rooms);
+        System.out.println("Current room: "+getSessionCurrentRoom.toString());
+
+
+        System.out.println("Socket: "+message);
+
+        send(message, getSessionCurrentRoom.getWhite());
+        send(message, getSessionCurrentRoom.getBlack());
+
     }
+
 
 
     // called in case of an error

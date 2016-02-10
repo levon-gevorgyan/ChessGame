@@ -8,8 +8,10 @@ import api.chessboard.cells.WhiteCell;
 import api.chessitems.WhiteItem;
 import api.colors.Colors;
 import api.turns.UITurn;
+import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import web.game.Room;
 import web.items.black.*;
 import web.items.empty.Empty;
 import web.items.white.WhiteBishop;
@@ -20,6 +22,7 @@ import web.items.white.WhiteQueen;
 import web.items.white.WhiteRook;
 import web.items.white.WhiteRookA;
 
+import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -28,6 +31,14 @@ import java.util.TreeMap;
  * Created by Levon on 2/7/2016, 6:54 PM
  */
 public class WebMethods implements Colors{
+    public static Room getCurrentRoom(Session session,ArrayList<Room> rooms){
+        for (Room room:rooms){
+            if(session.equals(room.getWhite())||session.equals(room.getWhite()))
+                return room;
+        }
+        return null;
+
+    }
     public static SortedMap<String, ChessItem> playerItems(SortedMap<String, Cell> allCells,String color){
 
         SortedMap<String, ChessItem> playerItems = new TreeMap<>();

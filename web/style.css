@@ -22,9 +22,12 @@ img[src=""] {
 }
 .white-cell{
     background-color: white;
+    border: solid thin black;
 }
 .black-cell{
     background-color: #80807f ;
+    border: solid thin black;
+
 }
 .row{
     display: table-row;

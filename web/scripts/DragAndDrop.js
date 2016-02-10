@@ -16,6 +16,8 @@
             $('.cell').attr("ondragenter","");
             $('.cell').attr("ondrop","");
             $('.cell').attr("ondragover","");
+            $('.white-cell').css("border","solid thin black");
+            $('.black-cell').css("border","solid thin black");
 
         $.get("on-drag-start", {
             board: board,
@@ -32,6 +34,7 @@
                     $('#'+availableCells[i]).attr("ondragenter","return dragEnter(event)");
                     $('#'+availableCells[i]).attr("ondrop","return dragDrop(event)");
                     $('#'+availableCells[i]).attr("ondragover","return dragOver(event)");
+                    $('#c_'+availableCells[i]).css("border","solid thin yellow");
                 }
                 $('#myMove').html(availableCells);
                 console.log(availableCells);
@@ -75,6 +78,8 @@
         var trg=ev.target.getAttribute('id');
         var move=src+trg;
         console.log(move);
+        $('.white-cell').css("border","solid thin black");
+        $('.black-cell').css("border","solid thin black");
         ws.send(src+trg);
         /*ws.onmessage = function (evt) {
             move = evt.data;
