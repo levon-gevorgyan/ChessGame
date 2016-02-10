@@ -8,7 +8,8 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
-import web.websocket.MyWebSocketHandler;
+import web.socket.PlayChessSocket;
+
 
 /**
  * Created by Levon on 2/9/2016, 9:12 PM
@@ -52,7 +53,7 @@ public class StartJetty {
         WebSocketHandler wsHandler = new WebSocketHandler() {
             @Override
             public void configure(WebSocketServletFactory factory) {
-                factory.register(MyWebSocketHandler.class);
+                factory.register(PlayChessSocket.class);
             }
         };
         //add ws handler to socket

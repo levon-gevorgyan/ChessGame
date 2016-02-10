@@ -73,46 +73,58 @@
     function dragDrop(ev) {
         var src=ev.dataTransfer.getData("Text");
         var trg=ev.target.getAttribute('id');
+        var move=src+trg;
+        console.log(move);
+        ws.send(src+trg);
+        /*ws.onmessage = function (evt) {
+            move = evt.data;
+            src=move.substring(0,2);
+            trg=move.substring(2,4);*/
 
-        //ev.target.appendChild(document.getElementById(src));
-        //Target=ev.target.getAttribute('id');
-        if ($('#' + src).attr('draggable') == 'true') {
-            console.log(src);
-            $('#' + trg).attr("src", cellItemImg(src));
-            $('#' + src).attr("src", "images/items/Empty.png");
-        }
-        $.get("drop",{
-            board: board,
-            move:src+trg,
-            turn:player
-        },function(response){
-            board= response;
-            $('#' + src).attr('draggable','false');
-            $('#' + trg).attr('draggable','true');
-            $('#' + src).attr("ondragstart","");
-            $('#' + trg).attr("ondragstart","return dragStart(event)");
-        });
-        ev.stopPropagation();
-        if(player==="W"){
-            player="B";
-        }else{
-            player="W";
-        }
-        $.get("turn",{
-            chessboard:board,
-            player:player
-        },function(response){
-            var activeCells= $.parseJSON(response);
-            $('.cell').attr("draggable","false");
-            $('.cell').attr("ondragstart","");
 
-            for(var i=0;i<activeCells.length;i++){
-
-                $('#'+activeCells[i]).attr("draggable","true");
-                $('#'+activeCells[i]).attr("ondragstart","return dragStart(event)");
+            //ev.target.appendChild(document.getElementById(src));
+            //Target=ev.target.getAttribute('id');
+            /*if ($('#' + src).attr('draggable') == 'true') {
+                console.log(src);
+                $('#' + trg).attr("src", cellItemImg(src));
+                $('#' + src).attr("src", "images/items/Empty.png");
             }
+        console.log(player);
+            $.get("drop", {
+                board: board,
+                move: src + trg,
+                turn: player
+            }, function (response) {
+                board = response;
+                $('#' + src).attr('draggable', 'false');
+                $('#' + trg).attr('draggable', 'true');
+                $('#' + src).attr("ondragstart", "");
+                $('#' + trg).attr("ondragstart", "return dragStart(event)");
+            });
 
-        });
+            if (player === "W") {
+                player = "B";
+            } else {
+                player = "W";
+            }
+        console.log(player);
+            $.get("turn", {
+                chessboard: board,
+                player: player
+            }, function (response) {
+                var activeCells = $.parseJSON(response);
+                $('.cell').attr("draggable", "false");
+                $('.cell').attr("ondragstart", "");
+
+                for (var i = 0; i < activeCells.length; i++) {
+
+                    $('#' + activeCells[i]).attr("draggable", "true");
+                    $('#' + activeCells[i]).attr("ondragstart", "return dragStart(event)");
+                }
+
+            });*/
+        ev.stopPropagation();
+        /*};*/
         return false;
     }
 //});
