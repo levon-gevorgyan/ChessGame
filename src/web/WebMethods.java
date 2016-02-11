@@ -21,6 +21,7 @@ import web.items.white.WhitePawn;
 import web.items.white.WhiteQueen;
 import web.items.white.WhiteRook;
 import web.items.white.WhiteRookA;
+import web.socket.JsonSocketMessage;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
@@ -31,14 +32,29 @@ import java.util.TreeMap;
  * Created by Levon on 2/7/2016, 6:54 PM
  */
 public class WebMethods implements Colors{
+    public static String sessionToString(Session session){
+        return session.getRemoteAddress().getHostName()+":"+session.getRemoteAddress().getPort();
+    }
     public static Room getCurrentRoom(Session session,ArrayList<Room> rooms){
         for (Room room:rooms){
-            if(session.equals(room.getWhite())||session.equals(room.getWhite()))
+            if(sessionToString(session).equals(sessionToString(room.getWhite()))||
+                    sessionToString(session).equals(sessionToString(room.getBlack())))
                 return room;
         }
         return null;
 
     }
+    public static JsonSocketMessage getJsonSocketMessage(String jsonMessage){
+        System.out.println(jsonMessage);
+        JSONObject jsonObject=new JSONObject(jsonMessage);
+        String  id=jsonObject.getString("id");
+        String  msg=jsonObject.getString("msg");
+
+        return new JsonSocketMessage(id,msg);
+
+
+    }
+
     public static SortedMap<String, ChessItem> playerItems(SortedMap<String, Cell> allCells,String color){
 
         SortedMap<String, ChessItem> playerItems = new TreeMap<>();

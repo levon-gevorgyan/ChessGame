@@ -23,7 +23,7 @@ public class StartJetty {
         ServerConnector http = new ServerConnector(server);
         http.setHost("0.0.0.0");
         http.setPort(8080);
-        //http.setIdleTimeout(90000);
+        http.setIdleTimeout(90000);
         server.addConnector(http);
 
         //Web Socket
@@ -32,7 +32,7 @@ public class StartJetty {
         ServerConnector ws = new ServerConnector(socket);
         ws.setHost("0.0.0.0");
         ws.setPort(1337);
-        //ws.setIdleTimeout(90000);
+        ws.setIdleTimeout(90000);
         socket.addConnector(ws);
 
 

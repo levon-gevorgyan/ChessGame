@@ -23,13 +23,16 @@ public class PlayChessSocket {
         //this.session=session;
         if(rooms.size()==0){
             Room room=new Room(rooms.size()+1,session,null);
+            send(new JsonSocketMessage("turn","W").answerJSON(),session);
             rooms.add(room);
         }
         else if(rooms.get(rooms.size()-1).getWhite()!=null && rooms.get(rooms.size()-1).getBlack()==null){
             rooms.get(rooms.size()-1).setBlack(session);
+            send(new JsonSocketMessage("turn","B").answerJSON(),session);
         }
         else {
             Room room=new Room(rooms.size()+1,session,null);
+            send(new JsonSocketMessage("turn","W").answerJSON(),session);
             rooms.add(room);
         }
         for (Room x:rooms){
@@ -46,17 +49,23 @@ public class PlayChessSocket {
     // called when a message received from the browser
     @OnWebSocketMessage
     public void handleMessage(Session session,String message) {
+        JsonSocketMessage socketMessage=WebMethods.getJsonSocketMessage(message);
         for (Room x:rooms){
             System.out.println(x.toString());
         }
-        Room getSessionCurrentRoom= WebMethods.getCurrentRoom(session,rooms);
-        System.out.println("Current room: "+getSessionCurrentRoom.toString());
+        switch (socketMessage.getId()){
+            case "move":
+                Room getSessionCurrentRoom= WebMethods.getCurrentRoom(session,rooms);
+                System.out.println("Current room: "+getSessionCurrentRoom.toString());
 
 
-        System.out.println("Socket: "+message);
+                System.out.println("Socket: " + socketMessage.getMsg());
 
-        send(message, getSessionCurrentRoom.getWhite());
-        send(message, getSessionCurrentRoom.getBlack());
+                send(socketMessage.answerJSON(), getSessionCurrentRoom.getWhite());
+                send(socketMessage.answerJSON(), getSessionCurrentRoom.getBlack());
+                break;
+        }
+
 
     }
 

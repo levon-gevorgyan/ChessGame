@@ -9,12 +9,12 @@
     <script src="scripts/functions.js" type="text/javascript"></script>
     <script src="scripts/socket.js" type="text/javascript"></script>
     <meta charset="UTF-8">
-    <title>Chess on Web</title>
+    <title>Play Chess Online</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="shortcut icon" href="images/favicon.ico">
 </head>
 <body>
-
+<div id="playground">
 <div id="checker-board">
     <div class=row>
         <div class="x-axis"></div>
@@ -138,12 +138,13 @@
     </div>
 </div>
 <div id="status">
-    <div id="room">
-        <button id="start">Start!</button>
-    </div>
-    <br>
-    <br>
-    <label>Available cells</label><div id="myMove"></div>
+    <label>Available cells</label>
+</div>
+
+<div id="rooms">
+    <button id="start">Start!</button>
+    <label>Available cells</label>
+</div>
 </div>
 </body>
 </html>

@@ -80,7 +80,7 @@
         console.log(move);
         $('.white-cell').css("border","solid thin black");
         $('.black-cell').css("border","solid thin black");
-        ws.send(src+trg);
+        ws.send(msgToJson("move",move));
         /*ws.onmessage = function (evt) {
             move = evt.data;
             src=move.substring(0,2);
