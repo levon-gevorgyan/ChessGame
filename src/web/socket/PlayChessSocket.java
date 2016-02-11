@@ -15,13 +15,15 @@ import java.util.*;
 @WebSocket
 public class PlayChessSocket {
 
-    private static ArrayList<Room> rooms=new ArrayList<>();
+    public static ArrayList<Room> rooms=new ArrayList<>();
 
     // called when the socket connection with the browser is established
     @OnWebSocketConnect
     public void handleConnect(Session session) {
         //this.session=session;
-        if(rooms.size()==0){
+        WebMethods.roomsToJSON(rooms);
+        send(new JsonSocketMessage("rooms",WebMethods.roomsToJSON(rooms)).answerJSONArray(), session);
+        /*if(rooms.size()==0){
             Room room=new Room(rooms.size()+1,session,null);
             send(new JsonSocketMessage("turn","W").answerJSON(),session);
             rooms.add(room);
@@ -37,12 +39,12 @@ public class PlayChessSocket {
         }
         for (Room x:rooms){
             System.out.println(x.toString());
-        }
+        }*/
     }
 
     // called when the connection closed
     @OnWebSocketClose
-    public void handleClose(int statusCode, String reason) {
+    public void handleClose(Session session,int statusCode, String reason) {
 
     }
 
@@ -63,6 +65,21 @@ public class PlayChessSocket {
 
                 send(socketMessage.answerJSON(), getSessionCurrentRoom.getWhite());
                 send(socketMessage.answerJSON(), getSessionCurrentRoom.getBlack());
+                break;
+            case "room":
+                System.out.println(Integer.parseInt(socketMessage.getMsg()));
+                Room i=rooms.get(Integer.parseInt(socketMessage.getMsg()));
+                if(i.getWhite()==null){
+                    i.setWhite(session);
+                    send(new JsonSocketMessage("room_count", String.valueOf(i.getCountOnlinePlayers())).answerJSON(), session);
+                    send(new JsonSocketMessage("turn","W").answerJSON(),session);
+                }else if(i.getBlack()==null) {
+                    i.setBlack(session);
+                    send(new JsonSocketMessage("room_count", String.valueOf(i.getCountOnlinePlayers())).answerJSON(), session);
+                    send(new JsonSocketMessage("turn","B").answerJSON(),session);
+                }else {
+                    send(new JsonSocketMessage("room_count","Room is full").answerJSON(),session);
+                }
                 break;
         }
 

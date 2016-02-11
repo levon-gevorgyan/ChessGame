@@ -8,6 +8,7 @@ import api.chessboard.cells.WhiteCell;
 import api.chessitems.WhiteItem;
 import api.colors.Colors;
 import api.turns.UITurn;
+import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,6 +33,8 @@ import java.util.TreeMap;
  * Created by Levon on 2/7/2016, 6:54 PM
  */
 public class WebMethods implements Colors{
+
+    //Methods related to Web Socket
     public static String sessionToString(Session session){
         return session.getRemoteAddress().getHostName()+":"+session.getRemoteAddress().getPort();
     }
@@ -42,8 +45,17 @@ public class WebMethods implements Colors{
                 return room;
         }
         return null;
-
     }
+
+    public static String roomsToJSON(ArrayList<Room> roomArrayList){
+        ArrayList<String> arrayList=new ArrayList<>();
+        for (Room room:roomArrayList){
+            arrayList.add(String.valueOf(room.getCountOnlinePlayers()));
+            System.out.println();
+        }
+        return new Gson().toJson(arrayList);
+    }
+
     public static JsonSocketMessage getJsonSocketMessage(String jsonMessage){
         System.out.println(jsonMessage);
         JSONObject jsonObject=new JSONObject(jsonMessage);
@@ -51,10 +63,10 @@ public class WebMethods implements Colors{
         String  msg=jsonObject.getString("msg");
 
         return new JsonSocketMessage(id,msg);
-
-
     }
 
+
+    //Methods related to JSON
     public static SortedMap<String, ChessItem> playerItems(SortedMap<String, Cell> allCells,String color){
 
         SortedMap<String, ChessItem> playerItems = new TreeMap<>();

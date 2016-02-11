@@ -1,19 +1,37 @@
 package web.game;
 
 import org.eclipse.jetty.websocket.api.Session;
+import web.WebMethods;
 
 /**
  * Created by Levon on 2/10/2016, 11:14 PM
  */
-public class Room {
+public class Room{
     private int id;
     private Session white;
     private Session black;
+    private int countOnlinePlayers =0;
 
     public Room(int id,Session white, Session black) {
         this.id=id;
         this.white = white;
         this.black = black;
+        if(white!=null){
+            countOnlinePlayers++;
+        }
+        if(black!=null){
+            countOnlinePlayers++;
+        }
+    }
+    public void leftRoom(Session session){
+        if(WebMethods.sessionToString(session).equals(WebMethods.sessionToString(this.white))){
+            this.white=null;
+            countOnlinePlayers--;
+        }
+        if(WebMethods.sessionToString(session).equals(WebMethods.sessionToString(this.black))){
+            this.black=null;
+            countOnlinePlayers--;
+        }
     }
 
     public Session getWhite() {
@@ -21,7 +39,12 @@ public class Room {
     }
 
     public void setWhite(Session white) {
-        this.white = white;
+        if(this.white==null){
+            this.white = white;
+            countOnlinePlayers++;
+        }else {
+            this.white = white;
+        }
     }
 
     public Session getBlack() {
@@ -29,7 +52,12 @@ public class Room {
     }
 
     public void setBlack(Session black) {
-        this.black = black;
+        if(this.black==null){
+            this.black = black;
+            countOnlinePlayers++;
+        }else {
+            this.black = black;
+        }
     }
     public String toString(){
 
@@ -46,4 +74,10 @@ public class Room {
 
         return s;
     }
+
+    public int getCountOnlinePlayers() {
+        return countOnlinePlayers;
+    }
+
+
 }

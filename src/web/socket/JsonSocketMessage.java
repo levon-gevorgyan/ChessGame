@@ -22,4 +22,7 @@ public class JsonSocketMessage {
     public String answerJSON(){
         return "{\"id\":\""+id+"\",\"msg\":\""+msg+"\"}";
     }
+    public String answerJSONArray(){
+        return "{\"id\":\""+id+"\",\"msg\":"+msg+"}";
+    }
 }

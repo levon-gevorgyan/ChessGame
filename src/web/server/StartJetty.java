@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+import web.game.Room;
 import web.socket.PlayChessSocket;
 
 
@@ -61,6 +62,11 @@ public class StartJetty {
         //add ws handler to socket
         socket.setHandler(wsHandler);
 
+        //add i rooms
+        for(int i=0;i<5;i++){
+            PlayChessSocket.rooms.add(new Room(PlayChessSocket.rooms.size()+1,null,null));
+        }
+
         // Start server,socket
         server.start();
         socket.start();
@@ -68,6 +74,8 @@ public class StartJetty {
         //Join
         server.join();
         socket.join();
+
+
 
     }
 }
