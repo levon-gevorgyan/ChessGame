@@ -45,16 +45,33 @@ public class PlayChessSocket {
     // called when the connection closed
     @OnWebSocketClose
     public void handleClose(Session session,int statusCode, String reason) {
-
+        System.out.println("close");
+        String s=WebMethods.sessionToString(session);
+        System.out.println(s);
+        for (Room room:rooms){
+            String w=WebMethods.sessionToString(room.getWhite());
+            System.out.println(w);
+            String b=WebMethods.sessionToString(room.getBlack());
+            System.out.println(b);
+            if (w.equals(s)) {
+                System.out.println("white");
+                room.setWhite(null);
+                break;
+            }
+            if (b.equals(s)) {
+                room.setBlack(null);
+                break;
+            }
+        }
+        for (Room x:rooms){
+            System.out.println(x.toString());
+        }
     }
 
     // called when a message received from the browser
     @OnWebSocketMessage
     public void handleMessage(Session session,String message) {
         JsonSocketMessage socketMessage=WebMethods.getJsonSocketMessage(message);
-        for (Room x:rooms){
-            System.out.println(x.toString());
-        }
         switch (socketMessage.getId()){
             case "move":
                 Room getSessionCurrentRoom= WebMethods.getCurrentRoom(session,rooms);
@@ -81,6 +98,10 @@ public class PlayChessSocket {
                     send(new JsonSocketMessage("room_count","Room is full").answerJSON(),session);
                 }
                 break;
+
+        }
+        for (Room x:rooms){
+            System.out.println(x.toString());
         }
 
 

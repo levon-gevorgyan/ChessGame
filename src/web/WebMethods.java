@@ -36,7 +36,7 @@ public class WebMethods implements Colors{
 
     //Methods related to Web Socket
     public static String sessionToString(Session session){
-        return session.getRemoteAddress().getHostName()+":"+session.getRemoteAddress().getPort();
+        return (session!=null) ? session.getRemoteAddress().getHostName()+":"+session.getRemoteAddress().getPort():"NULL";
     }
     public static Room getCurrentRoom(Session session,ArrayList<Room> rooms){
         for (Room room:rooms){
@@ -51,7 +51,6 @@ public class WebMethods implements Colors{
         ArrayList<String> arrayList=new ArrayList<>();
         for (Room room:roomArrayList){
             arrayList.add(String.valueOf(room.getCountOnlinePlayers()));
-            System.out.println();
         }
         return new Gson().toJson(arrayList);
     }

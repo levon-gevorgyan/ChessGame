@@ -3,13 +3,13 @@
  */
 var ws;
 var allRooms;
-if(myip=="37.157.220.37") {
+/*if(myip=="37.157.220.37") {
  ws = new WebSocket("ws://192.168.1.100:1337/");
  }else{
  ws = new WebSocket("ws://100.82.31.187:1337/");
- }
+ }*/
 var me;
-//ws = new WebSocket("ws://it-pc:1337/");
+ws = new WebSocket("ws://it-pc:1337/");
 //ws.onopen;
 
 ws.onmessage = function (evt) {
@@ -84,18 +84,25 @@ ws.onmessage = function (evt) {
             allRooms=rooms;
             for(var i=0;i<rooms.length;i++){
                 console.log(rooms[i]);
-                $('#rooms').append('<div class=room id="r'+i+'" onclick="room_click('+i+')">Room '+(i+1)+': '+rooms[i]+'/2');
+                $('#rooms').append('<div class=room id="r'+i+'" onclick="room_click('+i+')">Room '+(i)+': '+rooms[i]+'/2');
 
             }
             break;
         case "room_count":
             var count=anwser.msg;
-            for(var i=0;i<allRooms.length;i++){
-                if(i===my_room){
-                    $('#r'+i).html('Room '+(i+1)+': '+count+'/2');
-                    break;
+            if(anwser.msg!=="Room is full") {
+                for (var i = 0; i < allRooms.length; i++) {
+                    if (i === my_room) {
+                        $('#r' + i).html('Room ' + (i) + ': ' + count + '/2');
+                        break;
+                    }
                 }
             }
+            else{
+                alert("Room is full");
+            }
+
+
 
     }
 };

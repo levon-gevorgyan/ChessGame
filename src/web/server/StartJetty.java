@@ -64,7 +64,7 @@ public class StartJetty {
 
         //add i rooms
         for(int i=0;i<5;i++){
-            PlayChessSocket.rooms.add(new Room(PlayChessSocket.rooms.size()+1,null,null));
+            PlayChessSocket.rooms.add(new Room(PlayChessSocket.rooms.size(),null,null));
         }
 
         // Start server,socket
