@@ -3,13 +3,13 @@
  */
 var ws;
 var allRooms;
-/*if(myip=="37.157.220.37") {
+if(myip=="37.157.220.37") {
  ws = new WebSocket("ws://192.168.1.100:1337/");
  }else{
  ws = new WebSocket("ws://100.82.31.187:1337/");
- }*/
+ }
 var me;
-ws = new WebSocket("ws://it-pc:1337/");
+//ws = new WebSocket("ws://it-pc:1337/");
 //ws.onopen;
 
 ws.onmessage = function (evt) {
@@ -88,12 +88,26 @@ ws.onmessage = function (evt) {
 
             }
             break;
+        case "all_rooms":
+            console.log(anwser.msg);
+            var rooms= anwser.msg;
+            allRooms=rooms;
+            for(var i=0;i<rooms.length;i++){
+                console.log(rooms[i]);
+                $('#r'+i).html('Room '+(i)+': '+rooms[i]+'/2');
+            }
+            break;
         case "room_count":
             var count=anwser.msg;
             if(anwser.msg!=="Room is full") {
+                $('#left_room').show();
+                $('#joined_room').show();
+                $('#rooms').hide();
+
                 for (var i = 0; i < allRooms.length; i++) {
                     if (i === my_room) {
-                        $('#r' + i).html('Room ' + (i) + ': ' + count + '/2');
+                        $('#joined_room_number').html(i);
+                        /*$('#r' + i).html('Room ' + (i) + ': ' + count + '/2');*/
                         break;
                     }
                 }
@@ -101,6 +115,7 @@ ws.onmessage = function (evt) {
             else{
                 alert("Room is full");
             }
+            break;
 
 
 

@@ -16,13 +16,20 @@ import java.util.*;
 public class PlayChessSocket {
 
     public static ArrayList<Room> rooms=new ArrayList<>();
+    public static ArrayList<Session> allSessions=new ArrayList<>();
 
     // called when the socket connection with the browser is established
     @OnWebSocketConnect
     public void handleConnect(Session session) {
         //this.session=session;
         WebMethods.roomsToJSON(rooms);
-        send(new JsonSocketMessage("rooms",WebMethods.roomsToJSON(rooms)).answerJSONArray(), session);
+        allSessions.add(session);
+        System.out.println("\n");
+        for (Session s:allSessions){
+            System.out.println(WebMethods.sessionToString(s));
+        }
+
+        send(new JsonSocketMessage("rooms", WebMethods.roomsToJSON(rooms)).answerJSONArray(), session);
         /*if(rooms.size()==0){
             Room room=new Room(rooms.size()+1,session,null);
             send(new JsonSocketMessage("turn","W").answerJSON(),session);
@@ -55,17 +62,33 @@ public class PlayChessSocket {
             System.out.println(b);
             if (w.equals(s)) {
                 System.out.println("white");
-                room.setWhite(null);
+                room.leftRoom(room.getWhite());
                 break;
             }
             if (b.equals(s)) {
-                room.setBlack(null);
+                room.leftRoom(room.getBlack());
                 break;
             }
+        }
+
+        for (int i=0;i<allSessions.size();i++){
+            if(WebMethods.sessionToString(session).equals(WebMethods.sessionToString(allSessions.get(i)))){
+                allSessions.remove(i);
+                break;
+            }
+        }
+
+        for (Session x:allSessions){
+            System.out.println(WebMethods.roomsToJSON(rooms));
+
+            send(new JsonSocketMessage("all_rooms", WebMethods.roomsToJSON(rooms)).answerJSONArray(), x);
+
+            System.out.println(WebMethods.sessionToString(x));
         }
         for (Room x:rooms){
             System.out.println(x.toString());
         }
+
     }
 
     // called when a message received from the browser
@@ -97,7 +120,60 @@ public class PlayChessSocket {
                 }else {
                     send(new JsonSocketMessage("room_count","Room is full").answerJSON(),session);
                 }
+                for (Session x:allSessions){
+                    System.out.println(WebMethods.roomsToJSON(rooms));
+
+                    send(new JsonSocketMessage("all_rooms", WebMethods.roomsToJSON(rooms)).answerJSONArray(), x);
+
+                    System.out.println(WebMethods.sessionToString(x));
+                }
                 break;
+            case "left_room":
+                Room myRoom=rooms.get(Integer.parseInt(socketMessage.getMsg()));
+                if (WebMethods.sessionToString(session).equals(myRoom.getWhite())) {
+                    myRoom.setWhite(null);
+                }
+                if (WebMethods.sessionToString(session).equals(myRoom.getBlack())){
+                    myRoom.setBlack(null);
+                }
+                System.out.println("Left Room");
+                String s=WebMethods.sessionToString(session);
+                System.out.println(s);
+                for (Room room:rooms){
+                    String w=WebMethods.sessionToString(room.getWhite());
+                    System.out.println(w);
+                    String b=WebMethods.sessionToString(room.getBlack());
+                    System.out.println(b);
+                    if (w.equals(s)) {
+                        System.out.println("white");
+                        room.leftRoom(room.getWhite());
+                        break;
+                    }
+                    if (b.equals(s)) {
+                        room.leftRoom(room.getBlack());
+                        break;
+                    }
+                }
+                for (Session x:allSessions){
+                    System.out.println(WebMethods.roomsToJSON(rooms));
+
+                    send(new JsonSocketMessage("all_rooms", WebMethods.roomsToJSON(rooms)).answerJSONArray(), x);
+
+                    System.out.println(WebMethods.sessionToString(x));
+                }
+                break;
+            /*case "all_rooms":
+                System.out.println(Integer.parseInt(socketMessage.getMsg()));
+                Room j=rooms.get(Integer.parseInt(socketMessage.getMsg()));
+                if(j.getWhite()==null){
+                    send(new JsonSocketMessage("all_rooms", String.valueOf(j.getCountOnlinePlayers())).answerJSON(), session);
+                }else if(j.getBlack()==null) {
+                    send(new JsonSocketMessage("room_count", String.valueOf(j.getCountOnlinePlayers())).answerJSON(), session);
+                }else {
+                    send(new JsonSocketMessage("room_count","Room is full").answerJSON(),session);
+                }
+                break;*/
+
 
         }
         for (Room x:rooms){
@@ -108,12 +184,13 @@ public class PlayChessSocket {
     }
 
 
-
     // called in case of an error
     @OnWebSocketError
     public void handleError(Throwable error) {
         error.printStackTrace();
     }
+
+
 
     // sends message to browser
     private void send(String message,Session session) {

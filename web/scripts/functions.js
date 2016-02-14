@@ -11,7 +11,7 @@ function msgToJsonArray(id,msg){
 var my_room;
 function room_click(i){
     my_room=i;
-    console.log("clicked Room "+(i+1));
+    console.log("clicked Room "+(i));
     console.log(msgToJsonArray('room',i));
     ws.send(msgToJsonArray("room",i));
 }

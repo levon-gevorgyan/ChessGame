@@ -6,6 +6,15 @@ var player="W";
 console.log(player);
 
 $(document).ready(function() {
+    $('#left_room').hide();
+    $('#joined_room').hide();
+    $('#left_room').click(function(){
+        ws.send(msgToJson("left_room",my_room));
+        $('#rooms').show();
+        $('#left_room').hide();
+        $('#joined_room').hide();
+
+    });
 
 
     $('#start').click(function(){
