@@ -11,6 +11,16 @@ public class Room{
     private Session white;
     private Session black;
     private int countOnlinePlayers =0;
+    private boolean started =false;
+
+    public boolean isStarted() {
+        return started;
+    }
+
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
 
     public Room(int id,Session white, Session black) {
         this.id=id;

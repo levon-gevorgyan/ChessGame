@@ -8,6 +8,9 @@ function msgToJson(id,msg){
 function msgToJsonArray(id,msg){
     return '{"id":"'+id+'","msg":"'+msg+'"}';
 }
+function msgToJsonArray2(id,msg){
+    return '{"id":"'+id+'","msg":['+msg+']}';
+}
 var my_room;
 function room_click(i){
     my_room=i;

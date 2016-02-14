@@ -2,6 +2,8 @@ package web.socket;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import web.WebMethods;
 import web.game.Room;
 
@@ -30,23 +32,6 @@ public class PlayChessSocket {
         }
 
         send(new JsonSocketMessage("rooms", WebMethods.roomsToJSON(rooms)).answerJSONArray(), session);
-        /*if(rooms.size()==0){
-            Room room=new Room(rooms.size()+1,session,null);
-            send(new JsonSocketMessage("turn","W").answerJSON(),session);
-            rooms.add(room);
-        }
-        else if(rooms.get(rooms.size()-1).getWhite()!=null && rooms.get(rooms.size()-1).getBlack()==null){
-            rooms.get(rooms.size()-1).setBlack(session);
-            send(new JsonSocketMessage("turn","B").answerJSON(),session);
-        }
-        else {
-            Room room=new Room(rooms.size()+1,session,null);
-            send(new JsonSocketMessage("turn","W").answerJSON(),session);
-            rooms.add(room);
-        }
-        for (Room x:rooms){
-            System.out.println(x.toString());
-        }*/
     }
 
     // called when the connection closed
@@ -127,16 +112,37 @@ public class PlayChessSocket {
 
                     System.out.println(WebMethods.sessionToString(x));
                 }
+                if (i.getWhite()!=null && i.getBlack()!=null){
+
+                    send(new JsonSocketMessage("start","void").answerJSON(),i.getWhite());
+                    send(new JsonSocketMessage("start","void").answerJSON(),i.getBlack());
+                    i.setStarted(true);
+                }
+
                 break;
             case "left_room":
-                Room myRoom=rooms.get(Integer.parseInt(socketMessage.getMsg()));
+                JSONArray requests=socketMessage.getMsgArray();
+                Room myRoom=rooms.get(Integer.parseInt((String) requests.get(0)));
+                System.out.println(requests);
+                if(myRoom.isStarted()){
+                    if(requests.get(1).equals("W")){
+                        send(new JsonSocketMessage("opp_left","void").answerJSON(),myRoom.getBlack());
+                    }
+                    if(requests.get(1).equals("B")){
+                        send(new JsonSocketMessage("opp_left","void").answerJSON(),myRoom.getWhite());
+                    }
+                }
+
+
                 if (WebMethods.sessionToString(session).equals(myRoom.getWhite())) {
                     myRoom.setWhite(null);
+                    System.out.println("Left Room White");
                 }
                 if (WebMethods.sessionToString(session).equals(myRoom.getBlack())){
                     myRoom.setBlack(null);
+                    System.out.println("Left Room Black");
                 }
-                System.out.println("Left Room");
+
                 String s=WebMethods.sessionToString(session);
                 System.out.println(s);
                 for (Room room:rooms){
@@ -161,19 +167,8 @@ public class PlayChessSocket {
 
                     System.out.println(WebMethods.sessionToString(x));
                 }
+                myRoom.setStarted(false);
                 break;
-            /*case "all_rooms":
-                System.out.println(Integer.parseInt(socketMessage.getMsg()));
-                Room j=rooms.get(Integer.parseInt(socketMessage.getMsg()));
-                if(j.getWhite()==null){
-                    send(new JsonSocketMessage("all_rooms", String.valueOf(j.getCountOnlinePlayers())).answerJSON(), session);
-                }else if(j.getBlack()==null) {
-                    send(new JsonSocketMessage("room_count", String.valueOf(j.getCountOnlinePlayers())).answerJSON(), session);
-                }else {
-                    send(new JsonSocketMessage("room_count","Room is full").answerJSON(),session);
-                }
-                break;*/
-
 
         }
         for (Room x:rooms){

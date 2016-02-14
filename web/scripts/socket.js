@@ -116,6 +116,44 @@ ws.onmessage = function (evt) {
                 alert("Room is full");
             }
             break;
+        case "start":
+            $.get( "start", {
+
+            }, function( response ) {
+                board= $.parseJSON(response);
+                //console.log(board);
+                for(var i=0;i<64;i++){
+                    $('#'+board.board[i].cell).attr("src",board.board[i].img);
+                };
+                board=JSON.stringify(board);
+                //console.log(board);
+                //$('#start').hide();
+                $.get("turn", {
+                    chessboard: board,
+                    player: player
+                }, function (response) {
+                    var activeCells = $.parseJSON(response);
+                    $('.cell').attr("draggable", "false");
+                    $('.cell').attr("ondragstart", "");
+
+                    console.log("me: "+me);
+                    console.log("turn: "+player);
+                    if(player==me) {
+                        for (var i = 0; i < activeCells.length; i++) {
+
+                            $('#' + activeCells[i]).attr("draggable", "true");
+                            $('#' + activeCells[i]).attr("ondragstart", "return dragStart(event)");
+                        }
+                    }
+                });
+
+            });
+
+            break;
+        case "opp_left":
+            alert("Your opponent has just left the game. I think you are the winner :)");
+            leftRoom();
+            break;
 
 
 

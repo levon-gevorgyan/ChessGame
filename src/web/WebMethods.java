@@ -11,6 +11,7 @@ import api.turns.UITurn;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import web.game.Room;
 import web.items.black.*;
@@ -59,10 +60,18 @@ public class WebMethods implements Colors{
         System.out.println(jsonMessage);
         JSONObject jsonObject=new JSONObject(jsonMessage);
         String  id=jsonObject.getString("id");
-        String  msg=jsonObject.getString("msg");
+        try {
+            String  msg=jsonObject.getString("msg");
+            return new JsonSocketMessage(id,msg);
+        }catch (JSONException e){
+            JSONArray msg=jsonObject.getJSONArray("msg");
+            return new JsonSocketMessage(id,msg);
+        }
 
-        return new JsonSocketMessage(id,msg);
+
     }
+
+
 
 
     //Methods related to JSON
