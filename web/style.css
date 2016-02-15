@@ -22,19 +22,37 @@ img[src=""] {
 }
 .white-cell{
     background-color: white;
+    border: solid thin black;
 }
 .black-cell{
     background-color: #80807f ;
+    border: solid thin black;
+
 }
 .row{
     display: table-row;
 }
 
-#checker-board,#status{
-    display: table-cell;
+#checker-board,#status,#rooms_bar{
+    float: left;
+    margin-left: 10px;
     padding: 10px;
 }
+#status,#rooms_bar,#rooms{
+    background-color: #dcdcdb;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-left: 50px;
+    border-radius: 10px;
+    
+}
 
-#status,#checker-board{
-    background-color:darkslategray;
+#playground{
+    width: 1000px;
+    height: 650px;
+    background-repeat: no-repeat;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    background-image: url("images/bkg.jpg");
 }

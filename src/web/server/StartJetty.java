@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+import web.game.Room;
 import web.socket.PlayChessSocket;
 
 
@@ -23,6 +24,7 @@ public class StartJetty {
         ServerConnector http = new ServerConnector(server);
         http.setHost("0.0.0.0");
         http.setPort(8080);
+        http.setIdleTimeout(90000);
         server.addConnector(http);
 
         //Web Socket
@@ -31,6 +33,7 @@ public class StartJetty {
         ServerConnector ws = new ServerConnector(socket);
         ws.setHost("0.0.0.0");
         ws.setPort(1337);
+        ws.setIdleTimeout(90000);
         socket.addConnector(ws);
 
 
@@ -59,6 +62,11 @@ public class StartJetty {
         //add ws handler to socket
         socket.setHandler(wsHandler);
 
+        //add i rooms
+        for(int i=0;i<5;i++){
+            PlayChessSocket.rooms.add(new Room(PlayChessSocket.rooms.size(),null,null));
+        }
+
         // Start server,socket
         server.start();
         socket.start();
@@ -66,6 +74,8 @@ public class StartJetty {
         //Join
         server.join();
         socket.join();
+
+
 
     }
 }

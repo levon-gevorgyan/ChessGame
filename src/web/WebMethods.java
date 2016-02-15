@@ -8,8 +8,12 @@ import api.chessboard.cells.WhiteCell;
 import api.chessitems.WhiteItem;
 import api.colors.Colors;
 import api.turns.UITurn;
+import com.google.gson.Gson;
+import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import web.game.Room;
 import web.items.black.*;
 import web.items.empty.Empty;
 import web.items.white.WhiteBishop;
@@ -19,7 +23,9 @@ import web.items.white.WhitePawn;
 import web.items.white.WhiteQueen;
 import web.items.white.WhiteRook;
 import web.items.white.WhiteRookA;
+import web.socket.JsonSocketMessage;
 
+import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -28,6 +34,47 @@ import java.util.TreeMap;
  * Created by Levon on 2/7/2016, 6:54 PM
  */
 public class WebMethods implements Colors{
+
+    //Methods related to Web Socket
+    public static String sessionToString(Session session){
+        return (session!=null) ? session.getRemoteAddress().getHostName()+":"+session.getRemoteAddress().getPort():"NULL";
+    }
+    public static Room getCurrentRoom(Session session,ArrayList<Room> rooms){
+        for (Room room:rooms){
+            if(sessionToString(session).equals(sessionToString(room.getWhite()))||
+                    sessionToString(session).equals(sessionToString(room.getBlack())))
+                return room;
+        }
+        return null;
+    }
+
+    public static String roomsToJSON(ArrayList<Room> roomArrayList){
+        ArrayList<String> arrayList=new ArrayList<>();
+        for (Room room:roomArrayList){
+            arrayList.add(String.valueOf(room.getCountOnlinePlayers()));
+        }
+        return new Gson().toJson(arrayList);
+    }
+
+    public static JsonSocketMessage getJsonSocketMessage(String jsonMessage){
+        System.out.println(jsonMessage);
+        JSONObject jsonObject=new JSONObject(jsonMessage);
+        String  id=jsonObject.getString("id");
+        try {
+            String  msg=jsonObject.getString("msg");
+            return new JsonSocketMessage(id,msg);
+        }catch (JSONException e){
+            JSONArray msg=jsonObject.getJSONArray("msg");
+            return new JsonSocketMessage(id,msg);
+        }
+
+
+    }
+
+
+
+
+    //Methods related to JSON
     public static SortedMap<String, ChessItem> playerItems(SortedMap<String, Cell> allCells,String color){
 
         SortedMap<String, ChessItem> playerItems = new TreeMap<>();

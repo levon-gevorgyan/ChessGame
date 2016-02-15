@@ -1,6 +1,26 @@
 /**
  * Created by levon.gevorgyan on 09/02/16.
  */
+//socket functions
+function msgToJson(id,msg){
+    return '{"id":'+id+',"msg":"'+msg+'"}';
+}
+function msgToJsonArray(id,msg){
+    return '{"id":"'+id+'","msg":"'+msg+'"}';
+}
+function msgToJsonArray2(id,msg){
+    return '{"id":"'+id+'","msg":['+msg+']}';
+}
+var my_room;
+function room_click(i){
+    my_room=i;
+    console.log("clicked Room "+(i));
+    console.log(msgToJsonArray('room',i));
+    ws.send(msgToJsonArray("room",i));
+}
+
+
+//board functions
 function cellItemImg(source){
     for(var i=0;i<64;i++){
 
