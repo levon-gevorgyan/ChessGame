@@ -3,13 +3,13 @@
  */
 var ws;
 var allRooms;
-/*if(myip=="37.157.220.37") {
+if(myip=="37.157.220.37") {
  ws = new WebSocket("ws://192.168.1.100:1337/");
  }else{
  ws = new WebSocket("ws://100.82.31.187:1337/");
- }*/
+ }
 var me;
-ws = new WebSocket("ws://it-pc:1337/");
+//ws = new WebSocket("ws://it-pc:1337/");
 //ws.onopen;
 
 ws.onmessage = function (evt) {
@@ -48,6 +48,7 @@ ws.onmessage = function (evt) {
                 $('#' + src).attr("ondragstart", "");
                 $('#' + trg).attr("ondragstart", "");
             });
+            $('#last_move').html(src+'->'+trg);
 
             if (player === "W") {
                 player = "B";
@@ -55,6 +56,12 @@ ws.onmessage = function (evt) {
                 player = "W";
             }
             console.log(player);
+            if(player==="W") {
+                $('#turn').html("White Army Turn");
+            }
+            if(player==="B") {
+                $('#turn').html("Black Army Turn");
+            }
             $.get("turn", {
                 chessboard: board,
                 player: player
@@ -86,7 +93,7 @@ ws.onmessage = function (evt) {
             allRooms=rooms;
             for(var i=0;i<rooms.length;i++){
                 console.log(rooms[i]);
-                $('#rooms').append('<div class=room id="r'+i+'" onclick="room_click('+i+')">Room '+(i)+': '+rooms[i]+'/2');
+                $('#rooms').append('<div class=room id="r'+i+'" onclick="room_click('+i+')" class=room>Room '+(i)+': '+rooms[i]+'/2');
 
             }
             break;
@@ -105,11 +112,11 @@ ws.onmessage = function (evt) {
                 $('#left_room').show();
                 $('#joined_room').show();
                 $('#rooms').hide();
+                $('#room_label').hide();
 
                 for (var i = 0; i < allRooms.length; i++) {
                     if (i === my_room) {
-                        $('#joined_room_number').html(i);
-                        /*$('#r' + i).html('Room ' + (i) + ': ' + count + '/2');*/
+                        $('#joined_room_number').html('Joined Room '+i);
                         break;
                     }
                 }
@@ -157,6 +164,13 @@ ws.onmessage = function (evt) {
             }
             if(me==="B"){
                 $('#player').html("You control black items");
+            }
+            $('#turn').show();
+            if(player==="W") {
+                $('#turn').html("White Army Turn");
+            }
+            if(player==="B") {
+                $('#turn').html("Black Army Turn");
             }
 
             break;

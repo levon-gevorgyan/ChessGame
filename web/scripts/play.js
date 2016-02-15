@@ -20,8 +20,12 @@ $(document).ready(function() {
 function leftRoom() {
     ws.send(msgToJsonArray2("left_room", '"' + my_room + '","' + me + '"'));
     $('#rooms').show();
+    $('#room_label').show();
     $('#left_room').hide();
     $('#joined_room').hide();
+    $('#turn').html('');
+    $('#turn').hide('');
+
     if (board !== null) {
         $('.cell').attr("draggable", "false");
         $('.cell').attr("ondragstart", "");

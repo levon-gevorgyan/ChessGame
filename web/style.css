@@ -6,6 +6,9 @@ img{
 img[src=""] {
     display: none;
 }
+button{
+    cursor: pointer;
+}
 .x-axis,.y-axis{
     font-size: 40px;
     font-weight: bold;
@@ -40,19 +43,22 @@ img[src=""] {
 }
 #status,#rooms_bar,#rooms{
     background-color: #dcdcdb;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    margin-left: 50px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-left: 25px;
     border-radius: 10px;
     
 }
 
 #playground{
-    width: 1000px;
+    width: 1050px;
     height: 650px;
     background-repeat: no-repeat;
-    padding-top: 50px;
-    padding-bottom: 50px;
-
+    padding-top: 25px;
+    padding-bottom: 25px;
     background-image: url("images/bkg.jpg");
+}
+
+.room{
+    cursor: pointer;
 }
