@@ -37,31 +37,39 @@ public class PlayChessSocket {
     // called when the connection closed
     @OnWebSocketClose
     public void handleClose(Session session,int statusCode, String reason) {
+
         System.out.println("close");
         String s=WebMethods.sessionToString(session);
         System.out.println(s);
+        Room myRoom = null;
         for (Room room:rooms){
             String w=WebMethods.sessionToString(room.getWhite());
             System.out.println(w);
             String b=WebMethods.sessionToString(room.getBlack());
             System.out.println(b);
             if (w.equals(s)) {
-                System.out.println("white");
                 room.leftRoom(room.getWhite());
+                myRoom=room;
+                send(new JsonSocketMessage("opp_left", "void").answerJSON(), room.getBlack());
                 break;
-            }
-            if (b.equals(s)) {
+            }else if (b.equals(s)) {
                 room.leftRoom(room.getBlack());
+                myRoom=room;
+                send(new JsonSocketMessage("opp_left", "void").answerJSON(), room.getWhite());
                 break;
             }
         }
 
-        for (int i=0;i<allSessions.size();i++){
-            if(WebMethods.sessionToString(session).equals(WebMethods.sessionToString(allSessions.get(i)))){
-                allSessions.remove(i);
-                break;
-            }
+        if (WebMethods.sessionToString(session).equals(myRoom.getWhite())) {
+            myRoom.setWhite(null);
+            System.out.println("Left Room White");
         }
+        if (WebMethods.sessionToString(session).equals(myRoom.getBlack())){
+            myRoom.setBlack(null);
+            System.out.println("Left Room Black");
+        }
+
+        System.out.println(s);
 
         for (Session x:allSessions){
             System.out.println(WebMethods.roomsToJSON(rooms));
@@ -70,6 +78,8 @@ public class PlayChessSocket {
 
             System.out.println(WebMethods.sessionToString(x));
         }
+        myRoom.setStarted(false);
+
         for (Room x:rooms){
             System.out.println(x.toString());
         }

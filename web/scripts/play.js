@@ -10,8 +10,8 @@ $(document).ready(function() {
     $('#joined_room').hide();
     $('#left_room').click(function(){
         if(confirm("Do you want left the game")) {
-            leftRoom();
             alert("You left the game");
+            leftRoom();
         }
 
     });
@@ -29,6 +29,7 @@ function leftRoom() {
         $('.cell').attr("ondrop", "");
         $('.cell').attr("ondragover", "");
         $('.cell').attr("src", "");
+        $('#player').html("");
         board = null;
         player = "W";
         me = null;

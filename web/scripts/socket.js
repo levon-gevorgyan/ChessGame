@@ -3,13 +3,13 @@
  */
 var ws;
 var allRooms;
-if(myip=="37.157.220.37") {
+/*if(myip=="37.157.220.37") {
  ws = new WebSocket("ws://192.168.1.100:1337/");
  }else{
  ws = new WebSocket("ws://100.82.31.187:1337/");
- }
+ }*/
 var me;
-//ws = new WebSocket("ws://it-pc:1337/");
+ws = new WebSocket("ws://it-pc:1337/");
 //ws.onopen;
 
 ws.onmessage = function (evt) {
@@ -62,6 +62,7 @@ ws.onmessage = function (evt) {
                 var activeCells = $.parseJSON(response);
                 $('.cell').attr("draggable", "false");
                 $('.cell').attr("ondragstart", "");
+                $('.cell').css("cursor", "");
 
                 console.log("me: "+me);
                 console.log("turn: "+player);
@@ -70,6 +71,7 @@ ws.onmessage = function (evt) {
 
                         $('#' + activeCells[i]).attr("draggable", "true");
                         $('#' + activeCells[i]).attr("ondragstart", "return dragStart(event)");
+                        $('#' + activeCells[i]).css("cursor", "pointer");
                     }
                 }
             });
@@ -135,6 +137,7 @@ ws.onmessage = function (evt) {
                     var activeCells = $.parseJSON(response);
                     $('.cell').attr("draggable", "false");
                     $('.cell').attr("ondragstart", "");
+                    $('.cell').css("cursor", "");
 
                     console.log("me: "+me);
                     console.log("turn: "+player);
@@ -143,11 +146,18 @@ ws.onmessage = function (evt) {
 
                             $('#' + activeCells[i]).attr("draggable", "true");
                             $('#' + activeCells[i]).attr("ondragstart", "return dragStart(event)");
+                            $('#' + activeCells[i]).css("cursor", "pointer");
                         }
                     }
                 });
 
             });
+            if(me==="W"){
+                $('#player').html("You control white items");
+            }
+            if(me==="B"){
+                $('#player').html("You control black items");
+            }
 
             break;
         case "opp_left":
