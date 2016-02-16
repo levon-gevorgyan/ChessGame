@@ -41,6 +41,10 @@ public class WhiteMove extends Move implements Letters{
     private static boolean playerRookH1=true;
     private static boolean playerKingE1=true;
 
+    public void setCastlingHasDone(boolean castlingHasDone) {
+        this.castlingHasDone = castlingHasDone;
+    }
+
     public WhiteMove() {
     }
 

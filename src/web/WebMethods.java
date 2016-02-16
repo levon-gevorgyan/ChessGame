@@ -118,7 +118,7 @@ public class WebMethods implements Colors{
                             "\",\"img\":\""+UITurn.getImageString(pair.getValue().getChessItem())+"\"},";
         }
         s=s.substring(0,s.length()-1);
-        s+="]}";
+        //s+="],\"status\":[{\"mate\":\"false\",\"check\":\"false\"}]}";
         System.out.println(s);
         return s;
     }

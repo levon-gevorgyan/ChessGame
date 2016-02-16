@@ -60,16 +60,24 @@ public class PlayChessSocket {
             }
         }
 
-        if (WebMethods.sessionToString(session).equals(myRoom.getWhite())) {
-            myRoom.setWhite(null);
-            System.out.println("Left Room White");
-        }
-        if (WebMethods.sessionToString(session).equals(myRoom.getBlack())){
-            myRoom.setBlack(null);
-            System.out.println("Left Room Black");
+        if(myRoom!=null) {
+            if (s.equals(myRoom.getWhite())) {
+                myRoom.setWhite(null);
+                System.out.println("Left Room White");
+            }
+            if (s.equals(myRoom.getBlack())) {
+                myRoom.setBlack(null);
+                System.out.println("Left Room Black");
+            }
         }
 
-        System.out.println(s);
+        //System.out.println(allSessions);
+        for (int i=0;i<allSessions.size();i++){
+            if(s.equals(WebMethods.sessionToString(allSessions.get(i)))){
+                allSessions.remove(i);
+                break;
+            }
+        }
 
         for (Session x:allSessions){
             System.out.println(WebMethods.roomsToJSON(rooms));
@@ -83,20 +91,49 @@ public class PlayChessSocket {
         for (Room x:rooms){
             System.out.println(x.toString());
         }
+        for (int i=0;i<allSessions.size();i++){
+            if(WebMethods.sessionToString(session).equals(WebMethods.sessionToString(allSessions.get(i)))){
+                System.out.println(WebMethods.sessionToString(allSessions.get(i)));
+            }
+        }
 
     }
 
     // called when a message received from the browser
     @OnWebSocketMessage
     public void handleMessage(Session session,String message) {
+        Room getSessionCurrentRoom= WebMethods.getCurrentRoom(session,rooms);
         JsonSocketMessage socketMessage=WebMethods.getJsonSocketMessage(message);
         switch (socketMessage.getId()){
+            case "check":
+                String check = null;
+                if(socketMessage.getMsg().equals("white")){
+                    check="Check to White Army";
+                }
+                if(socketMessage.getMsg().equals("black")){
+                    check="Check to Black Army";
+                }
+                send(new JsonSocketMessage("check",check).answerJSON(),getSessionCurrentRoom.getWhite());
+                send(new JsonSocketMessage("check",check).answerJSON(),getSessionCurrentRoom.getBlack());
+                break;
+            case "mate":
+                String mate = null;
+                if(socketMessage.getMsg().equals("white")){
+                    mate="Check-Mate to White Army";
+                }
+                if(socketMessage.getMsg().equals("black")){
+                    mate="Check-Mate to Black Army";
+                }
+                send(new JsonSocketMessage("mate",mate).answerJSON(),getSessionCurrentRoom.getWhite());
+                send(new JsonSocketMessage("mate",mate).answerJSON(),getSessionCurrentRoom.getBlack());
+                break;
             case "move":
-                Room getSessionCurrentRoom= WebMethods.getCurrentRoom(session,rooms);
+
                 System.out.println("Current room: "+getSessionCurrentRoom.toString());
 
 
                 System.out.println("Socket: " + socketMessage.getMsg());
+                System.out.println(socketMessage.answerJSON());
 
                 send(socketMessage.answerJSON(), getSessionCurrentRoom.getWhite());
                 send(socketMessage.answerJSON(), getSessionCurrentRoom.getBlack());

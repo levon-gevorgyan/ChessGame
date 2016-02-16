@@ -6,6 +6,7 @@ import api.chessboard.cells.Cell;
 import api.players.BlackPlayer;
 import api.players.WhitePlayer;
 import web.WebMethods;
+import web.game.Status;
 
 
 import javax.servlet.ServletException;
@@ -40,8 +41,10 @@ public class StartServlet extends HttpServlet {
         ChessBoard chessBoard = new ChessBoard(cells, rows, columns, whitePlayer, blackPlayer);
         chessBoard.setAllItems(whitePlayer, blackPlayer);
         chessBoard.toString();
+        Status status=new Status("W","false","false");
 
-        String responseCells= WebMethods.parseBoardToJSON(chessBoard);
+        String responseCells= WebMethods.parseBoardToJSON(chessBoard)+status.toJson();
+        System.out.println(responseCells);
 
 
         /*responseCells=responseCells.substring(0,responseCells.length()-1);

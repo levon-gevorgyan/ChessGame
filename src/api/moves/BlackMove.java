@@ -41,6 +41,10 @@ public class BlackMove extends Move implements Letters {
     protected static boolean playerRookH8=true;
     protected static boolean playerKingE8=true;
 
+    public void setCastlingHasDone(boolean castlingHasDone) {
+        this.castlingHasDone = castlingHasDone;
+    }
+
     public BlackMove() {
     }
 

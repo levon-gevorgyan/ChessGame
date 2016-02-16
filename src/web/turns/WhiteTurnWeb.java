@@ -36,7 +36,7 @@ public class WhiteTurnWeb extends WhiteTurn {
     }
 
     public void doMove(String s, ChessBoard chessBoard, WhitePlayer whitePlayer, BlackPlayer blackPlayer)
-            throws IOException, Mate, CheckIsOpen, CastlingDone, ChangePawn {
+            throws IOException, Mate, CheckIsOpen, CastlingDone, ChangePawn, Check {
         ArrayList<SaveState> saveStateArrayList=new ArrayList<>();
 
         //BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
@@ -223,6 +223,7 @@ public class WhiteTurnWeb extends WhiteTurn {
                         } catch (InvalidSource invalidSource) {
 
                         }
+                        throw new Check();
                     }
                 }
                 saveState=new SaveState(chessBoard,whitePlayer,blackPlayer);
