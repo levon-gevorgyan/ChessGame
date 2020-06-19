@@ -13,7 +13,7 @@ var castling_done_b="false";
  ws = new WebSocket("ws://100.82.31.187:1337/");
  }*/
 var me;
-ws = new WebSocket("ws://it-pc:1337/");
+ws = new WebSocket("ws://localhost:1337/");
 //ws.onopen;
 
 ws.onmessage = function (evt) {

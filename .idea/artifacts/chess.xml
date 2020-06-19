@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="chess">
-    <output-path>$PROJECT_DIR$/out/artifacts/chess</output-path>
-    <root id="root">
-      <element id="artifact" artifact-name="ChessGame:war exploded" />
-    </root>
-  </artifact>
-</component>

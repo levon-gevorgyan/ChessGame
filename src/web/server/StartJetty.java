@@ -45,8 +45,7 @@ public class StartJetty {
         //set up context path and WEB-INF directory
         WebAppContext webapp = new WebAppContext();
         webapp.setContextPath("/");
-        File warFile = new File(
-                "out/artifacts/chess");
+        File warFile = new File("web");
         webapp.setWar(warFile.getAbsolutePath());
 
         //add Web App to server
