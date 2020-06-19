@@ -250,7 +250,7 @@ public class Controller implements Initializable {
 
 
                 /* allow any transfer mode */
-        Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+        Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
 
                 /* put a string on dragboard */
         ClipboardContent content = new ClipboardContent();
